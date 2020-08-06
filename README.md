@@ -211,7 +211,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |:----    |:---|:----- |-----   |
 |currencyCode     |是  |string | 币种  请参考 [支持币种](#2-支持币种)  |
 |address     |是  |string | 代付地址    |
-|labelAddress     |否  |string | 标签地址,如XRP和EOS，这两种币的提币申请该字段可选，起他类型币种不填    |
+|labelAddress     |否  |string | 标签地址,如XRP和EOS，这两种币的提币申请该字段可选，其它类型币种不填    |
 
 **返回示例**
 
@@ -245,7 +245,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |subject |否  |string | 订单描述，长度最大128    |
 |currencyCode     |是  |string | 币种  请参考 [支持币种](#2-支持币种)   |
 |address     |是  |string | 代付地址    |
-|labelAddress     |否  |string | 标签地址,如XRP和EOS，这两种币的提币申请该字段可选，起他类型币种不填    |
+|labelAddress     |否  |string | 标签地址,如XRP和EOS，这两种币的提币申请该字段可选，其它类型币种不填    |
 |amount     |是  |string | 数量    |
 |notifyUrl     |否  |string | 通知地址（请正确填写，否则无法接收通知）    |
 
