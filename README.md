@@ -120,7 +120,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 |参数名|必选|类型|说明|
 |:----    |:---|:----- |-----   |
-|currencyCode |是  |string |币种 ， 请参考 [支持币种](#2. 支持币种) |
+|currencyCode |是  |string |币种 ， 请参考 [支持币种](#支持币种) |
 |address |是  |string | 地址    |
 |labelAddress |否  |string | 标签地址    |
 
@@ -150,7 +150,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 |参数名|必选|类型|说明|
 |:----    |:---|:----- |-----   |
-|currencyCode |是  |string |币种 请参考 [支持币种](#2. 支持币种)  |
+|currencyCode |是  |string |币种 请参考 [支持币种](#支持币种)  |
 |count |是  |int | 数量范围 [1-100]    |
 |batchNumber |是  |string | 批次号   |
 
@@ -176,7 +176,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|currencyCode |String   |币种 请参考 [支持币种](#2. 支持币种) |
+|currencyCode |String   |币种 请参考 [支持币种](#支持币种) |
 |address |String   |地址  |
 |labelAddress |String   |标签地址，memo   |
 
@@ -209,7 +209,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 |参数名|必选|类型|说明|
 |:----    |:---|:----- |-----   |
-|currencyCode     |是  |string | 币种  请参考 [支持币种](#2. 支持币种)  |
+|currencyCode     |是  |string | 币种  请参考 [支持币种](#支持币种)  |
 |address     |是  |string | 代付地址    |
 |labelAddress     |否  |string | 标签地址,如XRP和EOS，这两种币的提币申请该字段可选，起他类型币种不填    |
 
@@ -243,7 +243,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |:----    |:---|:----- |-----   |
 |userBizId |是  |string |商户订单号，最大长度64位   |
 |subject |否  |string | 订单描述，长度最大128    |
-|currencyCode     |是  |string | 币种  请参考 [支持币种](#2. 支持币种)   |
+|currencyCode     |是  |string | 币种  请参考 [支持币种](#支持币种)   |
 |address     |是  |string | 代付地址    |
 |labelAddress     |否  |string | 标签地址,如XRP和EOS，这两种币的提币申请该字段可选，起他类型币种不填    |
 |amount     |是  |string | 数量    |
@@ -276,7 +276,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
 |businessNo |String   |平台订单号  |
-|currencyCode |String   |币种 请参考 [支持币种](#2. 支持币种)  |
+|currencyCode |String   |币种 请参考 [支持币种](#支持币种)  |
 |userBizId |String   |商户订单号  |
 |address |String   |地址  |
 |labelAddress |String   |标签地址  |
@@ -366,7 +366,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 |参数名|必选|类型|说明|
 |:----    |:---|:----- |-----   |
-|currencyCode |否  |string |币种 请参考 [支持币种](#2. 支持币种)  |
+|currencyCode |否  |string |币种 请参考 [支持币种](#支持币种)  |
 |accountType |否  |string | 账户类型 ,默认为空 1:"代付",2: "代收",3: "存币",4: "提币" |
 
 
@@ -396,7 +396,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|currencyCode |string   |币种 请参考 [支持币种](#2. 支持币种)|
+|currencyCode |string   |币种 请参考 [支持币种](#支持币种)|
 |accountType |long   |账户类型 1:"代付",2: "代收",3: "存币",4: "提币"|
 |availableBalance |string   | 可用余额  |
 |frozenBalance |string   |冻结余额 |
