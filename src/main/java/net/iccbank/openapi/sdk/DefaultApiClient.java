@@ -6,9 +6,11 @@ import java.util.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import net.iccbank.openapi.sdk.enums.LinkTypeEnum;
 import net.iccbank.openapi.sdk.model.ApiAddress;
 import net.iccbank.openapi.sdk.model.ApiAgencyWithdrawData;
 import net.iccbank.openapi.sdk.model.ApiAgencyWithdrawQueryData;
+import net.iccbank.openapi.sdk.model.ApiContractData;
 import net.iccbank.openapi.sdk.model.ApiEncryptedBody;
 import net.iccbank.openapi.sdk.model.ApiMchBalance;
 import net.iccbank.openapi.sdk.model.ApiResponse;
@@ -243,7 +245,35 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 			throw new RuntimeException("请求异常", e);
 		}
 	}
+	
+	@Override
+	public ApiResponse<ApiContractData> tokenAdd(String linkType, String contractAddress) {
+		if (linkType == null || linkType.trim().equals("")) {
+			throw new RuntimeException("parameter [linkType] required");
+		}
 
+		LinkTypeEnum linkTypeEnum = LinkTypeEnum.valueOfByName(linkType);
+		if (linkTypeEnum == null) {
+			throw new RuntimeException("linkType '" + linkType + "' unsupport");
+		}
+		
+		if (contractAddress == null || contractAddress.trim().equals("")) {
+			throw new RuntimeException("parameter [contractAddress] required");
+		}
+		
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+		paramsMap.put("linkType", linkTypeEnum.getName());
+		paramsMap.put("contractAddress", contractAddress);
+		
+		try {
+			String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.TOKEN_ADD);
+			String resBody = callToString(url, paramsMap);
+			return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiContractData>>(){});
+		} catch (IOException e) {
+			throw new RuntimeException("请求异常", e);
+		}
+	}
+	
 	@Override
 	public ApiResponse<ApiMchBalance> getBalancesForCurrencyCode(String currencyCode) {
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();

@@ -6,6 +6,7 @@ import java.util.List;
 import net.iccbank.openapi.sdk.model.ApiAddress;
 import net.iccbank.openapi.sdk.model.ApiAgencyWithdrawData;
 import net.iccbank.openapi.sdk.model.ApiAgencyWithdrawQueryData;
+import net.iccbank.openapi.sdk.model.ApiContractData;
 import net.iccbank.openapi.sdk.model.ApiMchBalance;
 import net.iccbank.openapi.sdk.model.ApiResponse;
 
@@ -70,6 +71,12 @@ public interface ApiClient {
 	 * @Date Created on 2020/7/8 15:25
 	 */
 	ApiResponse<ApiMchBalance> getBalances();
+
+	/**
+	 * @Description 添加Token
+	 * @Date Created on 2020/8/24 19:15
+	 */
+	ApiResponse<ApiContractData> tokenAdd(String linkType, String contractAddress);
 
 	/**
 	 * @Author kevin

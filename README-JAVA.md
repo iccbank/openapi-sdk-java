@@ -20,13 +20,20 @@ public class Demo {
 
 ## Maven users
 
-Add this dependency to your project's POM:
+Add this repository and dependency to your project's POM:
+
+```xml
+<repository>
+    <id>openapi-sdk-java</id>
+    <url>https://raw.github.com/iccbank/openapi-sdk-java/master/</url>
+</repository>
+```
 
 ```xml
 <dependency>
   <groupId>net.iccbank</groupId>
   <artifactId>openapi-sdk-java</artifactId>
-  <version>1.0.0-release</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
@@ -35,6 +42,6 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "net.iccbank:openapi-sdk-java:1.0.0-release"
+compile "net.iccbank:openapi-sdk-java:1.0.0"
 ```
 
