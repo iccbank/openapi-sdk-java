@@ -449,11 +449,13 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 **业务参数说明**
 
 |参数名|类型|说明|
-|:-----  |:-----|-----                           |
-|currencyCode |string   |币种 请参考 [支持币种](#2-支持币种)|
-|accountType |long   |账户类型 1:"代付",2: "代收",3: "存币",4: "提币"|
-|availableBalance |string   | 可用余额  |
-|frozenBalance |string   |冻结余额 |
+|:-----  |:-----|-----|
+|name |string   | 名称 |
+|symbol |long   | 代币标识（不唯一）|
+|code |string   | 币种代码（唯一）  |
+|linkType |string   |链类型 |
+|icon |string   |币种图标 |
+|contractAddress |string   |合约地址 |
 
 
 
