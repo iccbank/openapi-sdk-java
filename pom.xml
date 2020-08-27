@@ -19,6 +19,7 @@
 		<lombok.version>1.18.12</lombok.version>
 		<maven-plugin-version>1.0.0</maven-plugin-version>
 		<jackson.version>2.11.0</jackson.version>
+        <fastjson.version>1.2.47</fastjson.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<github.global.server>github</github.global.server>
@@ -26,6 +27,12 @@
 
 
 	<dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -52,6 +59,11 @@
 			<version>${lombok.version}</version>
 			<scope>compile</scope>
 		</dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
 	</dependencies>
 
 	<distributionManagement>

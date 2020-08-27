@@ -1,21 +1,17 @@
 package net.iccbank.openapi.sdk;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.type.TypeReference;
+import net.iccbank.openapi.sdk.enums.LinkTypeEnum;
+import net.iccbank.openapi.sdk.exception.ICCBankException;
+import net.iccbank.openapi.sdk.model.*;
+import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
+import net.iccbank.openapi.sdk.utils.JsonUtils;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-
-import net.iccbank.openapi.sdk.enums.LinkTypeEnum;
-import net.iccbank.openapi.sdk.model.ApiAddress;
-import net.iccbank.openapi.sdk.model.ApiAgencyWithdrawData;
-import net.iccbank.openapi.sdk.model.ApiAgencyWithdrawQueryData;
-import net.iccbank.openapi.sdk.model.ApiContractData;
-import net.iccbank.openapi.sdk.model.ApiEncryptedBody;
-import net.iccbank.openapi.sdk.model.ApiMchBalance;
-import net.iccbank.openapi.sdk.model.ApiResponse;
-import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
-import net.iccbank.openapi.sdk.utils.JsonUtils;
 
 
 public class DefaultApiClient extends HttpClient implements ApiClient, Encryptable {
@@ -39,7 +35,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	/**
 	 * ApiClient
 	 * 
-	 * @param url 接口前缀, 默认 https://api.iccbank.net/
+	 * @param urlPrefix 接口前缀, 默认 https://api.iccbank.net/
 	 * @param appId AppID
 	 * @param appSecret 应用密钥
 	 * @param token 报文加解密的token
@@ -51,7 +47,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	/**
 	 * ApiClient
 	 * 
-	 * @param url 接口前缀, 默认 https://api.iccbank.net/
+	 * @param urlPrefix 接口前缀, 默认 https://api.iccbank.net/
 	 * @param appId AppID
 	 * @param appSecret 应用密钥
 	 * @param token 报文加解密的token
@@ -85,24 +81,20 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	@Override
 	public ApiResponse<Object> addressCheck(String currencyCode, String address, String labelAddress) {
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw new RuntimeException("parameter [currencyCode] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [currencyCode] required");
 		}
 		
 		if (address == null || address.trim().equals("")) {
-			throw new RuntimeException("parameter [address] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [address] required");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 		paramsMap.put("currencyCode", currencyCode);
 		paramsMap.put("address", address);
 		paramsMap.put("labelAddress", labelAddress);
-		try {
-			String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.ADDRESS_CHECK_URL);
-			ApiResponse<Object> res = call(url, paramsMap);
-			return res;
-		} catch (IOException e) {
-			throw new RuntimeException("请求异常", e);
-		}
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.ADDRESS_CHECK_URL);
+		ApiResponse<Object> res = call(url, paramsMap);
+		return res;
 	}
 
 	/**
@@ -115,11 +107,11 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	@Override
 	public ApiResponse<Object> agentPayAddAddress(String currencyCode, String address, String labelAddress){
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw new RuntimeException("parameter [currencyCode] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [currencyCode] required");
 		}
 		
 		if (address == null || address.trim().equals("")) {
-			throw new RuntimeException("parameter [address] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [address] required");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -129,16 +121,12 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 			paramsMap.put("labelAddress", labelAddress);
 		}
 
-		try {
-			String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.AGENT_PAY_ADD_ADDRESS_URL);
-			ApiResponse<Object> res = call(url, paramsMap);
-			return res;
-		} catch (IOException e) {
-			throw new RuntimeException("请求异常", e);
-		}
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.AGENT_PAY_ADD_ADDRESS_URL);
+		ApiResponse<Object> res = call(url, paramsMap);
+		return res;
 	}
 	
-	@Override
+
 	/**
 	 * 创建代收地址
 	 *
@@ -146,49 +134,46 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	 * @param count 地址数量(1-100)
 	 * @param batchNumber 批次号
 	 */
+	@Override
 	public ApiResponse<List<ApiAddress>> createAgencyRechargeAddress(String currencyCode, int count, String batchNumber) {
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw new RuntimeException("parameter [currencyCode] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
 		}
 		
 		if (count <= 0 || count > 100) {
-			throw new RuntimeException("parameter [count] out of range [1-100]");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [count] out of range [1-100]");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 		paramsMap.put("currencyCode", currencyCode);
 		paramsMap.put("count", count);
 		paramsMap.put("batchNumber", batchNumber);
-		try {
-			String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.ADDRESS_AGENCY_CREATE_URL);
-			String resBody = callToString(url, paramsMap);
-			return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<List<ApiAddress>>>(){});
-		} catch (IOException e) {
-			throw new RuntimeException("请求异常", e);
-		}
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.ADDRESS_AGENCY_CREATE_URL);
+		String resBody = callToString(url, paramsMap);
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<List<ApiAddress>>>(){});
 	}
 	
 	@Override
 	public ApiResponse<ApiAgencyWithdrawData> agencyWithdraw(String userBizId, String subject, String currencyCode,
 															 String address, String labelAddress, BigDecimal amount, String notifyUrl) {
 		if (userBizId == null || userBizId.trim().equals("")) {
-			throw new RuntimeException("parameter [userBizId] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [userBizId] required");
 		}
 		
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw new RuntimeException("parameter [currencyCode] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
 		}
 		
 		if (address == null || address.trim().equals("")) {
-			throw new RuntimeException("parameter [address] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [address] required");
 		}
 		
 		if (amount == null) {
-			throw new RuntimeException("parameter [amount] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] required");
 		}
 
-		if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-			throw new RuntimeException("parameter [amount] invalid");
+		if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] invalid");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -206,72 +191,56 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		}
 		paramsMap.put("amount", amount.toPlainString());
 
-		try {
-			String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.AGENCY_WITHDRAW_URL);
-			String resBody = callToString(url, paramsMap);
-			return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiAgencyWithdrawData>>(){});
-		} catch (IOException e) {
-			throw new RuntimeException("请求异常", e);
-		}
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.AGENCY_WITHDRAW_URL);
+		String resBody = callToString(url, paramsMap);
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiAgencyWithdrawData>>(){});
 	}
 	
 	@Override
 	public ApiResponse<ApiAgencyWithdrawQueryData> queryAgencyWithdrawOrder(String userBizId) {
 		if (userBizId == null || userBizId.trim().equals("")) {
-			throw new RuntimeException("parameter [userBizId] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [userBizId] required");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 		paramsMap.put("userBizId", userBizId);
 		
-		try {
-			String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.AGENCY_WITHDRAW_QUERY_URL);
-			String resBody = callToString(url, paramsMap);
-			return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiAgencyWithdrawQueryData>>(){});
-		} catch (IOException e) {
-			throw new RuntimeException("请求异常", e);
-		}
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.AGENCY_WITHDRAW_QUERY_URL);
+		String resBody = callToString(url, paramsMap);
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiAgencyWithdrawQueryData>>(){});
 	}
 
 	@Override
 	public ApiResponse<ApiMchBalance> getBalances() {
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 
-		try {
-			String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_BALANCE);
-			String resBody = callToString(url, paramsMap);
-			return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiMchBalance>>(){});
-		} catch (IOException e) {
-			throw new RuntimeException("请求异常", e);
-		}
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_BALANCE);
+		String resBody = callToString(url, paramsMap);
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiMchBalance>>(){});
 	}
 	
 	@Override
 	public ApiResponse<ApiContractData> tokenAdd(String linkType, String contractAddress) {
 		if (linkType == null || linkType.trim().equals("")) {
-			throw new RuntimeException("parameter [linkType] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [linkType] required");
 		}
 
 		LinkTypeEnum linkTypeEnum = LinkTypeEnum.valueOfByName(linkType);
 		if (linkTypeEnum == null) {
-			throw new RuntimeException("linkType '" + linkType + "' unsupport");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "linkType '" + linkType + "' unSupport");
 		}
 		
 		if (contractAddress == null || contractAddress.trim().equals("")) {
-			throw new RuntimeException("parameter [contractAddress] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [contractAddress] required");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 		paramsMap.put("linkType", linkTypeEnum.getName());
 		paramsMap.put("contractAddress", contractAddress);
 		
-		try {
-			String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.TOKEN_ADD);
-			String resBody = callToString(url, paramsMap);
-			return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiContractData>>(){});
-		} catch (IOException e) {
-			throw new RuntimeException("请求异常", e);
-		}
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.TOKEN_ADD);
+		String resBody = callToString(url, paramsMap);
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiContractData>>(){});
 	}
 	
 	@Override
@@ -279,42 +248,38 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw new RuntimeException("parameter [currencyCode] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
 		}
 		paramsMap.put("currencyCode", currencyCode);
 
-		try {
-			String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_BALANCE);
-			String resBody = callToString(url, paramsMap);
-			return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiMchBalance>>(){});
-		} catch (IOException e) {
-			throw new RuntimeException("请求异常", e);
-		}
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_BALANCE);
+		String resBody = callToString(url, paramsMap);
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiMchBalance>>(){});
 	}
 
 	@Override
 	public ApiResponse<ApiMchBalance.BalanceNode> getBalancesForCurrencyCodeAndAccountType(String currencyCode, Long accountType) {
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw new RuntimeException("parameter [currencyCode] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
 		}
 		if (accountType == null) {
-			throw new RuntimeException("parameter [accountType] required");
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [accountType] required");
 		}
 		paramsMap.put("currencyCode", currencyCode);
 		paramsMap.put("accountType", accountType);
 
-		try {
-			String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_BALANCE);
-			String resBody = callToString(url, paramsMap);
-			ApiMchBalance.BalanceNode balanceNode = ApiMchBalance.BalanceNode.builder()
-					.build();
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_BALANCE);
+		String resBody = callToString(url, paramsMap);
+		ApiMchBalance.BalanceNode balanceNode = ApiMchBalance.BalanceNode.builder()
+				.build();
 
-			ApiResponse<ApiMchBalance.BalanceNode> response = new ApiResponse<ApiMchBalance.BalanceNode>();
-			if(resBody != null){
-				ApiResponse<ApiMchBalance> result = JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiMchBalance>>(){});
+		ApiResponse<ApiMchBalance.BalanceNode> response = new ApiResponse<ApiMchBalance.BalanceNode>();
+		if(resBody != null){
+			ApiResponse<ApiMchBalance> result = JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiMchBalance>>(){});
+			if(result != null && result.getData() != null){
 				List<ApiMchBalance.BalanceNode> list = result.getData().getRows();
-				if(result != null && !list.isEmpty()){
+				if(list != null && !list.isEmpty()){
 					balanceNode = list.get(0);
 					response.setCode(result.getCode());
 					response.setMsg(result.getMsg());
@@ -322,12 +287,9 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 					response.setData(balanceNode);
 				}
 			}
-
-
-			return response;
-		} catch (IOException e) {
-			throw new RuntimeException("请求异常", e);
 		}
+
+		return response;
 	}
 
 	@Override
@@ -337,27 +299,39 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 			ApiEncryptedBody reqBody = new ApiEncryptedBody(ApiConstants.ALGORITHM_DESEDE, encryptedData);
 			return JsonUtils.toJsonString(reqBody);
 		} catch (Exception e) {
-			throw new RuntimeException("加密异常", e);
+			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Encrypt Signature] error: " + e.getMessage());
 		}
 	}
 	
 	@Override
-	public String decrypt(String data) {
-		try {
-			ApiEncryptedBody resBody = JsonUtils.parseObject(data, ApiEncryptedBody.class);
-			String resPlainData = AlgorithmUtils.decryptWith3DES(resBody.getEncryptedData(), token);
-			return resPlainData;
-		} catch (Exception e) {
-			throw new RuntimeException("解密异常", e);
+	public String decrypt(String encryptedResBody) {
+
+		String resPlainData = null;
+
+		JSONObject resJson = JSON.parseObject(encryptedResBody);
+		if(resJson.containsKey(ApiConstants.RES_ENCRYPTED_DATA)){
+			try {
+				ApiEncryptedBody resBody = JsonUtils.parseObject(encryptedResBody, ApiEncryptedBody.class);
+
+				resPlainData = AlgorithmUtils.decryptWith3DES(resBody.getEncryptedData(), token);
+			} catch (Exception e) {
+				throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Decrypt Signature] error: " + e.getMessage());
+			}
+
+		}else {
+			//针对没有加密报文体
+			resPlainData = encryptedResBody;
 		}
+
+		return resPlainData;
 	}
 	
-	private <T> ApiResponse<T> call(String url, TreeMap<String, Object> paramsMap) throws IOException {
+	private <T> ApiResponse<T> call(String url, TreeMap<String, Object> paramsMap){
 		String resBody = callToString(url, paramsMap);
 		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<T>>(){});
 	}
 
-	private String callToString(String url, TreeMap<String, Object> paramsMap) throws IOException {
+	private String callToString(String url, TreeMap<String, Object> paramsMap){
 		// 签名
 		String reqBody = sign(paramsMap);
 		
@@ -365,10 +339,23 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		String encryptedReqBody = encrypt(reqBody);
 		
 		// 请求
-		String encryptedResBody = callPost(url, initHeaders(), encryptedReqBody);
-		
+		String encryptedResBody = null;
+		try {
+			//请求响应
+			encryptedResBody = callPost(url, initHeaders(), encryptedReqBody);
+		} catch (IOException e) {
+			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Invoking] Unexpected error: " + e.getMessage());
+		}
+
 		// AES解密，返回值不需要验证签名
 		String resBody = decrypt(encryptedResBody);
+
+		ApiResponse apiResponse = JSON.parseObject(resBody, ApiResponse.class);
+		if(apiResponse != null){
+			if(!apiResponse.isSuccess()){
+				throw ICCBankException.buildException(apiResponse.getSubCode(), apiResponse.getSubMsg());
+			}
+		}
 
 		return resBody;
 	}
@@ -382,7 +369,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 			paramsMap.put(ApiConstants.PARAMETER_SIGN, sign);
 			return JsonUtils.toJsonString(paramsMap);
 		} catch (Exception e) {
-			throw new RuntimeException("签名异常", e);
+			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Build Signature] error: " + e.getMessage());
 		}
 	}
 

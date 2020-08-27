@@ -11,7 +11,11 @@ public class ApiConstants {
 	public static final String PARAMETER_NONCE = "nonce";
 	public static final String PARAMETER_SIGN_TYPE = "signType";
 	public static final String PARAMETER_SIGN = "sign";
-	
+	public static final String RES_ENCRYPTED_DATA = "encryptedData";
+	public static final String RES_SUB_CODE_SUCCESS = "0";
+
+
+
 	public static final String ALGORITHM_AES = "AES";
 	public static final String ALGORITHM_DESEDE = "DESede";
 	public static final String ALGORITHM_RSA = "RSA";
