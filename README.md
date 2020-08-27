@@ -10,6 +10,7 @@
 - 1.6 - [代付订单查询](#代付订单查询)
 - 1.7 - [代付通知](#代付通知)
 - 1.8 - [账户余额查询](#账户余额查询)
+- 1.9 - [代币搜索](#代币搜索)
 
 ## 2. 支持币种
 
@@ -400,6 +401,60 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |accountType |long   |账户类型 1:"代付",2: "代收",3: "存币",4: "提币"|
 |availableBalance |string   | 可用余额  |
 |frozenBalance |string   |冻结余额 |
+
+
+
+
+### 代币搜索
+> POST `/v1/currency/search`
+
+**请求参数**
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|searchType |是  |int | 搜索类型：1-币种搜索、2-合约地址搜索|
+|keywords |是  |string | 关键词 |
+
+
+**返回示例**
+
+```
+{
+	"code": 200,
+	"data": [
+		{
+			"name":"Tether USD",
+			"symbol":"USDT",
+			"code":"USDT_ERC20",
+			"linkType":"ethereum",
+			"icon":"base64;",
+			"contractAddress":"0xdAC17F958D2ee523a2206206994597C13D831ec7"
+		},
+		{
+			"name":"Tether Omni",
+			"symbol":"USDT",
+			"code":"USDT_OMNI",
+			"linkType":"bitcoin",
+			"icon":"base64;",
+			"contractAddress":""
+		}
+	],
+	"msg": "HTTP_OK",
+	"subCode": "0",
+	"subMsg": "success"
+}
+
+```
+
+**业务参数说明**
+
+|参数名|类型|说明|
+|:-----  |:-----|-----                           |
+|currencyCode |string   |币种 请参考 [支持币种](#2-支持币种)|
+|accountType |long   |账户类型 1:"代付",2: "代收",3: "存币",4: "提币"|
+|availableBalance |string   | 可用余额  |
+|frozenBalance |string   |冻结余额 |
+
 
 
 ### 通知计划
