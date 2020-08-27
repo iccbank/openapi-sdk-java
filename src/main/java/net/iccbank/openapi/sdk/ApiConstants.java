@@ -38,7 +38,7 @@ public class ApiConstants {
 
 	public static final String GET_BALANCE = VERSION + "/mch/getBalance";
 	
-	public static final String TOKEN_ADD = VERSION + "/token/add";
+	public static final String CURRENCY_SEARCH = VERSION + "/currency/search";
 
 	public static final String concatUrl(String urlPrefix, String urlSuffix) {
 		return urlPrefix + urlSuffix;

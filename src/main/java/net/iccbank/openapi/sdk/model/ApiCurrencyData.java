@@ -2,7 +2,7 @@ package net.iccbank.openapi.sdk.model;
 
 import java.io.Serializable;
 
-public class ApiContractData implements Serializable {
+public class ApiCurrencyData implements Serializable {
 	
 	private static final long serialVersionUID = -2211762277867821447L;
 	
@@ -12,7 +12,7 @@ public class ApiContractData implements Serializable {
 	private String linkType;
 	private String contractAddress;
 	
-	public ApiContractData() {}
+	public ApiCurrencyData() {}
 
 	public String getName() {
 		return name;

@@ -1,7 +1,7 @@
 package net.iccbank.openapi.sdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import net.iccbank.openapi.sdk.enums.LinkTypeEnum;
+import net.iccbank.openapi.sdk.enums.SearchTypeEnum;
 import net.iccbank.openapi.sdk.exception.ICCBankException;
 import net.iccbank.openapi.sdk.model.*;
 import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
@@ -218,27 +218,23 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	}
 	
 	@Override
-	public ApiResponse<ApiContractData> tokenAdd(String linkType, String contractAddress) {
-		if (linkType == null || linkType.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [linkType] required");
-		}
-
-		LinkTypeEnum linkTypeEnum = LinkTypeEnum.valueOfByName(linkType);
-		if (linkTypeEnum == null) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "linkType '" + linkType + "' unSupport");
+	public ApiResponse<ApiCurrencyData> currencySearch(int searchType, String keywords) {
+		SearchTypeEnum searchTypeEnum = SearchTypeEnum.valueOfByType(searchType);
+		if (searchTypeEnum == null) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "searchType '" + searchType + "' unSupport");
 		}
 		
-		if (contractAddress == null || contractAddress.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [contractAddress] required");
+		if (keywords == null || keywords.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [keywords] required");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
-		paramsMap.put("linkType", linkTypeEnum.getName());
-		paramsMap.put("contractAddress", contractAddress);
+		paramsMap.put("searchType", searchTypeEnum.getType());
+		paramsMap.put("keywords", keywords);
 		
-		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.TOKEN_ADD);
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CURRENCY_SEARCH);
 		String resBody = callToString(url, paramsMap);
-		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiContractData>>(){});
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiCurrencyData>>(){});
 	}
 	
 	@Override

@@ -3,7 +3,7 @@ package net.iccbank.openapi.demo;
 import net.iccbank.openapi.demo.constants.Constants;
 import net.iccbank.openapi.sdk.ApiClient;
 import net.iccbank.openapi.sdk.DefaultApiClient;
-import net.iccbank.openapi.sdk.enums.LinkTypeEnum;
+import net.iccbank.openapi.sdk.enums.SearchTypeEnum;
 import net.iccbank.openapi.sdk.model.*;
 import net.iccbank.openapi.sdk.utils.JsonUtils;
 import org.junit.Before;
@@ -79,8 +79,8 @@ public class ApiClientTest {
 	}
 
 	@Test
-	public void tokenAdd(){
-		ApiResponse<ApiContractData> res = client.tokenAdd(LinkTypeEnum.ETHEREUM.getName(), "kevin");
+	public void currencySearch(){
+		ApiResponse<ApiCurrencyData> res = client.currencySearch(SearchTypeEnum.CURRENCY.getType(), "kevin");
 		System.out.println(JsonUtils.toJsonString(res));
 	}
 
