@@ -1,7 +1,5 @@
 package net.iccbank.openapi.sdk;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.type.TypeReference;
 import net.iccbank.openapi.sdk.enums.LinkTypeEnum;
 import net.iccbank.openapi.sdk.exception.ICCBankException;
@@ -308,7 +306,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 
 		String resPlainData = null;
 
-		JSONObject resJson = JSON.parseObject(encryptedResBody);
+		TreeMap<String, Object> resJson = JsonUtils.parseTreeMap(encryptedResBody);
 		if(resJson.containsKey(ApiConstants.RES_ENCRYPTED_DATA)){
 			try {
 				ApiEncryptedBody resBody = JsonUtils.parseObject(encryptedResBody, ApiEncryptedBody.class);
@@ -350,7 +348,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		// AES解密，返回值不需要验证签名
 		String resBody = decrypt(encryptedResBody);
 
-		ApiResponse apiResponse = JSON.parseObject(resBody, ApiResponse.class);
+		ApiResponse apiResponse = JsonUtils.parseObject(resBody, ApiResponse.class);
 		if(apiResponse != null){
 			if(!apiResponse.isSuccess()){
 				throw ICCBankException.buildException(apiResponse.getSubCode(), apiResponse.getSubMsg());
