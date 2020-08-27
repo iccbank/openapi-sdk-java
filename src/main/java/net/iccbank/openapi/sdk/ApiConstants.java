@@ -11,7 +11,11 @@ public class ApiConstants {
 	public static final String PARAMETER_NONCE = "nonce";
 	public static final String PARAMETER_SIGN_TYPE = "signType";
 	public static final String PARAMETER_SIGN = "sign";
-	
+	public static final String RES_ENCRYPTED_DATA = "encryptedData";
+	public static final String RES_SUB_CODE_SUCCESS = "0";
+
+
+
 	public static final String ALGORITHM_AES = "AES";
 	public static final String ALGORITHM_DESEDE = "DESede";
 	public static final String ALGORITHM_RSA = "RSA";
@@ -34,7 +38,7 @@ public class ApiConstants {
 
 	public static final String GET_BALANCE = VERSION + "/mch/getBalance";
 	
-	public static final String TOKEN_ADD = VERSION + "/token/add";
+	public static final String CURRENCY_SEARCH = VERSION + "/currency/search";
 
 	public static final String concatUrl(String urlPrefix, String urlSuffix) {
 		return urlPrefix + urlSuffix;

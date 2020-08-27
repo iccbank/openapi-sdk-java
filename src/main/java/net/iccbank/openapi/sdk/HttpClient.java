@@ -11,6 +11,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+import net.iccbank.openapi.sdk.exception.ICCBankException;
 
 public class HttpClient {
 	
@@ -39,6 +40,11 @@ public class HttpClient {
 		
 		final Call call = okHttpClient.newCall(request);
 		Response response = call.execute();
+
+		if(response.code() != 200){
+			throw ICCBankException.buildException(ICCBankException.EXEC_ERROR, "[Invoking] Response Status Error : "+response.code() + " message:"+ response.message());
+		}
+
 		return response.body().string();
 	}
 

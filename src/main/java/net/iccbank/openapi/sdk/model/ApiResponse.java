@@ -1,5 +1,7 @@
 package net.iccbank.openapi.sdk.model;
 
+import net.iccbank.openapi.sdk.ApiConstants;
+
 import java.io.Serializable;
 
 public class ApiResponse<T> implements Serializable {
@@ -58,7 +60,12 @@ public class ApiResponse<T> implements Serializable {
 	public void setData(T data) {
 		this.data = data;
 	}
-    
-    
+
+    public boolean isSuccess(){
+		if(this.code == 200 && ApiConstants.RES_SUB_CODE_SUCCESS.equalsIgnoreCase(this.subCode)){
+			return true;
+		}
+		return false;
+	}
 
 }

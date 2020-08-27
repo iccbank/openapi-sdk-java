@@ -6,7 +6,7 @@ import java.util.List;
 import net.iccbank.openapi.sdk.model.ApiAddress;
 import net.iccbank.openapi.sdk.model.ApiAgencyWithdrawData;
 import net.iccbank.openapi.sdk.model.ApiAgencyWithdrawQueryData;
-import net.iccbank.openapi.sdk.model.ApiContractData;
+import net.iccbank.openapi.sdk.model.ApiCurrencyData;
 import net.iccbank.openapi.sdk.model.ApiMchBalance;
 import net.iccbank.openapi.sdk.model.ApiResponse;
 
@@ -73,10 +73,10 @@ public interface ApiClient {
 	ApiResponse<ApiMchBalance> getBalances();
 
 	/**
-	 * @Description 添加Token
+	 * @Description 币种搜索
 	 * @Date Created on 2020/8/24 19:15
 	 */
-	ApiResponse<ApiContractData> tokenAdd(String linkType, String contractAddress);
+	ApiResponse<ApiCurrencyData> currencySearch(int searchType, String keywords);
 
 	/**
 	 * @Author kevin
