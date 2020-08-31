@@ -79,6 +79,12 @@ public interface ApiClient {
 	ApiResponse<ApiCurrencyData> currencySearch(int searchType, String keywords);
 
 	/**
+	 * @Description 添加代币
+	 * @Date Created on 2020/8/24 19:15
+	 */
+	ApiResponse<ApiCurrencyData> currencyAddToken(String linkType, String contractAddress);
+
+	/**
 	 * @Author kevin
 	 * @Description 查询账户（指定币种）余额列表
 	 * @Date Created on 2020/7/8 11:41
