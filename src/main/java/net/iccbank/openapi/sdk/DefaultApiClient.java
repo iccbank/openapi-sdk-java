@@ -257,25 +257,6 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	}
 	
 	@Override
-	public ApiResponse<ApiCurrencyData> currencyAddToken(String linkType, String contractAddress) {
-		if (linkType == null || linkType.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [linkType] required");
-		}
-		
-		if (contractAddress == null || contractAddress.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [contractAddress] required");
-		}
-		
-		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
-		paramsMap.put("linkType", linkType);
-		paramsMap.put("contractAddress", contractAddress);
-		
-		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CURRENCY_ADD_TOKEN);
-		String resBody = callToString(url, paramsMap);
-		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiCurrencyData>>(){});
-	}
-	
-	@Override
 	public ApiResponse<ApiMchBalance> getBalancesForCurrencyCode(String currencyCode) {
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 
