@@ -12,6 +12,7 @@ public class ApiCurrencyData implements Serializable {
 	private String linkType;
 	private String icon;
 	private String contractAddress;
+	private String chainCode;
 	
 	public ApiCurrencyData() {}
 
@@ -62,5 +63,15 @@ public class ApiCurrencyData implements Serializable {
 	public void setContractAddress(String contractAddress) {
 		this.contractAddress = contractAddress;
 	}
+
+	public String getChainCode() {
+		return chainCode;
+	}
+
+	public void setChainCode(String chainCode) {
+		this.chainCode = chainCode;
+	}
+	
+	
 	
 }
