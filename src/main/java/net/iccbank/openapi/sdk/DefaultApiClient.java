@@ -425,4 +425,70 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		return map;
 	}
 
+	/**
+	 * @Author kevin
+	 * @Description 未花费UTXO列表
+	 * @Date Created on 2020/8/31 15:47
+	 * @param currencyCode 币种
+	 * @param address 地址
+	 * @param amount 需要获取的金额
+	 * @return List<ApiUnspentUtxo>
+	 * @since 1.1.0
+	 */
+	@Override
+	public ApiResponse<List<ApiUnspentUtxo>> fetchUnspentUTXO(String currencyCode, String address, BigDecimal amount) {
+		if (currencyCode == null || currencyCode.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+		}
+		if (address == null || address.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [address] required");
+		}
+		if (amount == null) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] required");
+		}
+		if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] invalid");
+		}
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+		paramsMap.put("currencyCode", currencyCode);
+		paramsMap.put("address", address);
+		paramsMap.put("amount", amount);
+
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.UNSPENT_LIST);
+		String resBody = callToString(url, paramsMap);
+
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<List<ApiUnspentUtxo>>>(){});
+	}
+
+	/**
+	 * @Author kevin
+	 * @Description 添加代扫描地址
+	 * @Date Created on 2020/8/31 15:51
+	 * @param address
+	 * @return
+	 * @since 1.1.0
+	 */
+	@Override
+	public ApiResponse reporting(ApiProxyScanningAddress address) {
+		if (address == null) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [address] required");
+		}
+		if (address.getLinkType() == null) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [linkType] required");
+		}
+
+		List<String> addressLists = address.getAddressLists();
+		if (addressLists == null || addressLists.isEmpty()) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [addressLists] invalid");
+		}
+
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+		paramsMap.put("linkType", address.getLinkType());
+		paramsMap.put("addressLists", addressLists);
+
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.PROXY_SCANNING_ADDRESS_REG);
+		ApiResponse resBody = call(url, paramsMap);
+		return resBody;
+	}
+
 }

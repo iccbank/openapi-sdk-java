@@ -40,6 +40,10 @@ public class ApiConstants {
 	
 	public static final String CURRENCY_SEARCH = VERSION + "/currency/search";
 
+	public static final String PROXY_SCANNING_ADDRESS_REG = VERSION + "/proxyScanning/addressReg";
+
+	public static final String UNSPENT_LIST = VERSION + "/unspent/list";
+
 	public static final String concatUrl(String urlPrefix, String urlSuffix) {
 		return urlPrefix + urlSuffix;
 	}

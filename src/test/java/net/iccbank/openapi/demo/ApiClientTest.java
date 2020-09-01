@@ -5,11 +5,13 @@ import net.iccbank.openapi.sdk.ApiClient;
 import net.iccbank.openapi.sdk.DefaultApiClient;
 import net.iccbank.openapi.sdk.enums.SearchTypeEnum;
 import net.iccbank.openapi.sdk.model.*;
+import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
 import net.iccbank.openapi.sdk.utils.JsonUtils;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ApiClientTest {
@@ -81,6 +83,32 @@ public class ApiClientTest {
 	@Test
 	public void currencySearch(){
 		ApiResponse<ApiCurrencyData> res = client.currencySearch(SearchTypeEnum.CURRENCY.getType(), "kevin");
+		System.out.println(JsonUtils.toJsonString(res));
+	}
+
+	@Test
+	public void fetchUnspentUTXO(){
+		ApiResponse<List<ApiUnspentUtxo>> res = client.fetchUnspentUTXO("ionc", "0x31bf7b9f55f155f4ae512e30ac65c590dfad0ca6", new BigDecimal("1"));
+		System.out.println(JsonUtils.toJsonString(res));
+	}
+
+	@Test
+	public void reporting(){
+		ApiProxyScanningAddress address = new ApiProxyScanningAddress();
+		address.setLinkType("bitcoin");
+//		List<ApiProxyScanningAddress.AddressNode> addressLists = new ArrayList<ApiProxyScanningAddress.AddressNode>();
+//		ApiProxyScanningAddress.AddressNode addressNode = new ApiProxyScanningAddress.AddressNode();
+//		addressNode.setAddress("xxxxxxxxxxxxxxx");
+//		addressNode.setLinkType("bitcoin");
+//		addressLists.add(addressNode);
+//		address.setAddressLists(addressLists);
+
+
+		List<String> addressList = new ArrayList<>();
+		addressList.add("xxxxxxxxxxxxxxx");
+		address.setAddressLists(addressList);
+
+		ApiResponse res = client.reporting(address);
 		System.out.println(JsonUtils.toJsonString(res));
 	}
 

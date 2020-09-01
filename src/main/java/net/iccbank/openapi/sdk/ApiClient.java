@@ -3,12 +3,7 @@ package net.iccbank.openapi.sdk;
 import java.math.BigDecimal;
 import java.util.List;
 
-import net.iccbank.openapi.sdk.model.ApiAddress;
-import net.iccbank.openapi.sdk.model.ApiAgencyWithdrawData;
-import net.iccbank.openapi.sdk.model.ApiAgencyWithdrawQueryData;
-import net.iccbank.openapi.sdk.model.ApiCurrencyData;
-import net.iccbank.openapi.sdk.model.ApiMchBalance;
-import net.iccbank.openapi.sdk.model.ApiResponse;
+import net.iccbank.openapi.sdk.model.*;
 
 public interface ApiClient {
 	
@@ -94,4 +89,27 @@ public interface ApiClient {
 	 * @param accountType 币种
 	 */
 	ApiResponse<ApiMchBalance.BalanceNode> getBalancesForCurrencyCodeAndAccountType(String currencyCode, Long accountType);
+
+	/**
+	 * @Author kevin
+	 * @Description 未花费UTXO列表
+	 * @Date Created on 2020/8/31 15:47
+	 * @param currencyCode 币种
+	 * @param address 地址
+	 * @param amount 需要获取的金额
+	 * @return
+	 * @since 1.1.0
+	 */
+	ApiResponse<List<ApiUnspentUtxo>> fetchUnspentUTXO(String currencyCode, String address, BigDecimal amount);
+
+	/**
+	 * @Author kevin
+	 * @Description 添加代扫描地址
+	 * @Date Created on 2020/8/31 15:51
+	 * @param address
+	 * @return
+	 * @since 1.1.0
+	 */
+	ApiResponse reporting(ApiProxyScanningAddress address);
+
 }
