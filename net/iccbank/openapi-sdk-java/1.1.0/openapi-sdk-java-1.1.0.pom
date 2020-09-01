@@ -68,6 +68,38 @@
         </repository>
     </distributionManagement>
 
+
+    <repositories>
+        <repository>
+            <id>snapshots</id>
+            <name>Snapshots</name>
+            <url>http://idc.icctoro.com:8086/repository/maven-public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>releases</id>
+            <name>Releases</name>
+            <url>http://idc.icctoro.com:8086/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>mvn-nemp-ftp</id>
+            <name>Nemp's Maven Repository</name>
+            <url>http://mvn.neemre.com/</url>
+        </repository>
+
+    </repositories>
+
 	<build>
         <plugins>
             <plugin>
