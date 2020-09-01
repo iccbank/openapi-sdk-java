@@ -39,6 +39,8 @@ public class ApiConstants {
 	public static final String GET_BALANCE = VERSION + "/mch/getBalance";
 	
 	public static final String CURRENCY_SEARCH = VERSION + "/currency/search";
+	
+	public static final String CURRENCY_ADD_TOKEN = VERSION + "/currency/addToken";
 
 	public static final String PROXY_SCANNING_ADDRESS_REG = VERSION + "/proxyScanning/addressReg";
 

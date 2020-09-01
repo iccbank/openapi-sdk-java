@@ -218,7 +218,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	}
 	
 	@Override
-	public ApiResponse<ApiCurrencyData> currencySearch(int searchType, String keywords) {
+	public ApiResponse<List<ApiCurrencyData>> currencySearch(int searchType, String keywords) {
 		SearchTypeEnum searchTypeEnum = SearchTypeEnum.valueOfByType(searchType);
 		if (searchTypeEnum == null) {
 			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "searchType '" + searchType + "' unSupport");
@@ -234,7 +234,26 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		
 		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CURRENCY_SEARCH);
 		String resBody = callToString(url, paramsMap);
-		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiCurrencyData>>(){});
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<List<ApiCurrencyData>>>(){});
+	}
+
+	@Override
+	public ApiResponse<List<ApiCurrencyData>> currencyAddToken(String linkType, String contractAddress) {
+		if (linkType == null || linkType.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [linkType] required");
+		}
+
+		if (contractAddress == null || contractAddress.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [contractAddress] required");
+		}
+		
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+		paramsMap.put("linkType", linkType);
+		paramsMap.put("contractAddress", contractAddress);
+		
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CURRENCY_ADD_TOKEN);
+		String resBody = callToString(url, paramsMap);
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<List<ApiCurrencyData>>>(){});
 	}
 	
 	@Override
