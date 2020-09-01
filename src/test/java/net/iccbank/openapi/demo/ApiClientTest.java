@@ -80,7 +80,7 @@ public class ApiClientTest {
 
 	@Test
 	public void currencySearch(){
-		ApiResponse<ApiCurrencyData> res = client.currencySearch(SearchTypeEnum.CURRENCY.getType(), "kevin");
+		ApiResponse<List<ApiCurrencyData>> res = client.currencySearch(SearchTypeEnum.CURRENCY.getType(), "kevin");
 		System.out.println(JsonUtils.toJsonString(res));
 	}
 
