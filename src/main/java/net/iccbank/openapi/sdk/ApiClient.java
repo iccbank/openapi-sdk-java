@@ -82,7 +82,7 @@ public interface ApiClient {
 	 * @Description 添加代币
 	 * @Date Created on 2020/8/24 19:15
 	 */
-	ApiResponse<List<ApiCurrencyData>> currencyAddToken(String linkType, String contractAddress);
+	ApiResponse<ApiCurrencyData> currencyAddToken(String linkType, String contractAddress);
 	
 	/**
 	 * @Author kevin

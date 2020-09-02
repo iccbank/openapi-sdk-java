@@ -238,7 +238,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	}
 
 	@Override
-	public ApiResponse<List<ApiCurrencyData>> currencyAddToken(String linkType, String contractAddress) {
+	public ApiResponse<ApiCurrencyData> currencyAddToken(String linkType, String contractAddress) {
 		if (linkType == null || linkType.trim().equals("")) {
 			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [linkType] required");
 		}
@@ -253,7 +253,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		
 		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CURRENCY_ADD_TOKEN);
 		String resBody = callToString(url, paramsMap);
-		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<List<ApiCurrencyData>>>(){});
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiCurrencyData>>(){});
 	}
 	
 	@Override
