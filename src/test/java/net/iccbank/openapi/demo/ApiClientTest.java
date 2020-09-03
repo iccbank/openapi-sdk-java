@@ -88,27 +88,37 @@ public class ApiClientTest {
 
 	@Test
 	public void fetchUnspentUTXO(){
-		ApiResponse<List<ApiUnspentUtxo>> res = client.fetchUnspentUTXO("ionc", "0x31bf7b9f55f155f4ae512e30ac65c590dfad0ca6", new BigDecimal("1"));
+//		ApiResponse<List<ApiUnspentUtxo>> res = client.fetchUnspentUTXO("BTC", "bc1qj8cdvxsq0raaqzfvm6w2dfdwj6cm9najk60e56", new BigDecimal("1"));
+		ApiResponse<List<ApiUnspentUtxo>> res = client.fetchUnspentUTXO("DASH", "Xv1k3LLz6mLHg3v6hjZ6Qf34G4RqgDTFWM", new BigDecimal("1"));
 		System.out.println(JsonUtils.toJsonString(res));
 	}
 
 	@Test
 	public void reporting(){
 		ApiProxyScanningAddress address = new ApiProxyScanningAddress();
-		address.setLinkType("bitcoin");
-//		List<ApiProxyScanningAddress.AddressNode> addressLists = new ArrayList<ApiProxyScanningAddress.AddressNode>();
-//		ApiProxyScanningAddress.AddressNode addressNode = new ApiProxyScanningAddress.AddressNode();
-//		addressNode.setAddress("xxxxxxxxxxxxxxx");
-//		addressNode.setLinkType("bitcoin");
-//		addressLists.add(addressNode);
-//		address.setAddressLists(addressLists);
-
-
 		List<String> addressList = new ArrayList<>();
-		addressList.add("xxxxxxxxxxxxxxx");
+
+//		address.setLinkType("ionchain");
+//		addressList.add("0xCaB80B629fbb6Af23FCe5da89c6794Cd4ff31e29");
+
+//		address.setLinkType("bitcoin");
+//		address.setSource(1);
+//		addressList.add("3HAfhSHPfaCN4BYpjQL7T52Qx13bAbpjn9");
+		address.setLinkType("dash");
+		address.setSource(2);
+		addressList.add("Xv1k3LLz6mLHg3v6hjZ6Qf34G4RqgDTFWM");
+//		addressList.add("0x31bf7b9f55f155f4ae512e30ac65c590dfad0ca6");
+//		addressList.add("147SwRQdpCfj5p8PnfsXV2SsVVpVcz3aPq");
 		address.setAddressLists(addressList);
 
 		ApiResponse res = client.reporting(address);
+		System.out.println(JsonUtils.toJsonString(res));
+	}
+
+	@Test
+	public void getUnspentBalanceByAddress(){
+//		ApiResponse<ApiUnspentBalance> res = client.getUnspentBalanceByAddress("BTC", "bc1qj8cdvxsq0raaqzfvm6w2dfdwj6cm9najk60e56");
+		ApiResponse<ApiUnspentBalance> res = client.getUnspentBalanceByAddress("DASH", "Xv1k3LLz6mLHg3v6hjZ6Qf34G4RqgDTFWM");
 		System.out.println(JsonUtils.toJsonString(res));
 	}
 

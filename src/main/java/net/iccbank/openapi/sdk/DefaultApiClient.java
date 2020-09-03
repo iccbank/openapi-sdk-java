@@ -496,6 +496,10 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [linkType] required");
 		}
 
+		if (!(address.getSource() == ApiProxyScanningAddress.SOURCE_IS_NEW || address.getSource() == ApiProxyScanningAddress.SOURCE_IS_LOAD)) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [Source] invalid");
+		}
+
 		List<String> addressLists = address.getAddressLists();
 		if (addressLists == null || addressLists.isEmpty()) {
 			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [addressLists] invalid");
@@ -504,10 +508,30 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 		paramsMap.put("linkType", address.getLinkType());
 		paramsMap.put("addressLists", addressLists);
+		paramsMap.put("source", address.getSource());
 
 		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.PROXY_SCANNING_ADDRESS_REG);
 		ApiResponse resBody = call(url, paramsMap);
 		return resBody;
+	}
+
+	@Override
+	public ApiResponse<ApiUnspentBalance> getUnspentBalanceByAddress(String currencyCode, String address) {
+		if (currencyCode == null || currencyCode.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+		}
+		if (address == null || address.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [address] required");
+		}
+
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+		paramsMap.put("currencyCode", currencyCode);
+		paramsMap.put("address", address);
+
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.UNSPENT_GET_BALANCE_BY_ADDRESS);
+		String resBody = callToString(url, paramsMap);
+
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiUnspentBalance>>(){});
 	}
 
 }

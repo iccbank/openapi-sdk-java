@@ -12,10 +12,15 @@ import java.util.List;
 public class ApiProxyScanningAddress implements Serializable {
 
     private static final long serialVersionUID = 1;
+    //来源 1-新创建 2-导入地址
+    public static final Integer SOURCE_IS_NEW = 1;
+    public static final Integer SOURCE_IS_LOAD = 2;
 
     private List<String> addressLists;
 
     private String linkType;
+
+    private Integer source;
 
     public ApiProxyScanningAddress(){}
 
@@ -33,5 +38,13 @@ public class ApiProxyScanningAddress implements Serializable {
 
     public void setLinkType(String linkType) {
         this.linkType = linkType;
+    }
+
+    public Integer getSource() {
+        return source;
+    }
+
+    public void setSource(Integer source) {
+        this.source = source;
     }
 }

@@ -118,4 +118,15 @@ public interface ApiClient {
 	 */
 	ApiResponse reporting(ApiProxyScanningAddress address);
 
+	/**
+	 * @Author kevin
+	 * @Description 查询地址未花费余额, 针对btc系列
+	 * @Date Created on 2020/9/3 9:55
+	 * @param currencyCode
+	 * @param address
+	 * @return
+	 * @since 1.1.0
+	 */
+	ApiResponse<ApiUnspentBalance> getUnspentBalanceByAddress(String currencyCode, String address);
+	
 }

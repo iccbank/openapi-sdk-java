@@ -46,6 +46,8 @@ public class ApiConstants {
 
 	public static final String UNSPENT_LIST = VERSION + "/unspent/list";
 
+	public static final String UNSPENT_GET_BALANCE_BY_ADDRESS = VERSION + "/unspent/getBalanceByAddress";
+
 	public static final String concatUrl(String urlPrefix, String urlSuffix) {
 		return urlPrefix + urlSuffix;
 	}
