@@ -44,7 +44,7 @@ public class ApiConstants {
 	
 	public static final String CURRENCY_ADD_TOKEN = VERSION + "/currency/addToken";
 
-	public static final String CURRENCY_FEE = VERSION + "/currency/fee";
+	public static final String CURRENCY_FEE = VERSION + "/currency/bizFee";
 
 	public static final String QUERY_CURRENCY_CHAIN_LIST = VERSION + "/currency/queryChainList";
 
