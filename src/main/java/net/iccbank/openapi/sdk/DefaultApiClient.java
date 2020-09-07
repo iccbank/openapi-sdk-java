@@ -312,7 +312,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 			ApiEncryptedBody reqBody = new ApiEncryptedBody(ApiConstants.ALGORITHM_DESEDE, encryptedData);
 			return JsonUtils.toJsonString(reqBody);
 		} catch (Exception e) {
-			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Encrypt Signature] error: " + e.getMessage());
+			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Encrypt Signature] error: " + e.getMessage(), e);
 		}
 	}
 	
@@ -328,7 +328,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 
 				resPlainData = AlgorithmUtils.decryptWith3DES(resBody.getEncryptedData(), token);
 			} catch (Exception e) {
-				throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Decrypt Signature] error: " + e.getMessage());
+				throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Decrypt Signature] error: " + e.getMessage(), e);
 			}
 
 		}else {
@@ -357,7 +357,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 			//请求响应
 			encryptedResBody = callPost(url, initHeaders(), encryptedReqBody);
 		} catch (IOException e) {
-			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Invoking] Unexpected error: " + e.getMessage());
+			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Invoking] Unexpected error: " + e.getMessage(), e);
 		}
 
 		// AES解密，返回值不需要验证签名
@@ -382,7 +382,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 			paramsMap.put(ApiConstants.PARAMETER_SIGN, sign);
 			return JsonUtils.toJsonString(paramsMap);
 		} catch (Exception e) {
-			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Build Signature] error: " + e.getMessage());
+			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Build Signature] error: " + e.getMessage(), e);
 		}
 	}
 
