@@ -11,6 +11,9 @@
 - 1.7 - [代付通知](#代付通知)
 - 1.8 - [账户余额查询](#账户余额查询)
 - 1.9 - [代币搜索](#代币搜索)
+- 1.10 - [增加充值扫描地址](#增加充值扫描地址)
+- 1.11 - [获取Unspent UTXO列表](#获取Unspent UTXO列表)
+- 1.12 - [查询地址未花费余额](#查询地址未花费余额)
 
 ## 2. 支持币种
 
@@ -456,6 +459,132 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |linkType |string   |链类型 |
 |icon |string   |币种图标 |
 |contractAddress |string   |合约地址 |
+
+### 增加充值扫描地址
+> POST `/v1/proxyScanning/addressReg`
+
+**请求参数**
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|addressList |是  |list | 地址数组列表|
+|linkType |是  |int | 主链类型|
+|source |是  |int | 来源 1-新创建 2-导入地址 |
+
+**请求示例**
+```json
+{
+    "addressList":[
+        "xxxxxx","xzxxxxxxxxxxxxxxxxx"
+    ]
+    ,"linkType":"Bitcoin"
+    ,"source":1
+}
+```
+
+
+**返回示例**
+
+```
+{
+    "code":200,
+    "msg":"ok",
+    "subCode":"0",
+    "subMsg":"success"
+}
+
+```
+
+**业务参数说明**
+
+|参数名|类型|说明|
+|:-----  |:-----|-----|
+|name |string   | 名称 |
+
+
+
+### 获取Unspent UTXO列表
+> POST `/v1/unspent/list`
+
+**请求参数**
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|currencyCode |是  |string | 币种|
+|address |是  |string | 地址|
+|amount |是  |string | 需要获取未花费的金额 |
+
+
+**返回示例**
+
+```
+{
+    "code": 200,
+    "data": [
+    {
+        "vout": 0,   // 此笔UTXO在交易里的位置(序号从0开始)
+        "txid": "2d69379385f5bf88170d482206167c4fa3aa577d7e1868cd4b5fd34b2e63baa0", // 交易hash
+        "address":"xxxxxxxxxxxxxxxxxxx",
+        "scriptPubKey": "76a9148adb995199ef0d0f5e90e8514030e135b944cbaa88ac", // 公钥脚本
+        "confirmations": 1147643, // 此交易的确认数
+        "value": "554.0"   // UTXO里包含的金额
+    }],
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
+}
+
+```
+
+**业务参数说明**
+
+|参数名|类型|说明|
+|:-----  |:-----|-----|
+|vout |string   |此笔UTXO在交易里的位置(序号从0开始)  |
+|txid |string   |交易hash  |
+|address |string   | 地址  |
+|scriptPubKey |string   | 公钥脚本  |
+|confirmations | int   | 此交易的确认数  |
+|value |string   | UTXO里包含的金额  |
+
+
+
+### 查询地址未花费余额
+> POST `/v1/unspent/getBalanceByAddress`
+
+**请求参数**
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|currencyCode |是  |string | 币种|
+|address |是  |string | 地址|
+
+
+**返回示例**
+
+```
+{
+    "code": 200,
+    "data": 
+    {
+        "currencyCode": "BTC",
+        "address":"xxxxxxxxxxxxxxxxxxx",
+        "amount": "554.0"
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
+}
+
+```
+
+**业务参数说明**
+
+|参数名|类型|说明|
+|:-----  |:-----|-----|
+|currencyCode |string   |币种  |
+|address |string   | 地址  |
+|amount |string   | 余额  |
 
 
 
