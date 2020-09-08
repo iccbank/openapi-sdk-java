@@ -83,5 +83,15 @@ public class ApiClientTest {
 		ApiResponse<List<ApiCurrencyData>> res = client.currencySearch(SearchTypeEnum.CURRENCY.getType(), "kevin");
 		System.out.println(JsonUtils.toJsonString(res));
 	}
+	
+	@Test
+	public void addToken() {
+		ApiResponse<ApiCurrencyData> res = client.currencyAddToken("ethereum", "0xb0c2e9a1e5d379a2e22a570e5b9773da5c30bd27");
+		System.out.println(JsonUtils.toJsonString(res));
+		
+		ApiResponse<ApiCurrencyData> res2 = client.currencyAddToken("tron", "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t");
+		System.out.println(JsonUtils.toJsonString(res2));
+	}
+	
 
 }

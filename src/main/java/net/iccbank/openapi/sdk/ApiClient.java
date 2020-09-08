@@ -7,6 +7,7 @@ import net.iccbank.openapi.sdk.model.ApiAddress;
 import net.iccbank.openapi.sdk.model.ApiAgencyWithdrawData;
 import net.iccbank.openapi.sdk.model.ApiAgencyWithdrawQueryData;
 import net.iccbank.openapi.sdk.model.ApiCurrencyData;
+import net.iccbank.openapi.sdk.model.ApiCurrencyFeeData;
 import net.iccbank.openapi.sdk.model.ApiMchBalance;
 import net.iccbank.openapi.sdk.model.ApiResponse;
 
@@ -57,6 +58,23 @@ public interface ApiClient {
 	 * @param notifyUrl 通知地址（非必填） 为空则不通知
 	 */
 	ApiResponse<ApiAgencyWithdrawData> agencyWithdraw(String userBizId, String subject, String currencyCode, String address, String labelAddress, BigDecimal amount, String notifyUrl);
+
+	/**
+	 * 代付(可以指定矿工费)
+	 * 
+	 * @param userBizId 商户订单号
+	 * @param subject 订单描述（非必填）
+	 * @param currencyCode 币种代码
+	 * @param address 代付地址
+	 * @param labelAddress 地址标签, EOS或XRP等地址使用（非必填）
+	 * @param amount 金额，代付地址实际到账的金额，商户支付的手续费平台自动扣除并返回
+	 * @param minerFee 矿工费（商户指定矿工费）
+	 * @param notifyUrl 通知地址（非必填） 为空则不通知
+	 */
+	ApiResponse<ApiAgencyWithdrawData> agencyWithdrawWithMinerFee(String userBizId, String subject, String currencyCode, String address, String labelAddress, 
+			BigDecimal amount, 
+			BigDecimal minerFee, 
+			String notifyUrl);
 	
 	/**
 	 * 代付订单查询
@@ -82,7 +100,25 @@ public interface ApiClient {
 	 * @Description 添加代币
 	 * @Date Created on 2020/8/24 19:15
 	 */
-	ApiResponse<List<ApiCurrencyData>> currencyAddToken(String linkType, String contractAddress);
+	ApiResponse<ApiCurrencyData> currencyAddToken(String linkType, String contractAddress);
+	
+	/**
+	 * @Description 代币手续费
+	 * @Date Created on 2020/8/24 19:15
+	 */
+	ApiResponse<ApiCurrencyFeeData> getCurrencyFee(String currencyCode);
+
+	/**
+	 * @Description 查询主链币列表
+	 * @Date Created on 2020/8/24 19:15
+	 */
+	ApiResponse<List<ApiCurrencyData>> queryCurrencyChainList();
+
+	/**
+	 * @Description 获取币种信息
+	 * @Date Created on 2020/8/24 19:15
+	 */
+	ApiResponse<ApiCurrencyData> getCurrencyByCode(String currencyCode);
 	
 	/**
 	 * @Author kevin

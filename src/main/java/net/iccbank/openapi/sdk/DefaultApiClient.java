@@ -195,6 +195,55 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	}
 	
 	@Override
+	public ApiResponse<ApiAgencyWithdrawData> agencyWithdrawWithMinerFee(String userBizId, String subject,
+			String currencyCode, String address, String labelAddress, BigDecimal amount, BigDecimal minerFee,
+			String notifyUrl) {
+		if (userBizId == null || userBizId.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [userBizId] required");
+		}
+		
+		if (currencyCode == null || currencyCode.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+		}
+		
+		if (address == null || address.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [address] required");
+		}
+		
+		if (amount == null) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] required");
+		}
+
+		if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] invalid");
+		}
+
+		if (minerFee.compareTo(BigDecimal.ZERO) <= 0) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [minerFee] invalid");
+		}
+		
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+		paramsMap.put("userBizId", userBizId);
+		if (subject != null) {
+			paramsMap.put("subject", subject);
+		}
+		paramsMap.put("currencyCode", currencyCode);
+		paramsMap.put("address", address);
+		if (labelAddress != null) {
+			paramsMap.put("labelAddress", labelAddress);
+		}
+		if (notifyUrl != null) {
+			paramsMap.put("notifyUrl", notifyUrl);
+		}
+		paramsMap.put("amount", amount.stripTrailingZeros().toPlainString());
+		paramsMap.put("minerFee", minerFee.stripTrailingZeros().toPlainString());
+
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.AGENCY_WITHDRAW2_URL);
+		String resBody = callToString(url, paramsMap);
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiAgencyWithdrawData>>(){});
+	}
+	
+	@Override
 	public ApiResponse<ApiAgencyWithdrawQueryData> queryAgencyWithdrawOrder(String userBizId) {
 		if (userBizId == null || userBizId.trim().equals("")) {
 			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [userBizId] required");
@@ -238,7 +287,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	}
 
 	@Override
-	public ApiResponse<List<ApiCurrencyData>> currencyAddToken(String linkType, String contractAddress) {
+	public ApiResponse<ApiCurrencyData> currencyAddToken(String linkType, String contractAddress) {
 		if (linkType == null || linkType.trim().equals("")) {
 			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [linkType] required");
 		}
@@ -253,7 +302,44 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		
 		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CURRENCY_ADD_TOKEN);
 		String resBody = callToString(url, paramsMap);
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiCurrencyData>>(){});
+	}
+	
+	@Override
+	public ApiResponse<ApiCurrencyFeeData> getCurrencyFee(String currencyCode) {
+		if (currencyCode == null || currencyCode.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+		}
+		
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+		paramsMap.put("currencyCode", currencyCode);
+		
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CURRENCY_FEE);
+		String resBody = callToString(url, paramsMap);
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiCurrencyFeeData>>(){});
+	}
+	
+	@Override
+	public ApiResponse<List<ApiCurrencyData>> queryCurrencyChainList() {
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+		
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.QUERY_CURRENCY_CHAIN_LIST);
+		String resBody = callToString(url, paramsMap);
 		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<List<ApiCurrencyData>>>(){});
+	}
+	
+	@Override
+	public ApiResponse<ApiCurrencyData> getCurrencyByCode(String currencyCode) {
+		if (currencyCode == null || currencyCode.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+		}
+		
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+		paramsMap.put("currencyCode", currencyCode);
+		
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_CURRENCY_BY_CODE);
+		String resBody = callToString(url, paramsMap);
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiCurrencyData>>(){});
 	}
 	
 	@Override
