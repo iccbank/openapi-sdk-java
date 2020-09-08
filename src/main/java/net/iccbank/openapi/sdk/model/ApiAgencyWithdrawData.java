@@ -54,6 +54,11 @@ public class ApiAgencyWithdrawData implements Serializable {
      */
     private BigDecimal fee;
 
+    /**
+     * 矿工费（商户指定矿工费的时候才会返回）
+     */
+    private BigDecimal minerFee;
+
     private Integer status;
     
     public ApiAgencyWithdrawData(){}
@@ -112,6 +117,14 @@ public class ApiAgencyWithdrawData implements Serializable {
 
 	public void setFee(BigDecimal fee) {
 		this.fee = fee;
+	}
+
+	public BigDecimal getMinerFee() {
+		return minerFee;
+	}
+
+	public void setMinerFee(BigDecimal minerFee) {
+		this.minerFee = minerFee;
 	}
 
 	public Integer getStatus() {

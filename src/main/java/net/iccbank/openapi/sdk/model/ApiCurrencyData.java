@@ -12,6 +12,9 @@ public class ApiCurrencyData implements Serializable {
 	private String linkType;
 	private String icon;
 	private String contractAddress;
+	private int supportLabelAddress;
+	private String chainCode;
+	private int maxDecimals;
 	
 	public ApiCurrencyData() {}
 
@@ -62,5 +65,31 @@ public class ApiCurrencyData implements Serializable {
 	public void setContractAddress(String contractAddress) {
 		this.contractAddress = contractAddress;
 	}
+
+	public int getSupportLabelAddress() {
+		return supportLabelAddress;
+	}
+
+	public void setSupportLabelAddress(int supportLabelAddress) {
+		this.supportLabelAddress = supportLabelAddress;
+	}
+
+	public String getChainCode() {
+		return chainCode;
+	}
+
+	public void setChainCode(String chainCode) {
+		this.chainCode = chainCode;
+	}
+
+	public int getMaxDecimals() {
+		return maxDecimals;
+	}
+
+	public void setMaxDecimals(int maxDecimals) {
+		this.maxDecimals = maxDecimals;
+	}
+	
+	
 	
 }

@@ -33,6 +33,8 @@ public class ApiConstants {
 	public static final String ADDRESS_AGENCY_CREATE_URL = VERSION + "/address/agency/create";
 
 	public static final String AGENCY_WITHDRAW_URL = VERSION + "/agentPay/proxyPay";
+
+	public static final String AGENCY_WITHDRAW2_URL = VERSION + "/agentPay/proxyPay2";
 	
 	public static final String AGENCY_WITHDRAW_QUERY_URL = VERSION + "/agentPay/query";
 
@@ -47,7 +49,13 @@ public class ApiConstants {
 	public static final String UNSPENT_LIST = VERSION + "/unspent/list";
 
 	public static final String UNSPENT_GET_BALANCE_BY_ADDRESS = VERSION + "/unspent/getBalanceByAddress";
+	
+	public static final String CURRENCY_FEE = VERSION + "/currency/bizFee";
 
+	public static final String QUERY_CURRENCY_CHAIN_LIST = VERSION + "/currency/queryChainList";
+
+	public static final String GET_CURRENCY_BY_CODE = VERSION + "/currency/getByCode";
+	
 	public static final String concatUrl(String urlPrefix, String urlSuffix) {
 		return urlPrefix + urlSuffix;
 	}
