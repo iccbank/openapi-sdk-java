@@ -61,6 +61,11 @@ public class ApiAgencyWithdrawQueryData implements Serializable {
 
 	private String feeCurrency;
 
+    /**
+     * 矿工费（商户指定矿工费的时候才会返回）
+     */
+    private BigDecimal minerFee;
+
 	//状态， 0, “处理中” 1, “成功” 2, “失败”
     private Integer status;
 
