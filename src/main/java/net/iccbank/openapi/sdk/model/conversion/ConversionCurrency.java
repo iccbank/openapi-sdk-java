@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Setter
 @Getter
@@ -17,11 +16,15 @@ public class ConversionCurrency implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 编号-代码 唯一
+     */
+    private String code;
+    /**
      * 支付币种
      */
     private String currency;
     /**
-     * 可兑换币种列表
+     * 兑换币种
      */
-    private List<String> targetCurrencyList;
+    private String targetCurrency;
 }
