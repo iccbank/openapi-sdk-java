@@ -1,10 +1,10 @@
 package net.iccbank.openapi.sdk;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import net.iccbank.openapi.sdk.exception.ICCBankException;
 import net.iccbank.openapi.sdk.model.ApiEncryptedBody;
 import net.iccbank.openapi.sdk.model.ApiResponse;
-import net.iccbank.openapi.sdk.model.conversion.ConversionCurrency;
-import net.iccbank.openapi.sdk.model.conversion.ConversionCurrencyMineFee;
+import net.iccbank.openapi.sdk.model.conversion.*;
 import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
 import net.iccbank.openapi.sdk.utils.JsonUtils;
 
@@ -213,4 +213,48 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
     public ApiResponse<List<ConversionCurrencyMineFee>> getCurrencyMineFeeList() {
         return null;
     }
+
+    @Override
+    public ApiResponse<ConversionRate> getConversionRate(ConversionRateReq param) {
+
+        TreeMap<String, Object> paramsMap = new TreeMap<>();
+        paramsMap.put("code", param.getCode());
+        paramsMap.put("amountFrom", param.getAmountFrom());
+        paramsMap.put("amountTo", param.getAmountTo());
+        paramsMap.put("fixedRate", param.isFixedRate());
+
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_CONVERSION_RATE);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ConversionRate>>(){});
+    }
+
+
+    @Override
+    public ApiResponse<ConversionOrderDetail> getConversionOrderDetail(String orderId) {
+        if (orderId == null || orderId.trim().equals("")) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [orderId] required");
+        }
+
+        TreeMap<String, Object> paramsMap = new TreeMap<>();
+        paramsMap.put("orderId", orderId);
+
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_CONVERSION_DETAIL);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ConversionOrderDetail>>(){});
+    }
+
+    @Override
+    public ApiResponse<ConversionOrderStatus> getConversionOrderStatus(String orderId) {
+        if (orderId == null || orderId.trim().equals("")) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [orderId] required");
+        }
+
+        TreeMap<String, Object> paramsMap = new TreeMap<>();
+        paramsMap.put("orderId", orderId);
+
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_CONVERSION_STATUS);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ConversionOrderStatus>>(){});
+    }
+
 }
