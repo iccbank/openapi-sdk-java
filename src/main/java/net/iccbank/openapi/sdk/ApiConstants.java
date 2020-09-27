@@ -55,6 +55,10 @@ public class ApiConstants {
 
 	public static final String CURRENCY_MINE_FEE_LIST = VERSION + "/conversion/getCurrencyMineFeeList";
 
+	public static final String CREATE_FIX_RATE_CONVERSION = VERSION + "/conversion/createFixRateConversion";
+
+	public static final String CREATE_FLOAT_RATE_CONVERSION = VERSION + "/conversion/createFloatRateConversion";
+
 	public static final String concatUrl(String urlPrefix, String urlSuffix) {
 		return urlPrefix + urlSuffix;
 	}
