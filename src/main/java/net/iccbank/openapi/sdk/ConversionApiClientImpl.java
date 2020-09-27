@@ -1,5 +1,6 @@
 package net.iccbank.openapi.sdk;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import net.iccbank.openapi.sdk.exception.ICCBankException;
 import net.iccbank.openapi.sdk.model.ApiEncryptedBody;
 import net.iccbank.openapi.sdk.model.ApiResponse;
@@ -205,12 +206,18 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
     }
 
     @Override
-    public ApiResponse<List<ConversionCurrency>> getCurrencies() {
-        return null;
+    public ApiResponse<List<ConversionCurrency>> getConversionCurrencies() {
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CONVERSION_CURRENCY_LIST);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<List<ConversionCurrency>>>() {});
     }
 
     @Override
     public ApiResponse<List<ConversionCurrencyMineFee>> getCurrencyMineFeeList() {
-        return null;
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CURRENCY_MINE_FEE_LIST);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<List<ConversionCurrencyMineFee>>>() {});
     }
 }

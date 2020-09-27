@@ -50,6 +50,11 @@ public class ApiConstants {
 
 	public static final String GET_CURRENCY_BY_CODE = VERSION + "/currency/getByCode";
 
+
+	public static final String CONVERSION_CURRENCY_LIST = VERSION + "/conversion/getConversionCurrencies";
+
+	public static final String CURRENCY_MINE_FEE_LIST = VERSION + "/conversion/getCurrencyMineFeeList";
+
 	public static final String concatUrl(String urlPrefix, String urlSuffix) {
 		return urlPrefix + urlSuffix;
 	}

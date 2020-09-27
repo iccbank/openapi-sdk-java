@@ -20,8 +20,8 @@ public class ConversionApiClientImplTest {
     }
 
     @Test
-    public void testGetCurrencies() {
-        ApiResponse<List<ConversionCurrency>> currencies = client.getCurrencies();
+    public void testGetConversionCurrencies() {
+        ApiResponse<List<ConversionCurrency>> currencies = client.getConversionCurrencies();
         System.out.println(JsonUtils.toJsonString(currencies));
     }
 

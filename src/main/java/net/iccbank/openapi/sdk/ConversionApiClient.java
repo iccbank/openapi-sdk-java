@@ -12,7 +12,7 @@ public interface ConversionApiClient {
      * 获取可兑换币对列表
      * @return
      */
-    ApiResponse<List<ConversionCurrency>> getCurrencies();
+    ApiResponse<List<ConversionCurrency>> getConversionCurrencies();
 
     /**
      * 获取币种矿工费列表
