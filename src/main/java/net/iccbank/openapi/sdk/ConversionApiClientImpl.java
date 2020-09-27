@@ -5,10 +5,16 @@ import net.iccbank.openapi.sdk.exception.ICCBankException;
 import net.iccbank.openapi.sdk.model.ApiEncryptedBody;
 import net.iccbank.openapi.sdk.model.ApiResponse;
 import net.iccbank.openapi.sdk.model.conversion.*;
+import net.iccbank.openapi.sdk.model.conversion.ConversionCurrency;
+import net.iccbank.openapi.sdk.model.conversion.ConversionCurrencyMineFee;
+import net.iccbank.openapi.sdk.model.conversion.CreateFixRateConversion;
+import net.iccbank.openapi.sdk.model.conversion.CreateFloatRateConversion;
 import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
 import net.iccbank.openapi.sdk.utils.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 
@@ -205,13 +211,95 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
     }
 
     @Override
-    public ApiResponse<List<ConversionCurrency>> getCurrencies() {
-        return null;
+    public ApiResponse<List<ConversionCurrency>> getConversionCurrencies() {
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CONVERSION_CURRENCY_LIST);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<List<ConversionCurrency>>>() {});
     }
 
     @Override
     public ApiResponse<List<ConversionCurrencyMineFee>> getCurrencyMineFeeList() {
-        return null;
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CURRENCY_MINE_FEE_LIST);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<List<ConversionCurrencyMineFee>>>() {});
+    }
+
+    @Override
+    public ApiResponse<CreateFixRateConversion> createFixRateConversion(String source, String orderId, Long rateId, String code,
+                                                                        String payoutAddress, String payoutLabelAddress, String refundAddress, String refundLabelAddress,
+                                                                        BigDecimal amountExpectedFrom, BigDecimal amountExpectedTo) {
+        if (StringUtils.isBlank(source)) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [source] required");
+        }
+        if (rateId == null) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [rateId] required");
+        }
+        if (StringUtils.isBlank(code)) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [code] required");
+        }
+        if (StringUtils.isBlank(payoutAddress)) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [payoutAddress] required");
+        }
+        if (StringUtils.isBlank(refundAddress)) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [refundAddress] required");
+        }
+
+        if (amountExpectedFrom == null && amountExpectedTo == null) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"amountFrom,amountTo cannot be empty at the same time");
+        }
+        if (amountExpectedFrom != null && amountExpectedTo != null) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"amountFrom,amountTo only one can be selected");
+        }
+        if (amountExpectedFrom != null && amountExpectedFrom.compareTo(BigDecimal.ZERO) <= 0) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [refundAddress] must greater than 0");
+        }
+        if (amountExpectedTo != null && amountExpectedTo.compareTo(BigDecimal.ZERO) <= 0) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [refundAddress] must greater than 0");
+        }
+
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        paramsMap.put("source", source);
+        paramsMap.put("orderId", orderId);
+        paramsMap.put("rateId", rateId);
+        paramsMap.put("code", code);
+        paramsMap.put("payoutAddress", payoutAddress);
+        paramsMap.put("payoutLabelAddress", payoutLabelAddress);
+        paramsMap.put("refundAddress", refundAddress);
+        paramsMap.put("refundLabelAddress", refundLabelAddress);
+        paramsMap.put("amountExpectedFrom", amountExpectedFrom);
+        paramsMap.put("amountExpectedTo", amountExpectedTo);
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CREATE_FIX_RATE_CONVERSION);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<CreateFixRateConversion>>() {});
+    }
+
+    @Override
+    public ApiResponse<CreateFloatRateConversion> createFloatRateConversion(String source, String orderId, String code,
+                                                                            String payoutAddress, String payoutLabelAddress, BigDecimal amountExpectedFrom) {
+        if (StringUtils.isBlank(source)) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [source] required");
+        }
+        if (StringUtils.isBlank(code)) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [code] required");
+        }
+        if (StringUtils.isBlank(payoutAddress)) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [payoutAddress] required");
+        }
+        if (amountExpectedFrom == null || amountExpectedFrom.compareTo(BigDecimal.ZERO) <= 0) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [payoutAddress] required or must greater than 0");
+        }
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        paramsMap.put("source", source);
+        paramsMap.put("orderId", orderId);
+        paramsMap.put("code", code);
+        paramsMap.put("payoutAddress", payoutAddress);
+        paramsMap.put("payoutLabelAddress", payoutLabelAddress);
+        paramsMap.put("amountExpectedFrom", amountExpectedFrom);
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CREATE_FLOAT_RATE_CONVERSION);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<CreateFloatRateConversion>>() {});
     }
 
     @Override

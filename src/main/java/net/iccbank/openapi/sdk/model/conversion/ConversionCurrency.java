@@ -15,5 +15,16 @@ public class ConversionCurrency implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String name;
+    /**
+     * 编号-代码 唯一
+     */
+    private String code;
+    /**
+     * 支付币种
+     */
+    private String currency;
+    /**
+     * 兑换币种
+     */
+    private String targetCurrency;
 }
