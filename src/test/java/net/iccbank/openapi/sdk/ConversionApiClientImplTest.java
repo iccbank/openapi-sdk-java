@@ -52,7 +52,7 @@ public class ConversionApiClientImplTest {
     @Test
     public void getConversionRate() {
         ConversionRateReq req =new ConversionRateReq();
-        req.setCode("BTC/ETH");
+//        req.setCode("BTC/ETH");
         req.setFixedRate(true);
         req.setAmountFrom(BigDecimal.ONE);
         ApiResponse<ConversionRate> result = client.getConversionRate(req);

@@ -50,11 +50,11 @@ public class ApiConstants {
 
 	public static final String GET_CURRENCY_BY_CODE = VERSION + "/currency/getByCode";
 
-	public static final String GET_CONVERSION_STATUS = VERSION + "/conversion/getConversionStatus";
+	public static final String GET_CONVERSION_STATUS = VERSION + "/conversion/getStatus";
 
-	public static final String GET_CONVERSION_DETAIL = VERSION + "/conversion/getConversionDetail";
+	public static final String GET_CONVERSION_DETAIL = VERSION + "/conversion/getDetail";
 
-	public static final String GET_CONVERSION_LIST = VERSION + "/conversion/getConversionList";
+	public static final String GET_CONVERSION_LIST = VERSION + "/conversion/getTransactions";
 
 	public static final String GET_CONVERSION_RATE = VERSION + "/conversionRate/getConversionRate";
 
