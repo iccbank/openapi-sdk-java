@@ -27,7 +27,6 @@ public interface ConversionApiClient {
     ApiResponse<List<ConversionCurrencyMineFee>> getCurrencyMineFeeList();
 
 
-
     /**
      * 获取兑换利率
      *
@@ -39,6 +38,7 @@ public interface ConversionApiClient {
     /**
      * 获取兑换订单详情
      *
+     * @param orderId 平台订单id
      * @return
      */
     ApiResponse<ConversionOrderDetail> getConversionOrderDetail(String orderId);
@@ -47,15 +47,42 @@ public interface ConversionApiClient {
     /**
      * 获取兑换订单状态
      *
+     * @param orderId 平台订单id
      * @return
      */
     ApiResponse<ConversionOrderStatus> getConversionOrderStatus(String orderId);
 
 
+    /**
+     * 发起固定费率兑换
+     *
+     * @param source             兑换订单来源
+     * @param orderId            第三方给的id 可以为空
+     * @param rateId             固定汇率id
+     * @param code               币对
+     * @param payoutAddress      兑换地址
+     * @param payoutLabelAddress 兑换地址标签
+     * @param refundAddress      退款地址
+     * @param refundLabelAddress 退款地址标签
+     * @param amountExpectedFrom 预计支付金额
+     * @param amountExpectedTo   预计收到金额
+     * @return
+     */
     ApiResponse<CreateFixRateConversion> createFixRateConversion(String source, String orderId, Long rateId, String code,
                                                                  String payoutAddress, String payoutLabelAddress, String refundAddress, String refundLabelAddress,
                                                                  BigDecimal amountExpectedFrom, BigDecimal amountExpectedTo);
 
+    /**
+     * 发起浮动利率兑换
+     *
+     * @param source             兑换订单来源
+     * @param orderId            第三方给的id 可以为空
+     * @param code               币对
+     * @param payoutAddress      兑换地址
+     * @param payoutLabelAddress 兑换地址标签
+     * @param amountExpectedFrom 预计支付金额
+     * @return
+     */
     ApiResponse<CreateFloatRateConversion> createFloatRateConversion(String source, String orderId, String code,
                                                                      String payoutAddress, String payoutLabelAddress, BigDecimal amountExpectedFrom);
 }
