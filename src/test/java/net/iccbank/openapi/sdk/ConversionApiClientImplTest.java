@@ -7,6 +7,7 @@ import net.iccbank.openapi.sdk.model.conversion.ConversionCurrency;
 import net.iccbank.openapi.sdk.model.conversion.ConversionCurrencyMineFee;
 import net.iccbank.openapi.sdk.model.conversion.CreateFixRateConversion;
 import net.iccbank.openapi.sdk.model.conversion.CreateFloatRateConversion;
+import net.iccbank.openapi.sdk.model.page.PageBO;
 import net.iccbank.openapi.sdk.utils.JsonUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,6 +47,15 @@ public class ConversionApiClientImplTest {
     @Test
     public void getConversionOrderDetail() {
         ApiResponse<ConversionOrderDetail> result = client.getConversionOrderDetail("1076678620767154176");
+        System.out.println(JsonUtils.toJsonString(result));
+    }
+
+    @Test
+    public void getConversionOrderList() {
+        GetConversionListReq req = new GetConversionListReq();
+        req.setPageIndex(3);
+        req.setPageSize(20);
+        ApiResponse<PageBO<ConversionOrderDetail>> result = client.getConversionOrderList(req);
         System.out.println(JsonUtils.toJsonString(result));
     }
 

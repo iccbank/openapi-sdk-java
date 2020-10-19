@@ -9,6 +9,7 @@ import net.iccbank.openapi.sdk.model.conversion.ConversionCurrency;
 import net.iccbank.openapi.sdk.model.conversion.ConversionCurrencyMineFee;
 import net.iccbank.openapi.sdk.model.conversion.CreateFixRateConversion;
 import net.iccbank.openapi.sdk.model.conversion.CreateFloatRateConversion;
+import net.iccbank.openapi.sdk.model.page.PageBO;
 import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
 import net.iccbank.openapi.sdk.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -343,6 +344,28 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_CONVERSION_STATUS);
         String resBody = callToString(url, paramsMap);
         return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ConversionOrderStatus>>(){});
+    }
+
+
+    @Override
+    public ApiResponse<PageBO<ConversionOrderDetail>> getConversionOrderList(GetConversionListReq req) {
+
+        TreeMap<String, Object> paramsMap = new TreeMap<>();
+        if(req != null){
+            paramsMap.put("orderSource", req.getOrderSource());
+            paramsMap.put("currencyFrom", req.getCurrencyFrom());
+            paramsMap.put("currencyTo", req.getCurrencyTo());
+            paramsMap.put("rateType", req.getRateType());
+            paramsMap.put("status", req.getStatus());
+            paramsMap.put("refundStatus", req.getRefundStatus());
+            paramsMap.put("pageIndex", req.getPageIndex());
+            paramsMap.put("pageSize", req.getPageSize());
+        }
+
+
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_CONVERSION_LIST);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<PageBO<ConversionOrderDetail>>>(){});
     }
 
 }

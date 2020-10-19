@@ -6,6 +6,7 @@ import net.iccbank.openapi.sdk.model.conversion.ConversionCurrency;
 import net.iccbank.openapi.sdk.model.conversion.ConversionCurrencyMineFee;
 import net.iccbank.openapi.sdk.model.conversion.CreateFixRateConversion;
 import net.iccbank.openapi.sdk.model.conversion.CreateFloatRateConversion;
+import net.iccbank.openapi.sdk.model.page.PageBO;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -50,6 +51,14 @@ public interface ConversionApiClient {
      * @return
      */
     ApiResponse<ConversionOrderStatus> getConversionOrderStatus(String orderId);
+
+
+    /**
+     * 获取兑换订单列表
+     *
+     * @return
+     */
+    ApiResponse<PageBO<ConversionOrderDetail>> getConversionOrderList(GetConversionListReq req);
 
 
     ApiResponse<CreateFixRateConversion> createFixRateConversion(String source, String orderId, Long rateId, String code,
