@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import net.iccbank.openapi.sdk.exception.ICCBankException;
 import net.iccbank.openapi.sdk.model.ApiEncryptedBody;
 import net.iccbank.openapi.sdk.model.ApiResponse;
+import net.iccbank.openapi.sdk.model.swap.ApiAddLiquidityRes;
+import net.iccbank.openapi.sdk.model.swap.ApiRemoveLiquidityRes;
 import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
 import net.iccbank.openapi.sdk.utils.JsonUtils;
 
@@ -211,12 +213,22 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
 	}
 
 	@Override
-	public ApiResponse<Object> addLiquidity(String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired, BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine) {
+	public ApiResponse<Object> addLiquidity(String thirdId, String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired, BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine) {
 		return null;
 	}
 
 	@Override
-	public ApiResponse<Object> removeLiquidity(String tokenA, String tokenB, BigDecimal liquidity, BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine) {
+	public ApiResponse<Object> removeLiquidity(String thirdId, String tokenA, String tokenB, BigDecimal liquidity, BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine) {
+		return null;
+	}
+
+	@Override
+	public ApiResponse<ApiAddLiquidityRes> queryAddLiquidity(String thirdId) {
+		return null;
+	}
+
+	@Override
+	public ApiResponse<ApiRemoveLiquidityRes> queryRemoveLiquidity(String thirdId) {
 		return null;
 	}
 }
