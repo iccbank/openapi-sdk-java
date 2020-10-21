@@ -1,7 +1,9 @@
 package net.iccbank.openapi.sdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import net.iccbank.openapi.sdk.enums.SwapMethodNameEnum;
 import net.iccbank.openapi.sdk.exception.ICCBankException;
+import net.iccbank.openapi.sdk.model.ApiCurrencyData;
 import net.iccbank.openapi.sdk.model.ApiEncryptedBody;
 import net.iccbank.openapi.sdk.model.ApiResponse;
 import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
@@ -14,209 +16,308 @@ import java.util.*;
 
 public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encryptable {
 
-	private String urlPrefix;
-	private String appId;
-	private String appSecret;
-	private String token;
+    private String urlPrefix;
+    private String appId;
+    private String appSecret;
+    private String token;
 
-	/**
-	 * ApiClient
-	 *
-	 * @param appId AppID
-	 * @param appSecret 应用密钥
-	 * @param token 报文加解密的token
-	 */
-	public SwapApiClientImpl(String appId, String appSecret, String token) {
-		this(null, appId, appSecret, token);
-	}
+    /**
+     * ApiClient
+     *
+     * @param appId     AppID
+     * @param appSecret 应用密钥
+     * @param token     报文加解密的token
+     */
+    public SwapApiClientImpl(String appId, String appSecret, String token) {
+        this(null, appId, appSecret, token);
+    }
 
-	/**
-	 * ApiClient
-	 *
-	 * @param urlPrefix 接口前缀, 默认 https://api.iccbank.net/
-	 * @param appId AppID
-	 * @param appSecret 应用密钥
-	 * @param token 报文加解密的token
-	 */
-	public SwapApiClientImpl(String urlPrefix, String appId, String appSecret, String token) {
-		this(urlPrefix, appId, appSecret, token, 30, 30, 30);
-	}
+    /**
+     * ApiClient
+     *
+     * @param urlPrefix 接口前缀, 默认 https://api.iccbank.net/
+     * @param appId     AppID
+     * @param appSecret 应用密钥
+     * @param token     报文加解密的token
+     */
+    public SwapApiClientImpl(String urlPrefix, String appId, String appSecret, String token) {
+        this(urlPrefix, appId, appSecret, token, 30, 30, 30);
+    }
 
-	/**
-	 * ApiClient
-	 *
-	 * @param urlPrefix 接口前缀, 默认 https://api.iccbank.net/
-	 * @param appId AppID
-	 * @param appSecret 应用密钥
-	 * @param token 报文加解密的token
-	 * @param connectTimeout
-	 * @param writeTimeout
-	 * @param readTimeout
-	 */
-	public SwapApiClientImpl(String urlPrefix, String appId, String appSecret, String token, long connectTimeout, long writeTimeout, long readTimeout) {
-		if (urlPrefix == null) {
-			this.urlPrefix = ApiConstants.URL_PREFIX;
-		} else {
-			this.urlPrefix = urlPrefix;
-			if (!urlPrefix.endsWith("/")) {
-				this.urlPrefix = this.urlPrefix + "/";
-			}
-		}
-		this.appId = appId;
-		this.appSecret = appSecret;
-		this.token = token;
-		
-		this.connectTimeout = connectTimeout;
-		this.writeTimeout = writeTimeout;
-		this.readTimeout = readTimeout;
-	}
+    /**
+     * ApiClient
+     *
+     * @param urlPrefix      接口前缀, 默认 https://api.iccbank.net/
+     * @param appId          AppID
+     * @param appSecret      应用密钥
+     * @param token          报文加解密的token
+     * @param connectTimeout
+     * @param writeTimeout
+     * @param readTimeout
+     */
+    public SwapApiClientImpl(String urlPrefix, String appId, String appSecret, String token, long connectTimeout, long writeTimeout, long readTimeout) {
+        if (urlPrefix == null) {
+            this.urlPrefix = ApiConstants.URL_PREFIX;
+        } else {
+            this.urlPrefix = urlPrefix;
+            if (!urlPrefix.endsWith("/")) {
+                this.urlPrefix = this.urlPrefix + "/";
+            }
+        }
+        this.appId = appId;
+        this.appSecret = appSecret;
+        this.token = token;
 
-	@Override
-	public String encrypt(String data) {
-		try {
-			String encryptedData = AlgorithmUtils.encryptWith3DES(data, token);
-			ApiEncryptedBody reqBody = new ApiEncryptedBody(ApiConstants.ALGORITHM_DESEDE, encryptedData);
-			return JsonUtils.toJsonString(reqBody);
-		} catch (Exception e) {
-			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Encrypt Signature] error: " + e.getMessage());
-		}
-	}
-	
-	@Override
-	public String decrypt(String encryptedResBody) {
+        this.connectTimeout = connectTimeout;
+        this.writeTimeout = writeTimeout;
+        this.readTimeout = readTimeout;
+    }
 
-		String resPlainData = null;
+    @Override
+    public String encrypt(String data) {
+        try {
+            String encryptedData = AlgorithmUtils.encryptWith3DES(data, token);
+            ApiEncryptedBody reqBody = new ApiEncryptedBody(ApiConstants.ALGORITHM_DESEDE, encryptedData);
+            return JsonUtils.toJsonString(reqBody);
+        } catch (Exception e) {
+            throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Encrypt Signature] error: " + e.getMessage());
+        }
+    }
 
-		TreeMap<String, Object> resJson = JsonUtils.parseTreeMap(encryptedResBody);
-		if(resJson.containsKey(ApiConstants.RES_ENCRYPTED_DATA)){
-			try {
-				ApiEncryptedBody resBody = JsonUtils.parseObject(encryptedResBody, ApiEncryptedBody.class);
+    @Override
+    public String decrypt(String encryptedResBody) {
 
-				resPlainData = AlgorithmUtils.decryptWith3DES(resBody.getEncryptedData(), token);
-			} catch (Exception e) {
-				throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Decrypt Signature] error: " + e.getMessage());
-			}
+        String resPlainData = null;
 
-		}else {
-			//针对没有加密报文体
-			resPlainData = encryptedResBody;
-		}
+        TreeMap<String, Object> resJson = JsonUtils.parseTreeMap(encryptedResBody);
+        if (resJson.containsKey(ApiConstants.RES_ENCRYPTED_DATA)) {
+            try {
+                ApiEncryptedBody resBody = JsonUtils.parseObject(encryptedResBody, ApiEncryptedBody.class);
 
-		return resPlainData;
-	}
-	
-	private <T> ApiResponse<T> call(String url, TreeMap<String, Object> paramsMap){
-		String resBody = callToString(url, paramsMap);
-		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<T>>(){});
-	}
+                resPlainData = AlgorithmUtils.decryptWith3DES(resBody.getEncryptedData(), token);
+            } catch (Exception e) {
+                throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Decrypt Signature] error: " + e.getMessage());
+            }
 
-	private String callToString(String url, TreeMap<String, Object> paramsMap){
-		// 签名
-		String reqBody = sign(paramsMap);
-		
-		// 加密
-		String encryptedReqBody = encrypt(reqBody);
-		
-		// 请求
-		String encryptedResBody = null;
-		try {
-			//请求响应
-			encryptedResBody = callPost(url, initHeaders(), encryptedReqBody);
-		} catch (IOException e) {
-			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Invoking] Unexpected error: " + e.getMessage());
-		}
+        } else {
+            //针对没有加密报文体
+            resPlainData = encryptedResBody;
+        }
 
-		// AES解密，返回值不需要验证签名
-		String resBody = decrypt(encryptedResBody);
+        return resPlainData;
+    }
 
-		ApiResponse apiResponse = JsonUtils.parseObject(resBody, ApiResponse.class);
-		if(apiResponse != null){
-			if(!apiResponse.isSuccess()){
-				throw ICCBankException.buildException(apiResponse.getSubCode(), apiResponse.getSubMsg());
-			}
-		}
+    private <T> ApiResponse<T> call(String url, TreeMap<String, Object> paramsMap) {
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<T>>() {
+        });
+    }
 
-		return resBody;
-	}
+    private String callToString(String url, TreeMap<String, Object> paramsMap) {
+        // 签名
+        String reqBody = sign(paramsMap);
 
-	private String sign(TreeMap<String, Object> paramsMap) {
-		paramsMap.putAll(initCommonParameters());
-		//String json = JsonUtils.toJsonString(paramsMap);
-		String plainText = getText(paramsFilter(paramsMap), "&");
-		try {
-			String sign = AlgorithmUtils.signWithRSA(plainText, appSecret);
-			paramsMap.put(ApiConstants.PARAMETER_SIGN, sign);
-			return JsonUtils.toJsonString(paramsMap);
-		} catch (Exception e) {
-			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Build Signature] error: " + e.getMessage());
-		}
-	}
+        // 加密
+        String encryptedReqBody = encrypt(reqBody);
 
-	/**
-	 * @param params 签名参数
-	 * @return 返回参与MD5签名的Map参数集合
-	 * @description 过滤掉签名参数中的空值以及签名参数，使其不参与签名
-	 */
-	public static Map<String, String> paramsFilter(Map<String, Object> params) {
-		Map<String, String> result = new TreeMap<String, String>();
-		if (params == null || params.size() <= 0) {
-			return result;
-		}
-		for (String key : params.keySet()) {
-			Object value = params.get(key);
-			if (value == null || value.equals("") || key.equalsIgnoreCase("sign") || key.equals("signKey")) {
-				continue;
-			}
-			result.put(key, value.toString());
-		}
-		return result;
-	}
+        // 请求
+        String encryptedResBody = null;
+        try {
+            //请求响应
+            encryptedResBody = callPost(url, initHeaders(), encryptedReqBody);
+        } catch (IOException e) {
+            throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Invoking] Unexpected error: " + e.getMessage());
+        }
+
+        // AES解密，返回值不需要验证签名
+        String resBody = decrypt(encryptedResBody);
+
+        ApiResponse apiResponse = JsonUtils.parseObject(resBody, ApiResponse.class);
+        if (apiResponse != null) {
+            if (!apiResponse.isSuccess()) {
+                throw ICCBankException.buildException(apiResponse.getSubCode(), apiResponse.getSubMsg());
+            }
+        }
+
+        return resBody;
+    }
+
+    private String sign(TreeMap<String, Object> paramsMap) {
+        paramsMap.putAll(initCommonParameters());
+        //String json = JsonUtils.toJsonString(paramsMap);
+        String plainText = getText(paramsFilter(paramsMap), "&");
+        try {
+            String sign = AlgorithmUtils.signWithRSA(plainText, appSecret);
+            paramsMap.put(ApiConstants.PARAMETER_SIGN, sign);
+            return JsonUtils.toJsonString(paramsMap);
+        } catch (Exception e) {
+            throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Build Signature] error: " + e.getMessage());
+        }
+    }
+
+    /**
+     * @param params 签名参数
+     * @return 返回参与MD5签名的Map参数集合
+     * @description 过滤掉签名参数中的空值以及签名参数，使其不参与签名
+     */
+    public static Map<String, String> paramsFilter(Map<String, Object> params) {
+        Map<String, String> result = new TreeMap<String, String>();
+        if (params == null || params.size() <= 0) {
+            return result;
+        }
+        for (String key : params.keySet()) {
+            Object value = params.get(key);
+            if (value == null || value.equals("") || key.equalsIgnoreCase("sign") || key.equals("signKey")) {
+                continue;
+            }
+            result.put(key, value.toString());
+        }
+        return result;
+    }
 
 
-	/**
-	 * @param params 签名参数
-	 * @param join   连接符
-	 * @return 返回签名参数经过连接符拼装过后的字符串
-	 * @description 将签名参数根据连接符进行拼装，组成我们想要格式的字符串（不包含签名秘钥）
-	 */
-	public static String getText(Map<String, String> params, String join) {
-		List<String> keys = new ArrayList<String>(params.keySet());
-		Collections.sort(keys);
-		String text = "";
-		for (int i = 0; i < keys.size(); i++) {
-			String key = keys.get(i);
-			String value = params.get(key);
-			if (i == keys.size() - 1) {// 拼接时，不包括最后一个&字符
-				text = text + key + "=" + value;
-			} else {
-				text = text + key + "=" + value + join;
-			}
-		}
-		return text;
-	}
+    /**
+     * @param params 签名参数
+     * @param join   连接符
+     * @return 返回签名参数经过连接符拼装过后的字符串
+     * @description 将签名参数根据连接符进行拼装，组成我们想要格式的字符串（不包含签名秘钥）
+     */
+    public static String getText(Map<String, String> params, String join) {
+        List<String> keys = new ArrayList<String>(params.keySet());
+        Collections.sort(keys);
+        String text = "";
+        for (int i = 0; i < keys.size(); i++) {
+            String key = keys.get(i);
+            String value = params.get(key);
+            if (i == keys.size() - 1) {// 拼接时，不包括最后一个&字符
+                text = text + key + "=" + value;
+            } else {
+                text = text + key + "=" + value + join;
+            }
+        }
+        return text;
+    }
 
-	private Map<String, String> initHeaders(){
-		Map<String, String> map = new HashMap<String, String>();
-		map.put(ApiConstants.HEADER_OPENAPI_APP_ID, appId);
-		return map;
-	}
-	
-	private TreeMap<String, Object> initCommonParameters(){
-		TreeMap<String, Object> map = new TreeMap<String, Object>();
-		map.put(ApiConstants.PARAMETER_APP_ID, appId);
-		map.put(ApiConstants.PARAMETER_TIMESTAMP, System.currentTimeMillis());
-		map.put(ApiConstants.PARAMETER_NONCE, UUID.randomUUID().toString().replaceAll("-", ""));
-		map.put(ApiConstants.PARAMETER_SIGN_TYPE, ApiConstants.ALGORITHM_RSA);
-		return map;
-	}
+    private Map<String, String> initHeaders() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put(ApiConstants.HEADER_OPENAPI_APP_ID, appId);
+        return map;
+    }
 
-	@Override
-	public ApiResponse<Object> addLiquidity(String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired, BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine) {
-		return null;
-	}
+    private TreeMap<String, Object> initCommonParameters() {
+        TreeMap<String, Object> map = new TreeMap<String, Object>();
+        map.put(ApiConstants.PARAMETER_APP_ID, appId);
+        map.put(ApiConstants.PARAMETER_TIMESTAMP, System.currentTimeMillis());
+        map.put(ApiConstants.PARAMETER_NONCE, UUID.randomUUID().toString().replaceAll("-", ""));
+        map.put(ApiConstants.PARAMETER_SIGN_TYPE, ApiConstants.ALGORITHM_RSA);
+        return map;
+    }
 
-	@Override
-	public ApiResponse<Object> removeLiquidity(String tokenA, String tokenB, BigDecimal liquidity, BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine) {
-		return null;
-	}
+    @Override
+    public ApiResponse<Object> addLiquidity(String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired, BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine) {
+        return null;
+    }
+
+    @Override
+    public ApiResponse<Object> removeLiquidity(String tokenA, String tokenB, BigDecimal liquidity, BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine) {
+        return null;
+    }
+
+    @Override
+    public ApiResponse<Object> swap(String thirdId, String tokenIn, String tokenOut, String addressIn, String methodName, String[] swapContractPath, BigDecimal amountIn, BigDecimal amountInMax, BigDecimal amountOut, BigDecimal amountOutMin, BigDecimal amountOutMax, String addressOut, Long deadline) {
+
+        checkSwapParams(thirdId, tokenIn, tokenOut, addressIn, methodName, swapContractPath, addressOut, deadline);
+        checkSwapContractUniqueParams(methodName, amountIn, amountInMax, amountOut, amountOutMin, amountInMax);
+
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        paramsMap.put("thirdId", thirdId);
+        paramsMap.put("tokenIn", tokenIn);
+        paramsMap.put("tokenOut", tokenOut);
+        paramsMap.put("addressIn", addressIn);
+        paramsMap.put("methodName", methodName);
+        paramsMap.put("swapContractPath", swapContractPath);
+        paramsMap.put("amountIn", amountIn);
+        paramsMap.put("amountInMax", amountInMax);
+        paramsMap.put("amountOut", amountOut);
+        paramsMap.put("amountOutMin", amountOutMin);
+        paramsMap.put("amountOutMax", amountOutMax);
+        paramsMap.put("addressOut", addressOut);
+        paramsMap.put("deadline", deadline);
+
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CURRENCY_SEARCH);
+        return call(url, paramsMap);
+    }
+
+    private void checkSwapParams(String thirdId, String tokenIn, String tokenOut, String addressIn, String methodName, String[] swapContractPath, String addressOut, Long deadline) {
+        if (thirdId == null || thirdId.trim().equals("")) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [thirdId]  required");
+        }
+        if ((tokenIn == null || tokenIn.trim().equals("")) && (tokenOut == null || tokenOut.trim().equals(""))) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [tokenIn] OR [tokenOut] required");
+        }
+        if (addressIn == null || addressIn.trim().equals("")) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [addressIn]  required");
+        }
+        if (methodName == null || methodName.trim().equals("")) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [methodName]  required");
+        }
+        if (swapContractPath == null || swapContractPath.length <= 0) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [swapContractPath]  required");
+        }
+        for (String path : swapContractPath) {
+            if (path == null || path.trim().equals("")) {
+                throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "invalid parameter [swapContractPath]");
+            }
+        }
+        if (addressOut == null || addressOut.trim().equals("")) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [addressOut]  required");
+        }
+        if (deadline == null) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [deadline]  required");
+        }
+
+    }
+
+    private void checkSwapContractUniqueParams(String methodName, BigDecimal amountIn, BigDecimal amountInMax, BigDecimal amountOut, BigDecimal amountOutMin, BigDecimal amountOutMax) {
+
+        if (methodName.equals(SwapMethodNameEnum.SWAP_EXACT_TOKENS_FOR_TOKENS.getName())) {
+            checkAmount(amountOut, "amountIn");
+            checkAmount(amountInMax, "amountOutMin");
+            return ;
+        }
+
+        if (methodName.equals(SwapMethodNameEnum.SWAP_TOKENS_FOR_EXACT_TOKENS.getName())) {
+            checkAmount(amountOut, "amountOut");
+            checkAmount(amountInMax, "amountInMax");
+            return ;
+        }
+
+        if (methodName.equals(SwapMethodNameEnum.SWAP_EXACT_ETH_FOR_TOKENS.getName())) {
+            checkAmount(amountOut, "amountOutMin");
+            return ;
+        }
+
+        if (methodName.equals(SwapMethodNameEnum.SWAP_TOKENS_FOR_EXACT_ETH.getName())) {
+            checkAmount(amountOut, "amountOut");
+            checkAmount(amountInMax, "amountInMax");
+            return ;
+        }
+
+        if (methodName.equals(SwapMethodNameEnum.SWAP_EXACT_TOKENS_FOR_ETH.getName())) {
+            checkAmount(amountIn, "amountIn");
+            checkAmount(amountOutMin, "amountOutMin");
+            return ;
+        }
+
+        if (methodName.equals(SwapMethodNameEnum.SWAP_ETH_FOR_EXACT_TOKENS.getName())) {
+            checkAmount(amountOut, "amountOut");
+            return ;
+        }
+    }
+
+    private void checkAmount(BigDecimal amount, String amountTypeName) {
+        if (amount == null || (amount != null && amount.compareTo(BigDecimal.ZERO) <= 0)) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [" + amountTypeName + "] is null or invalid");
+        }
+    }
 }
