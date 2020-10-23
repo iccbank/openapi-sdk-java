@@ -23,7 +23,7 @@ public interface SwapApiClient {
      * @param addressTo      用户token地址
      * @param deadLine       处理截止时间戳（秒）
      */
-    ApiResponse<Object> addLiquidity(String thirdId, String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired,
+    ApiResponse<Object> addLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired,
                                      BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine);
 
     /**
@@ -38,7 +38,7 @@ public interface SwapApiClient {
      * @param addressTo  用户token地址
      * @param deadLine   处理截止时间戳（秒）
      */
-    ApiResponse<Object> removeLiquidity(String thirdId, String tokenA, String tokenB, BigDecimal liquidity,
+    ApiResponse<Object> removeLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal liquidity,
                                         BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine);
 
     /**

@@ -10,6 +10,7 @@ import net.iccbank.openapi.sdk.model.swap.ApiRemoveLiquidityRes;
 import net.iccbank.openapi.sdk.model.swap.ApiSwapRes;
 import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
 import net.iccbank.openapi.sdk.utils.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -215,20 +216,65 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         return map;
     }
 
-	@Override
-	public ApiResponse<Object> addLiquidity(String thirdId, String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired, BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine) {
-		return null;
-	}
+    @Override
+    public ApiResponse<Object> addLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired,
+                                            BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine) {
+        checkStringParam(thirdId, "thirdId");
+        checkStringParam(methodName, "methodName");
+        checkStringParam(tokenA, "tokenA");
+        checkStringParam(addressTo, "addressTo");
 
-	@Override
-	public ApiResponse<Object> removeLiquidity(String thirdId, String tokenA, String tokenB, BigDecimal liquidity, BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine) {
-		return null;
-	}
+        checkAmountParam(amountADesired, "amountADesired");
+        checkAmountParam(amountBDesired, "amountBDesired");
+        checkAmountParam(amountAMin, "amountAMin");
+        checkAmountParam(amountBMin, "amountBMin");
+        if (deadLine == null) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadLine] is null or invalid");
+        }
 
-	@Override
-	public ApiResponse<ApiAddLiquidityRes> queryAddLiquidity(String thirdId) {
-		return null;
-	}
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        paramsMap.put("thirdId", thirdId);
+        paramsMap.put("methodName", methodName);
+        paramsMap.put("tokenA", tokenA);
+        paramsMap.put("tokenB", tokenB);
+        paramsMap.put("amountADesired", amountADesired);
+        paramsMap.put("amountBDesired", amountBDesired);
+        paramsMap.put("amountAMin", amountAMin);
+        paramsMap.put("amountBMin", amountBMin);
+        paramsMap.put("addressTo", addressTo);
+        paramsMap.put("deadLine", deadLine);
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_ADD_LIQUIDITY);
+        return call(url, paramsMap);
+    }
+
+    @Override
+    public ApiResponse<Object> removeLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal liquidity,
+                                               BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine) {
+        checkStringParam(thirdId, "thirdId");
+        checkStringParam(methodName, "methodName");
+        checkStringParam(tokenA, "tokenA");
+        checkStringParam(addressTo, "addressTo");
+
+        checkAmountParam(liquidity, "liquidity");
+        checkAmountParam(amountAMin, "amountAMin");
+        checkAmountParam(amountBMin, "amountBMin");
+        if (deadLine == null) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadLine] is null or invalid");
+        }
+
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        paramsMap.put("thirdId", thirdId);
+        paramsMap.put("methodName", methodName);
+        paramsMap.put("tokenA", tokenA);
+        paramsMap.put("tokenB", tokenB);
+        paramsMap.put("liquidity", liquidity);
+        paramsMap.put("amountAMin", amountAMin);
+        paramsMap.put("amountBMin", amountBMin);
+        paramsMap.put("addressTo", addressTo);
+        paramsMap.put("deadLine", deadLine);
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_REMOVE_LIQUIDITY);
+        return call(url, paramsMap);
+    }
 
     @Override
     public ApiResponse<Object> swap(String thirdId, String tokenIn, String tokenOut, String addressIn, String methodName, String[] swapContractPath, BigDecimal amountIn, BigDecimal amountInMax, BigDecimal amountOut, BigDecimal amountOutMin, BigDecimal amountOutMax, String addressOut, Long deadline) {
@@ -322,21 +368,41 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         }
     }
 
+    private void checkStringParam(String str, String amountTypeName) {
+        if (StringUtils.isBlank(str)) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [" + amountTypeName + "] is null or invalid");
+        }
+    }
+
     private void checkAmountParam(BigDecimal amount, String amountTypeName) {
         if (amount == null || (amount != null && amount.compareTo(BigDecimal.ZERO) <= 0)) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [" + amountTypeName + "] is null or invalid");
         }
     }
+
+    @Override
+    public ApiResponse<ApiAddLiquidityRes> queryAddLiquidity(String thirdId) {
+        checkStringParam(thirdId, "thirdId");
+
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        paramsMap.put("thirdId", thirdId);
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_QUERY_ADD_LIQUIDITY);
+        return call(url, paramsMap);
+    }
+
 	@Override
 	public ApiResponse<ApiRemoveLiquidityRes> queryRemoveLiquidity(String thirdId) {
-		return null;
+        checkStringParam(thirdId, "thirdId");
+
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        paramsMap.put("thirdId", thirdId);
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_REMOVE_LIQUIDITY);
+        return call(url, paramsMap);
 	}
 
     @Override
     public ApiResponse<ApiSwapRes> querySwapStatus(String thirdId) {
-        if(thirdId == null || "".equals(thirdId)){
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [thirdId]  required");
-        }
+        checkStringParam(thirdId, "thirdId");
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("thirdId", thirdId);
