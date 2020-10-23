@@ -12,4 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApiSwapRes implements Serializable {
+
+    public Integer status;
+
 }
