@@ -57,7 +57,7 @@ public interface SwapApiClient {
      * @param deadline         截止时间(时间戳)
      * @return
      */
-    ApiResponse<Object> swap(String thirdId,String tokenIn, String tokenOut, String addressIn, String methodName,
+    ApiResponse<Object> swap(String thirdId,String tokenIn, String tokenOut, String addressIn, String minerInFee,String methodName,
                              String[] swapContractPath, BigDecimal amountIn, BigDecimal amountInMax,
                              BigDecimal amountOut, BigDecimal amountOutMin, BigDecimal amountOutMax, String addressOut, Long deadline);
 

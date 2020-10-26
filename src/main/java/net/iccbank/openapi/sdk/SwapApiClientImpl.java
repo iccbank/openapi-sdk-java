@@ -277,9 +277,9 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
     }
 
     @Override
-    public ApiResponse<Object> swap(String thirdId, String tokenIn, String tokenOut, String addressIn, String methodName, String[] swapContractPath, BigDecimal amountIn, BigDecimal amountInMax, BigDecimal amountOut, BigDecimal amountOutMin, BigDecimal amountOutMax, String addressOut, Long deadline) {
+    public ApiResponse<Object> swap(String thirdId, String tokenIn, String tokenOut, String addressIn, String minerInFee,  String methodName, String[] swapContractPath, BigDecimal amountIn, BigDecimal amountInMax, BigDecimal amountOut, BigDecimal amountOutMin, BigDecimal amountOutMax, String addressOut, Long deadline) {
 
-        checkSwapParams(thirdId, tokenIn, tokenOut, addressIn, methodName, swapContractPath, addressOut, deadline);
+        checkSwapParams(thirdId, tokenIn, tokenOut, addressIn,minerInFee, methodName, swapContractPath, addressOut, deadline);
         checkSwapContractUniqueParams(methodName, amountIn, amountInMax, amountOut, amountOutMin, amountInMax);
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -287,6 +287,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         paramsMap.put("tokenIn", tokenIn);
         paramsMap.put("tokenOut", tokenOut);
         paramsMap.put("addressIn", addressIn);
+        paramsMap.put("minerInFee", minerInFee);
         paramsMap.put("methodName", methodName);
         paramsMap.put("swapContractPath", swapContractPath);
         paramsMap.put("amountIn", amountIn);
@@ -297,11 +298,11 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         paramsMap.put("addressOut", addressOut);
         paramsMap.put("deadline", deadline);
 
-        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CURRENCY_SEARCH);
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_CREATE_TRANSACTION);
         return call(url, paramsMap);
     }
 
-    private void checkSwapParams(String thirdId, String tokenIn, String tokenOut, String addressIn, String methodName, String[] swapContractPath, String addressOut, Long deadline) {
+    private void checkSwapParams( String thirdId, String tokenIn, String tokenOut, String addressIn, String minerInFee,String methodName, String[] swapContractPath, String addressOut, Long deadline) {
         if (thirdId == null || thirdId.trim().equals("")) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [thirdId]  required");
         }
@@ -310,6 +311,9 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         }
         if (addressIn == null || addressIn.trim().equals("")) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [addressIn]  required");
+        }
+        if (minerInFee == null || minerInFee.trim().equals("")) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [methodName]  required");
         }
         if (methodName == null || methodName.trim().equals("")) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [methodName]  required");
