@@ -136,4 +136,12 @@ public interface ApiClient {
 	 * @param accountType 币种
 	 */
 	ApiResponse<ApiMchBalance.BalanceNode> getBalancesForCurrencyCodeAndAccountType(String currencyCode, Long accountType);
+
+	/**
+	 * @Author huailong.wang
+	 * @Description 查询账户（指定币种）总资产
+	 * @Date Created on 2020/10/26 11:41
+	 * @param currencyCode 币种
+	 */
+	ApiResponse<ApiMchBalance.BalanceNode> getTotalBalancesForCurrencyCode(String currencyCode);
 }
