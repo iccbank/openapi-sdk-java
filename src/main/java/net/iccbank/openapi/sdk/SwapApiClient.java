@@ -49,17 +49,13 @@ public interface SwapApiClient {
      * @param methodName       合约方法名
      * @param swapContractPath 币对合约地址
      * @param amountIn         扣除资金代币数量
-     * @param amountInMax      最大可扣除资金代币数量
      * @param amountOut        预期兑换资金代币数量
-     * @param amountOutMin     最少兑换资金代币数量
-     * @param amountOutMax     最多兑换资金代币数量
      * @param addressOut        转出地址
      * @param deadline         截止时间(时间戳)
      * @return
      */
     ApiResponse<Object> swap(String thirdId,String tokenIn, String tokenOut, String addressIn, String minerInFee,String methodName,
-                             String[] swapContractPath, BigDecimal amountIn, BigDecimal amountInMax,
-                             BigDecimal amountOut, BigDecimal amountOutMin, BigDecimal amountOutMax, String addressOut, Long deadline);
+                             String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut, String addressOut, Long deadline);
 
 
     /**

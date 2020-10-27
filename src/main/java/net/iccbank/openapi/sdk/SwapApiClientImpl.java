@@ -277,10 +277,9 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
     }
 
     @Override
-    public ApiResponse<Object> swap(String thirdId, String tokenIn, String tokenOut, String addressIn, String minerInFee,  String methodName, String[] swapContractPath, BigDecimal amountIn, BigDecimal amountInMax, BigDecimal amountOut, BigDecimal amountOutMin, BigDecimal amountOutMax, String addressOut, Long deadline) {
+    public ApiResponse<Object> swap(String thirdId, String tokenIn, String tokenOut, String addressIn, String minerInFee,  String methodName, String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut,  String addressOut, Long deadline) {
 
-        checkSwapParams(thirdId, tokenIn, tokenOut, addressIn,minerInFee, methodName, swapContractPath, addressOut, deadline);
-        checkSwapContractUniqueParams(methodName, amountIn, amountInMax, amountOut, amountOutMin, amountInMax);
+        checkSwapParams(thirdId, tokenIn, tokenOut, addressIn,minerInFee, methodName, swapContractPath, addressOut, deadline,amountIn,amountOut);
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("thirdId", thirdId);
@@ -291,10 +290,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         paramsMap.put("methodName", methodName);
         paramsMap.put("swapContractPath", swapContractPath);
         paramsMap.put("amountIn", amountIn);
-        paramsMap.put("amountInMax", amountInMax);
         paramsMap.put("amountOut", amountOut);
-        paramsMap.put("amountOutMin", amountOutMin);
-        paramsMap.put("amountOutMax", amountOutMax);
         paramsMap.put("addressOut", addressOut);
         paramsMap.put("deadline", deadline);
 
@@ -302,7 +298,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         return call(url, paramsMap);
     }
 
-    private void checkSwapParams( String thirdId, String tokenIn, String tokenOut, String addressIn, String minerInFee,String methodName, String[] swapContractPath, String addressOut, Long deadline) {
+    private void checkSwapParams( String thirdId, String tokenIn, String tokenOut, String addressIn, String minerInFee,String methodName, String[] swapContractPath, String addressOut, Long deadline, BigDecimal amountIn, BigDecimal amountOut) {
         if (thirdId == null || thirdId.trim().equals("")) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [thirdId]  required");
         }
@@ -332,45 +328,15 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         if (deadline == null) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [deadline]  required");
         }
+        if (amountIn == null || amountIn.compareTo(BigDecimal.ZERO) <= 0) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [" + amountIn + "] is null or invalid");
+        }
+        if (amountOut == null || amountOut.compareTo(BigDecimal.ZERO) <= 0) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [" + amountOut + "] is null or invalid");
+        }
 
     }
 
-    private void checkSwapContractUniqueParams(String methodName, BigDecimal amountIn, BigDecimal amountInMax, BigDecimal amountOut, BigDecimal amountOutMin, BigDecimal amountOutMax) {
-
-        if (methodName.equals(SwapMethodNameEnum.SWAP_EXACT_TOKENS_FOR_TOKENS.getName())) {
-            checkAmountParam(amountOut, "amountIn");
-            checkAmountParam(amountInMax, "amountOutMin");
-            return ;
-        }
-
-        if (methodName.equals(SwapMethodNameEnum.SWAP_TOKENS_FOR_EXACT_TOKENS.getName())) {
-            checkAmountParam(amountOut, "amountOut");
-            checkAmountParam(amountInMax, "amountInMax");
-            return ;
-        }
-
-        if (methodName.equals(SwapMethodNameEnum.SWAP_EXACT_ETH_FOR_TOKENS.getName())) {
-            checkAmountParam(amountOut, "amountOutMin");
-            return ;
-        }
-
-        if (methodName.equals(SwapMethodNameEnum.SWAP_TOKENS_FOR_EXACT_ETH.getName())) {
-            checkAmountParam(amountOut, "amountOut");
-            checkAmountParam(amountInMax, "amountInMax");
-            return ;
-        }
-
-        if (methodName.equals(SwapMethodNameEnum.SWAP_EXACT_TOKENS_FOR_ETH.getName())) {
-            checkAmountParam(amountIn, "amountIn");
-            checkAmountParam(amountOutMin, "amountOutMin");
-            return ;
-        }
-
-        if (methodName.equals(SwapMethodNameEnum.SWAP_ETH_FOR_EXACT_TOKENS.getName())) {
-            checkAmountParam(amountOut, "amountOut");
-            return ;
-        }
-    }
 
     private void checkStringParam(String str, String amountTypeName) {
         if (StringUtils.isBlank(str)) {
@@ -379,7 +345,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
     }
 
     private void checkAmountParam(BigDecimal amount, String amountTypeName) {
-        if (amount == null || (amount != null && amount.compareTo(BigDecimal.ZERO) <= 0)) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [" + amountTypeName + "] is null or invalid");
         }
     }
