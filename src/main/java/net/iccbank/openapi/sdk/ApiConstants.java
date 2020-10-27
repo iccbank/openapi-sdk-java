@@ -61,6 +61,10 @@ public class ApiConstants {
 
 	public static final String SWAP_QUERY_REMOVE_LIQUIDITY = VERSION + "/queryRemoveLiquidity";
 
+	public static final String SWAP_QUERY_STATUS = VERSION + "/querySwapStatus";
+
+	public static final String SWAP_QUERY_DETAIL = VERSION + "/querySwapDetail";
+
 
 	public static final String concatUrl(String urlPrefix, String urlSuffix) {
 		return urlPrefix + urlSuffix;

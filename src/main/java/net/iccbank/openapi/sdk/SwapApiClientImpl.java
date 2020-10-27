@@ -7,6 +7,7 @@ import net.iccbank.openapi.sdk.model.ApiEncryptedBody;
 import net.iccbank.openapi.sdk.model.ApiResponse;
 import net.iccbank.openapi.sdk.model.swap.ApiAddLiquidityRes;
 import net.iccbank.openapi.sdk.model.swap.ApiRemoveLiquidityRes;
+import net.iccbank.openapi.sdk.model.swap.ApiSwapDetailRes;
 import net.iccbank.openapi.sdk.model.swap.ApiSwapRes;
 import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
 import net.iccbank.openapi.sdk.utils.JsonUtils;
@@ -376,7 +377,17 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("thirdId", thirdId);
-        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CURRENCY_SEARCH);
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_QUERY_STATUS);
+        return call(url, paramsMap);
+    }
+
+    @Override
+    public ApiResponse<ApiSwapDetailRes> querySwapDetail(String thirdId) {
+        checkStringParam(thirdId, "thirdId");
+
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        paramsMap.put("thirdId", thirdId);
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_QUERY_DETAIL);
         return call(url, paramsMap);
     }
 }

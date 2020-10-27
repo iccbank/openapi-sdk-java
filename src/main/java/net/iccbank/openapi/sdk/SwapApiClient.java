@@ -3,6 +3,7 @@ package net.iccbank.openapi.sdk;
 import net.iccbank.openapi.sdk.model.ApiResponse;
 import net.iccbank.openapi.sdk.model.swap.ApiAddLiquidityRes;
 import net.iccbank.openapi.sdk.model.swap.ApiRemoveLiquidityRes;
+import net.iccbank.openapi.sdk.model.swap.ApiSwapDetailRes;
 import net.iccbank.openapi.sdk.model.swap.ApiSwapRes;
 
 import java.math.BigDecimal;
@@ -81,5 +82,13 @@ public interface SwapApiClient {
      * @return
      */
     ApiResponse<ApiSwapRes> querySwapStatus(String thirdId);
+
+    /**
+     * 查询兑换详情
+     *
+     * @param thirdId 业务id
+     * @return
+     */
+    ApiResponse<ApiSwapDetailRes> querySwapDetail(String thirdId);
 
 }
