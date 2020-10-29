@@ -7,6 +7,7 @@ import net.iccbank.openapi.sdk.SwapApiClient;
 import net.iccbank.openapi.sdk.SwapApiClientImpl;
 import net.iccbank.openapi.sdk.enums.SearchTypeEnum;
 import net.iccbank.openapi.sdk.model.*;
+import net.iccbank.openapi.sdk.model.swap.ApiSwapDetailRes;
 import net.iccbank.openapi.sdk.model.swap.ApiSwapRes;
 import net.iccbank.openapi.sdk.utils.JsonUtils;
 import org.junit.Before;
@@ -32,8 +33,15 @@ public class SwapApiClientTest {
 
 	@Test
 	public void testQuerySwapStatus(){
-		String thirdId = "";
+		String thirdId = "1088168606711508992";
 		ApiResponse<ApiSwapRes> response =	client.querySwapStatus(thirdId);
+		System.out.println(JsonUtils.toJsonString(response));
+	}
+
+	@Test
+	public void testQuerySwapDetail(){
+		String thirdId = "1088168606711508992";
+		ApiResponse<ApiSwapDetailRes> response =	client.querySwapDetail(thirdId);
 		System.out.println(JsonUtils.toJsonString(response));
 	}
 
