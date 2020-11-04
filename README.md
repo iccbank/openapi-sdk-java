@@ -23,7 +23,7 @@
 
 ## 2. 支持币种
 
-以[ICCBank](https://www.iccbank.net)官网为准
+#### 主链币
 
 |Code|Desc|
 |:----    |:------- |
@@ -33,14 +33,28 @@
 |LTC    |莱特币    |
 |ETH    |以太坊    |
 |ETC    |以太经典    |
-| USDT_OMNI   |  泰达币  |
-|  USDT_ERC20  |  泰达币  |
 | IONC   | 离子币   |
 | FIL   |  文件币  |
 |  XMR  | 门罗币   |
 |  DASH  |  达世币  |
 |  TRX  |  波场  |
 |  XRP  |  瑞波  |
+
+#### 代币，具体以[ICCBank](https://www.iccbank.net)官网为准
+|Code|Desc|
+|:----    |:------- |
+|USDT_OMNI   |  泰达币  |
+|USDT_ERC20  |  泰达币  |
+|BNB  |币安币  |
+|LINK  |ChainLink  |
+|TRX  |波场  |
+|OKB  |OK币  |
+|DAI  |Dai Stablecoin  |
+|HT  |火币积分  |
+|MKR  |Maker  |
+|OMG  |嫩模币  |
+|SEELE  |元一代币  |
+|UNI  |Uniswap  |
 
 ## 3. 请求方式
 - HTTPS + JSON
@@ -73,12 +87,12 @@
 #### 签名前的原始数据
 ```
 {
-	"address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
-	"appId": "f678b3e698f649faa2177536356f83f7",
-	"currencyCode": "IONC",
-	"nonce": "6c37a207a07a4f6f93011b2ea59ee38b",
-	"signType": "RSA",
-	"timestamp": 1594892574165
+    "address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
+    "appId": "f678b3e698f649faa2177536356f83f7",
+    "currencyCode": "IONC",
+    "nonce": "6c37a207a07a4f6f93011b2ea59ee38b",
+    "signType": "RSA",
+    "timestamp": 1594892574165
 }
 ```
 
@@ -100,13 +114,13 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 #### 签名后原始数据
 ```
 {
-	"address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
-	"appId": "f678b3e698f649faa2177536356f83f7",
-	"currencyCode": "IONC",
-	"nonce": "6c37a207a07a4f6f93011b2ea59ee38b",
-	"sign": "c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtmajxAawxIZ03tALraB4zkKxuGAO8VyCBoXo5aR4uR2xTMOdG0hOb5QVEI3+3L8oCocn5eyd68PnbQEbfwMfQuB6tZADxI=",
-	"signType": "RSA",
-	"timestamp": 1594892574165
+    "address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
+    "appId": "f678b3e698f649faa2177536356f83f7",
+    "currencyCode": "IONC",
+    "nonce": "6c37a207a07a4f6f93011b2ea59ee38b",
+    "sign": "c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtmajxAawxIZ03tALraB4zkKxuGAO8VyCBoXo5aR4uR2xTMOdG0hOb5QVEI3+3L8oCocn5eyd68PnbQEbfwMfQuB6tZADxI=",
+    "signType": "RSA",
+    "timestamp": 1594892574165
 }
 ```
 
@@ -139,10 +153,10 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 ```
 {
-	"code": 200,
-	"msg": "success",
-	"subCode": "0",
-	"subMsg": "ok"
+    "code": 200,
+    "msg": "success",
+    "subCode": "0",
+    "subMsg": "ok"
 }
 ```
 
@@ -171,10 +185,10 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 ```
 {
-	"code": 200,
-	"msg": "success",
-	"subCode": "0",
-	"subMsg": "ok"
+    "code": 200,
+    "msg": "success",
+    "subCode": "0",
+    "subMsg": "ok"
 }
 ```
 
@@ -234,7 +248,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 **返回示例**
 
 ```
-  {
+{
     "code":200,
     "data":[
         {
@@ -280,22 +294,22 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 **返回示例**
 
 ```
-  {
-	"code": 200,
-	"data": {
-		"address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
-		"amount": "0.0018",
-		"businessNo": 1047741661072334848,
-		"currencyCode": "IONC",
-		"fee": "0.00002",
-		"labelAddress": "",
-		"status": 1,
-		"userBizId": "MCHTEST1594123781344",
-		"userId": 1
-	},
-	"msg": "HTTP_OK",
-	"subCode": "0",
-	"subMsg": "success"
+{
+    "code": 200,
+    "data": {
+        "address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
+        "amount": "0.0018",
+        "businessNo": 1047741661072334848,
+        "currencyCode": "IONC",
+        "fee": "0.00002",
+        "labelAddress": "",
+        "status": 1,
+        "userBizId": "MCHTEST1594123781344",
+        "userId": 1
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
 }
 ```
 
@@ -358,23 +372,23 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 **返回示例**
 
 ```
-  {
-	"code": 200,
-	"data": {
-		"address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
-		"amount": "0.0018",
-		"businessNo": 1047741661072334848,
-		"currencyCode": "IONC",
-		"fee": "0.00002",
-		"labelAddress": "",
-		"status": 1,
-		"userBizId": "MCHTEST1594123781344",
-		"userId": 1,
-		"minerFee": "0.0001"
-	},
-	"msg": "HTTP_OK",
-	"subCode": "0",
-	"subMsg": "success"
+{
+    "code": 200,
+    "data": {
+        "address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
+        "amount": "0.0018",
+        "businessNo": 1047741661072334848,
+        "currencyCode": "IONC",
+        "fee": "0.00002",
+        "labelAddress": "",
+        "status": 1,
+        "userBizId": "MCHTEST1594123781344",
+        "userId": 1,
+        "minerFee": "0.0001"
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
 }
 ```
 
@@ -407,25 +421,25 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 **返回示例**
 
 ```
-  {
-	"code": 200,
-	"data": {
-		"address": "rU5eGrf4sZhUmtH3JoYQNUNZqcds59qGsi",
-		"amount": "0.001",
-		"businessNo": 1044436267205009408,
-		"confirmations": 19941,
-		"currencyCode": "XRP",
-		"fee": "0.00002",
-		"feeCurrency": "XRP",
-		"labelAddress": "353757",
-		"status": 1,
-		"txid": "AB5AA76B4B98C6ACFC67AFC9CD5523D22D2CA5E6EFB29A1481DD35D96D79B0BE",
-		"minerFee": "0.0001",
-		"userBizId": "MCHTEST1593335715664"
-	},
-	"msg": "HTTP_OK",
-	"subCode": "0",
-	"subMsg": "success"
+{
+    "code": 200,
+    "data": {
+        "address": "rU5eGrf4sZhUmtH3JoYQNUNZqcds59qGsi",
+        "amount": "0.001",
+        "businessNo": 1044436267205009408,
+        "confirmations": 19941,
+        "currencyCode": "XRP",
+        "fee": "0.00002",
+        "feeCurrency": "XRP",
+        "labelAddress": "353757",
+        "status": 1,
+        "txid": "AB5AA76B4B98C6ACFC67AFC9CD5523D22D2CA5E6EFB29A1481DD35D96D79B0BE",
+        "minerFee": "0.0001",
+        "userBizId": "MCHTEST1593335715664"
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
 }
 ```
 
@@ -463,20 +477,20 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 ```
 {
-	"code": 200,
-	"data": {
-		"rows": [
-			{
-				"accountType": 1,
-				"availableBalance": "99.99256",
-				"currencyCode": "XRP",
-				"frozenBalance": "0.00224"
-			}
-		]
-	},
-	"msg": "HTTP_OK",
-	"subCode": "0",
-	"subMsg": "success"
+    "code": 200,
+    "data": {
+        "rows": [
+            {
+                "accountType": 1,
+                "availableBalance": "99.99256",
+                "currencyCode": "XRP",
+                "frozenBalance": "0.00224"
+            }
+        ]
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
 }
 
 ```
@@ -508,34 +522,34 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 ```
 {
-	"code": 200,
-	"data": [
-		{
-			"name":"Tether USD",
-			"symbol":"USDT",
-			"code":"USDT_ERC20",
-			"linkType":"ethereum",
-			"icon":"base64;",
-			"contractAddress":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
-			"supportLabelAddress": 0,
+    "code": 200,
+    "data": [
+        {
+            "name":"Tether USD",
+            "symbol":"USDT",
+            "code":"USDT_ERC20",
+            "linkType":"ethereum",
+            "icon":"base64;",
+            "contractAddress":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
+            "supportLabelAddress": 0,
             "chainCode": "ETH",
             "maxDecimals": 6
-		},
-		{
-			"name":"Tether Omni",
-			"symbol":"USDT",
-			"code":"USDT_OMNI",
-			"linkType":"bitcoin",
-			"icon":"base64;",
-			"contractAddress":"",
+        },
+        {
+            "name":"Tether Omni",
+            "symbol":"USDT",
+            "code":"USDT_OMNI",
+            "linkType":"bitcoin",
+            "icon":"base64;",
+            "contractAddress":"",
             "supportLabelAddress": 0,
             "chainCode": "BTC",
             "maxDecimals": 6
-		}
-	],
-	"msg": "HTTP_OK",
-	"subCode": "0",
-	"subMsg": "success"
+        }
+    ],
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
 }
 
 ```
@@ -583,9 +597,9 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
         "chainCode": "ETH",
         "maxDecimals": 6
     },
-	"msg": "HTTP_OK",
-	"subCode": "0",
-	"subMsg": "success"
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
 }
 
 ```
@@ -622,14 +636,14 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 ```
 {
-	"code": "200",
-	"msg": "操作成功",
-	"data": {
-		"feeCurrencyCode": "ETH",
-		"bizFee": "0.001",
-		"minMinerFee": "0.0005",
-		"maxMinerFee": "0.01"
-	}
+    "code": "200",
+    "msg": "操作成功",
+    "data": {
+        "feeCurrencyCode": "ETH",
+        "bizFee": "0.001",
+        "minMinerFee": "0.0005",
+        "maxMinerFee": "0.01"
+    }
 }
 ```
 
@@ -661,11 +675,11 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 ```
 {
-	"code": "200",
-	"msg": "操作成功",
-	"data": [
-    	{
-    		"name":"Tether USD",
+    "code": "200",
+    "msg": "操作成功",
+    "data": [
+        {
+            "name":"Tether USD",
             "symbol":"USDT",
             "code":"USDT_ERC20",
             "linkType":"ethereum",
@@ -674,8 +688,8 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
             "supportLabelAddress": 0,
             "chainCode": "ETH",
             "maxDecimals": 6
-		}
-	]
+        }
+    ]
 }
 ```
 
@@ -713,10 +727,10 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 ```
 {
-	"code": "200",
-	"msg": "操作成功",
-	"data": [{
-		"name":"Tether USD",
+    "code": "200",
+    "msg": "操作成功",
+    "data": [{
+        "name":"Tether USD",
         "symbol":"USDT",
         "code":"USDT_ERC20",
         "linkType":"ethereum",
@@ -724,9 +738,9 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
         "contractAddress":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
         "supportLabelAddress": 0,
         "chainCode": "ETH",
-		"maxDecimals": 6
-		}
-	]
+        "maxDecimals": 6
+        }
+    ]
 }
 ```
 
@@ -764,20 +778,20 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 ``` 
 {
-	"code": 200,
-	"data": {
-		"rows": [
-			{
-				"accountType": 1,
-				"availableBalance": "99.99256",
-				"currencyCode": "XRP",
-				"frozenBalance": "0.00224"
-			}
-		]
-	},
-	"msg": "HTTP_OK",
-	"subCode": "0",
-	"subMsg": "success"
+    "code": 200,
+    "data": {
+        "rows": [
+            {
+                "accountType": 1,
+                "availableBalance": "99.99256",
+                "currencyCode": "XRP",
+                "frozenBalance": "0.00224"
+            }
+        ]
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
 }
 
 ```
@@ -811,16 +825,16 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 ``` 
 {
-	"code": 200,
-	"data": {
-		"accountType": 1,
-		"availableBalance": "99.99256",
-		"currencyCode": "XRP",
-		"frozenBalance": "0.00224"
-	},
-	"msg": "HTTP_OK",
-	"subCode": "0",
-	"subMsg": "success"
+    "code": 200,
+    "data": {
+        "accountType": 1,
+        "availableBalance": "99.99256",
+        "currencyCode": "XRP",
+        "frozenBalance": "0.00224"
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
 }
 
 ```
@@ -852,15 +866,15 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 ``` 
 {
-	"code": 200,
-	"data": {
-		"availableBalance": "99.99256",
-		"currencyCode": "XRP",
-		"frozenBalance": "0.00224"
-	},
-	"msg": "HTTP_OK",
-	"subCode": "0",
-	"subMsg": "success"
+    "code": 200,
+    "data": {
+        "availableBalance": "99.99256",
+        "currencyCode": "XRP",
+        "frozenBalance": "0.00224"
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
 }
 ```
 
