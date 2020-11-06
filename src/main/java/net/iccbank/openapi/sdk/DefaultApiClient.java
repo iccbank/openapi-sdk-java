@@ -196,7 +196,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	
 	@Override
 	public ApiResponse<ApiAgencyWithdrawData> agencyWithdrawWithMinerFee(String userBizId, String subject,
-			String currencyCode, String address, String labelAddress, BigDecimal amount, BigDecimal minerFee,
+			String currencyCode, String address, String labelAddress, BigDecimal amount, BigDecimal minerFee, BigDecimal fee,
 			String notifyUrl) {
 		if (userBizId == null || userBizId.trim().equals("")) {
 			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [userBizId] required");
@@ -221,6 +221,10 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		if (minerFee.compareTo(BigDecimal.ZERO) <= 0) {
 			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [minerFee] invalid");
 		}
+
+		if (fee.compareTo(BigDecimal.ZERO) <= 0) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [fee] invalid");
+		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 		paramsMap.put("userBizId", userBizId);
@@ -237,6 +241,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		}
 		paramsMap.put("amount", amount.stripTrailingZeros().toPlainString());
 		paramsMap.put("minerFee", minerFee.stripTrailingZeros().toPlainString());
+		paramsMap.put("fee", fee.stripTrailingZeros().toPlainString());
 
 		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.AGENCY_WITHDRAW2_URL);
 		String resBody = callToString(url, paramsMap);

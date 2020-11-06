@@ -69,11 +69,13 @@ public interface ApiClient {
 	 * @param labelAddress 地址标签, EOS或XRP等地址使用（非必填）
 	 * @param amount 金额，代付地址实际到账的金额，商户支付的手续费平台自动扣除并返回
 	 * @param minerFee 矿工费（商户指定矿工费）
+	 * @param fee 手续费（商户指定手续费）
 	 * @param notifyUrl 通知地址（非必填） 为空则不通知
 	 */
 	ApiResponse<ApiAgencyWithdrawData> agencyWithdrawWithMinerFee(String userBizId, String subject, String currencyCode, String address, String labelAddress, 
 			BigDecimal amount, 
 			BigDecimal minerFee, 
+			BigDecimal fee,
 			String notifyUrl);
 	
 	/**
