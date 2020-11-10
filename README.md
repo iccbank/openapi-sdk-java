@@ -367,6 +367,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |labelAddress     |否  |string | 标签地址,如XRP和EOS，这两种币的提币申请该字段可选，其它类型币种不填    |
 |amount     |是  |string | 数量     |
 |minerFee   |是  |string | 矿工费   |
+|fee   |是  |string | 手续费   |
 |notifyUrl     |否  |string | 通知地址（请正确填写，否则无法接收通知）    |
 
 **返回示例**
