@@ -50,6 +50,23 @@ public class ApiConstants {
 
 	public static final String GET_CURRENCY_BY_CODE = VERSION + "/currency/getByCode";
 
+	public static final String GET_CONVERSION_STATUS = VERSION + "/conversion/getConversionStatus";
+
+	public static final String GET_CONVERSION_DETAIL = VERSION + "/conversion/getConversionDetail";
+
+	public static final String GET_CONVERSION_LIST = VERSION + "/conversion/getConversionList";
+
+	public static final String GET_CONVERSION_RATE = VERSION + "/conversionRate/getConversionRate";
+
+
+	public static final String CONVERSION_CURRENCY_LIST = VERSION + "/conversion/getConversionCurrencies";
+
+	public static final String CURRENCY_MINE_FEE_LIST = VERSION + "/conversion/getCurrencyMineFeeList";
+
+	public static final String CREATE_FIX_RATE_CONVERSION = VERSION + "/conversion/createFixRateConversion";
+
+	public static final String CREATE_FLOAT_RATE_CONVERSION = VERSION + "/conversion/createFloatRateConversion";
+
 	public static final String GET_TOTAL_BALANCE = VERSION + "/mch/getTotalBalance";
 
 	public static final String concatUrl(String urlPrefix, String urlSuffix) {
