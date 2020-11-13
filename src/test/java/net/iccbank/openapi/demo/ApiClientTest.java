@@ -92,6 +92,10 @@ public class ApiClientTest {
 		ApiResponse<ApiCurrencyData> res2 = client.currencyAddToken("tron", "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t");
 		System.out.println(JsonUtils.toJsonString(res2));
 	}
-	
 
+	@Test
+	public void getTotalBalances(){
+		ApiResponse<ApiMchBalance.BalanceNode> res =  client.getTotalBalancesForCurrencyCode("DASH");
+		System.out.println(JsonUtils.toJsonString(res));
+	}
 }

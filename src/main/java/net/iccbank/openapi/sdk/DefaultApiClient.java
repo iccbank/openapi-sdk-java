@@ -530,4 +530,18 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		return map;
 	}
 
+	@Override
+	public ApiResponse<ApiMchBalance.BalanceNode> getTotalBalancesForCurrencyCode(String currencyCode) {
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+
+		if (currencyCode == null || currencyCode.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+		}
+		paramsMap.put("currencyCode", currencyCode);
+
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_TOTAL_BALANCE);
+		String resBody = callToString(url, paramsMap);
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiMchBalance.BalanceNode>>(){});
+	}
+
 }
