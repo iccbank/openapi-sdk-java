@@ -75,7 +75,7 @@ public interface ApiClient {
 	/**
 	 * 代付订单查询
 	 * 
-	 * @param @param userBizId 商户订单号
+	 * @param userBizId 商户订单号
 	 */
 	ApiResponse<ApiAgencyWithdrawQueryData> queryAgencyWithdrawOrder(String userBizId);
 
@@ -89,18 +89,23 @@ public interface ApiClient {
 	/**
 	 * @Description 币种搜索
 	 * @Date Created on 2020/8/24 19:15
+	 * @param searchType 搜索类型：1-币种搜索、2-合约地址搜索
+	 * @param keywords 关键词
 	 */
 	ApiResponse<List<ApiCurrencyData>> currencySearch(int searchType, String keywords);
 	
 	/**
 	 * @Description 添加代币
 	 * @Date Created on 2020/8/24 19:15
+	 * @param linkType 链类型
+	 * @param contractAddress 合约地址
 	 */
 	ApiResponse<ApiCurrencyData> currencyAddToken(String linkType, String contractAddress);
 	
 	/**
 	 * @Description 代币手续费
 	 * @Date Created on 2020/8/24 19:15
+	 * @param currencyCode 币种
 	 */
 	ApiResponse<ApiCurrencyFeeData> getCurrencyFee(String currencyCode);
 
@@ -113,6 +118,7 @@ public interface ApiClient {
 	/**
 	 * @Description 获取币种信息
 	 * @Date Created on 2020/8/24 19:15
+	 * @param currencyCode 币种
 	 */
 	ApiResponse<ApiCurrencyData> getCurrencyByCode(String currencyCode);
 	
@@ -129,7 +135,7 @@ public interface ApiClient {
 	 * @Description 查询账户余额
 	 * @Date Created on 2020/7/8 11:41
 	 * @param currencyCode 币种
-	 * @param accountType 币种
+	 * @param accountType 账户类型
 	 */
 	ApiResponse<ApiMchBalance.BalanceNode> getBalancesForCurrencyCodeAndAccountType(String currencyCode, Long accountType);
 

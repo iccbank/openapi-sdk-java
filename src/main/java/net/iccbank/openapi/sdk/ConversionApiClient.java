@@ -31,6 +31,7 @@ public interface ConversionApiClient {
     /**
      * 获取兑换利率
      *
+     * @param param ConversionRateReq
      * @return
      */
     ApiResponse<ConversionRate> getConversionRate(ConversionRateReq param);
@@ -57,6 +58,7 @@ public interface ConversionApiClient {
     /**
      * 获取兑换订单列表
      *
+     * @param req GetConversionListReq
      * @return
      */
     ApiResponse<PageBO<ConversionOrderDetail>> getConversionOrderList(GetConversionListReq req);
