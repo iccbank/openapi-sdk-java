@@ -213,6 +213,12 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		if (amount == null) {
 			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] required");
 		}
+		if (minerFee == null) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [minerFee] required");
+		}
+		if (fee == null) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [fee] required");
+		}
 
 		if (amount.compareTo(BigDecimal.ZERO) <= 0) {
 			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] invalid");

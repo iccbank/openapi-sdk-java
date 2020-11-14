@@ -56,7 +56,7 @@ public class ApiConstants {
 
 	public static final String GET_CONVERSION_LIST = VERSION + "/conversion/getConversionList";
 
-	public static final String GET_CONVERSION_RATE = VERSION + "/conversionRate/getConversionRate";
+	public static final String GET_CONVERSION_RATE = VERSION + "/conversion/getConversionRate";
 
 
 	public static final String CONVERSION_CURRENCY_LIST = VERSION + "/conversion/getConversionCurrencies";

@@ -325,7 +325,7 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
         }
 
         TreeMap<String, Object> paramsMap = new TreeMap<>();
-        paramsMap.put("orderId", orderId);
+        paramsMap.put("thirdOrderId", orderId);
 
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_CONVERSION_DETAIL);
         String resBody = callToString(url, paramsMap);
@@ -339,7 +339,7 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
         }
 
         TreeMap<String, Object> paramsMap = new TreeMap<>();
-        paramsMap.put("orderId", orderId);
+        paramsMap.put("thirdOrderId", orderId);
 
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_CONVERSION_STATUS);
         String resBody = callToString(url, paramsMap);
