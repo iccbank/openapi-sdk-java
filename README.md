@@ -2,19 +2,32 @@
 
 ## 1. 接口列表
 
-- 1.1 - [地址合法性校验](#地址合法性校验)
-- 1.2 - [获取代收地址](#获取代收地址)
-- 1.3 - [代收通知](#代收通知)
-- 1.4 - [代付地址注册](#代付地址注册)
-- 1.5 - [代付](#代付)
-- 1.6 - [代付订单查询](#代付订单查询)
-- 1.7 - [代付通知](#代付通知)
-- 1.8 - [账户余额查询](#账户余额查询)
-- 1.9 - [代币搜索](#代币搜索)
+**币种相关接口**
+
+- 1.1 - [地址合法性校验](#7-1地址合法性校验)
+- 1.2 - [地址合法性校验-带地址标签](#7-2地址合法性校验-带地址标签)
+- 1.3 - [代付地址注册](#7-3代付地址注册)
+- 1.4 - [创建代收地址](#7-4创建代收地址)
+- 1.5 - [代付](#7-5代付)
+- 1.6 - [代付-可以指定矿工费](#7-6代付-可以指定矿工费)
+- 1.7 - [代付订单查询](#7-7代付订单查询)
+- 1.8 - [获取账户余额列表](#7-8获取账户余额列表)
+- 1.9 - [代币搜索](#7-9代币搜索)
+- 1.10 - [添加代币](#7-10添加代币)
+- 1.11 - [获取币种费用信息](#7-11获取币种费用信息)
+- 1.12 - [查询主链币开通币种列表](#7-12查询主链币开通币种列表)
+- 1.13 - [查询单个币种信息](#7-13查询单个币种信息)
+- 1.14 - [查询账户余额列表-指定币种](#7-14查询账户余额列表-指定币种)
+- 1.15 - [查询账户余额-指定币种和账户类型](#7-15查询账户余额-指定币种和账户类型)
+- 1.16 - [查询账户总资产-指定币种](#7-16查询账户总资产-指定币种)
+
+**兑换相关接口**
+
+- [兑换相关接口](./README-CONVERSION-API.md)
 
 ## 2. 支持币种
 
-以[ICCBank](https://www.iccbank.net)官网为准
+#### 主链币
 
 |Code|Desc|
 |:----    |:------- |
@@ -24,14 +37,28 @@
 |LTC    |莱特币    |
 |ETH    |以太坊    |
 |ETC    |以太经典    |
-| USDT_OMNI   |  泰达币  |
-|  USDT_ERC20  |  泰达币  |
 | IONC   | 离子币   |
 | FIL   |  文件币  |
 |  XMR  | 门罗币   |
 |  DASH  |  达世币  |
 |  TRX  |  波场  |
 |  XRP  |  瑞波  |
+
+#### 代币，具体以[ICCBank](https://www.iccbank.net)官网为准
+|Code|Desc|
+|:----    |:------- |
+|USDT_OMNI   |  泰达币  |
+|USDT_ERC20  |  泰达币  |
+|BNB  |币安币  |
+|LINK  |ChainLink  |
+|TRX  |波场  |
+|OKB  |OK币  |
+|DAI  |Dai Stablecoin  |
+|HT  |火币积分  |
+|MKR  |Maker  |
+|OMG  |嫩模币  |
+|SEELE  |元一代币  |
+|UNI  |Uniswap  |
 
 ## 3. 请求方式
 - HTTPS + JSON
@@ -64,12 +91,12 @@
 #### 签名前的原始数据
 ```
 {
-	"address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
-	"appId": "f678b3e698f649faa2177536356f83f7",
-	"currencyCode": "IONC",
-	"nonce": "6c37a207a07a4f6f93011b2ea59ee38b",
-	"signType": "RSA",
-	"timestamp": 1594892574165
+    "address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
+    "appId": "f678b3e698f649faa2177536356f83f7",
+    "currencyCode": "IONC",
+    "nonce": "6c37a207a07a4f6f93011b2ea59ee38b",
+    "signType": "RSA",
+    "timestamp": 1594892574165
 }
 ```
 
@@ -91,13 +118,13 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 #### 签名后原始数据
 ```
 {
-	"address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
-	"appId": "f678b3e698f649faa2177536356f83f7",
-	"currencyCode": "IONC",
-	"nonce": "6c37a207a07a4f6f93011b2ea59ee38b",
-	"sign": "c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtmajxAawxIZ03tALraB4zkKxuGAO8VyCBoXo5aR4uR2xTMOdG0hOb5QVEI3+3L8oCocn5eyd68PnbQEbfwMfQuB6tZADxI=",
-	"signType": "RSA",
-	"timestamp": 1594892574165
+    "address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
+    "appId": "f678b3e698f649faa2177536356f83f7",
+    "currencyCode": "IONC",
+    "nonce": "6c37a207a07a4f6f93011b2ea59ee38b",
+    "sign": "c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtmajxAawxIZ03tALraB4zkKxuGAO8VyCBoXo5aR4uR2xTMOdG0hOb5QVEI3+3L8oCocn5eyd68PnbQEbfwMfQuB6tZADxI=",
+    "signType": "RSA",
+    "timestamp": 1594892574165
 }
 ```
 
@@ -113,9 +140,11 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 ## 7. 接口参数/响应详情
 
-### 地址合法性校验
+### 7-1地址合法性校验
 
 > POST `/v1/address/check`
+
+> sdk方法 ApiClient.addressCheck
 
 **请求参数**
 
@@ -123,16 +152,15 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |:----    |:---|:----- |-----   |
 |currencyCode |是  |string |币种 ， 请参考 [支持币种](#2-支持币种) |
 |address |是  |string | 地址    |
-|labelAddress |否  |string | 标签地址    |
 
 **返回示例**
 
 ```
 {
-	"code": 200,
-	"msg": "success",
-	"subCode": "0",
-	"subMsg": "ok"
+    "code": 200,
+    "msg": "success",
+    "subCode": "0",
+    "subMsg": "ok"
 }
 ```
 
@@ -143,68 +171,43 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |code |int   | 请求响应码：200：表示成功，400：失败  |
 |subCode |int   | [业务状态码](#业务状态码)  |
 
-### 获取代收地址
+### 7-2地址合法性校验-带地址标签
 
-> POST `/v1/address/agency/create`
+> POST `/v1/address/check`
+
+> sdk方法 ApiClient.addressCheck
 
 **请求参数**
 
 |参数名|必选|类型|说明|
 |:----    |:---|:----- |-----   |
-|currencyCode |是  |string |币种 请参考 [支持币种](#2-支持币种)  |
-|count |是  |int | 数量范围 [1-100]    |
-|batchNumber |是  |string | 批次号   |
+|currencyCode |是  |string |币种 ， 请参考 [支持币种](#2-支持币种) |
+|address |是  |string | 地址    |
+|labelAddress |是  |string | 标签地址    |
 
 **返回示例**
 
 ```
-  {
-    "code":200,
-    "data":[
-        {
-            "address":"0x7C020f22ec9C0f1cA6E4546685CE7FCde9e730b8",
-            "currencyCode":"ETH",
-            "labelAddress": ""
-        }
-    ],
-    "msg":"success",
-    "subCode":"0",
-    "subMsg":"ok"
+{
+    "code": 200,
+    "msg": "success",
+    "subCode": "0",
+    "subMsg": "ok"
 }
 ```
 
-**业务响应数据说明**
+ **返回参数说明** 
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|currencyCode |String   |币种 请参考 [支持币种](#2-支持币种) |
-|address |String   |地址  |
-|labelAddress |String   |标签地址，memo   |
+|code |int   | 请求响应码：200：表示成功，400：失败  |
+|subCode |int   | [业务状态码](#业务状态码)  |
 
-### 代收通知
-
-**请求参数**
-
-|字段|类型|描述|
-|:----    |:-------    |:-------    |
-|businessNo |String   |平台订单号，唯一  |
-|currencyCode |String   |币种  |
-|confirmations |String   |确认次数  |
-|txid |String   |交易hash  |
-|address |String   |地址  |
-|labelAddress |String   |标签地址  |
-|amount |String   |数量  |
-|status |String   |状态： 0-"处理中"， 1-"成功"， 2-"失败" |
-
-- 说明：各个币种均为处理精度之后的数量。代收异步通知地址，需要在申请API的时候正确填入，否则无法接受到平台的异步通知。
-
--  响应说明
-接收到平台通知之后，响应纯文本`success`表示成功，`error`表示失败
-
-
-### 代付地址注册
+### 7-3代付地址注册
 
 > POST `/v1/agentPay/addAddress`
+
+> sdk方法 ApiClient.agentPayAddAddress
 
 **请求参数**
 
@@ -232,11 +235,53 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |code |int   | 请求响应码：200：表示成功，400：失败  |
 |subCode |int   | [业务状态码](#业务状态码)  |
 
+### 7-4创建代收地址
+
+> POST `/v1/address/agency/create`
+
+> sdk方法 ApiClient.createAgencyRechargeAddress
+
+**请求参数**
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|currencyCode |是  |string |币种 请参考 [支持币种](#2-支持币种)  |
+|count |是  |int | 数量范围 [1-100]    |
+|batchNumber |是  |string | 批次号   |
+
+**返回示例**
+
+```
+{
+    "code":200,
+    "data":[
+        {
+            "address":"0x7C020f22ec9C0f1cA6E4546685CE7FCde9e730b8",
+            "currencyCode":"ETH",
+            "labelAddress": ""
+        }
+    ],
+    "msg":"success",
+    "subCode":"0",
+    "subMsg":"ok"
+}
+```
+
+**业务响应数据说明**
+
+|参数名|类型|说明|
+|:-----  |:-----|-----                           |
+|currencyCode |String   |币种 请参考 [支持币种](#2-支持币种) |
+|address |String   |地址  |
+|labelAddress |String   |标签地址，memo   |
 
 
-### 代付
+
+### 7-5代付
 
 > POST `/v1/agentPay/proxyPay`
+
+> sdk方法 ApiClient.agencyWithdraw
 
 **请求参数**
 
@@ -253,22 +298,22 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 **返回示例**
 
 ```
-  {
-	"code": 200,
-	"data": {
-		"address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
-		"amount": "0.0018",
-		"businessNo": 1047741661072334848,
-		"currencyCode": "IONC",
-		"fee": "0.00002",
-		"labelAddress": "",
-		"status": 1,
-		"userBizId": "MCHTEST1594123781344",
-		"userId": 1
-	},
-	"msg": "HTTP_OK",
-	"subCode": "0",
-	"subMsg": "success"
+{
+    "code": 200,
+    "data": {
+        "address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
+        "amount": "0.0018",
+        "businessNo": 1047741661072334848,
+        "currencyCode": "IONC",
+        "fee": "0.00002",
+        "labelAddress": "",
+        "status": 1,
+        "userBizId": "MCHTEST1594123781344",
+        "userId": 1
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
 }
 ```
 
@@ -286,58 +331,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |status |String   |状态， 1:申请成功，2:申请失败 |
 
 
-
-### 代付订单查询
-> POST `/v1/agentPay/query`
-
-**请求参数** 
-
-|参数名|必选|类型|说明|
-|:----    |:---|:----- |-----   |
-|userBizId |是  |string |商户订单号   |
-
-**返回示例**
-
-```
-  {
-	"code": 200,
-	"data": {
-		"address": "rU5eGrf4sZhUmtH3JoYQNUNZqcds59qGsi",
-		"amount": "0.001",
-		"businessNo": 1044436267205009408,
-		"confirmations": 19941,
-		"currencyCode": "XRP",
-		"fee": "0.00002",
-		"feeCurrency": "XRP",
-		"labelAddress": "353757",
-		"status": 1,
-		"txid": "AB5AA76B4B98C6ACFC67AFC9CD5523D22D2CA5E6EFB29A1481DD35D96D79B0BE",
-		"userBizId": "MCHTEST1593335715664"
-	},
-	"msg": "HTTP_OK",
-	"subCode": "0",
-	"subMsg": "success"
-}
-```
-
-**业务参数说明**
-
-|参数名|类型|说明|
-|:-----  |:-----|-----                           |
-|businessNo |String   |平台订单号  |
-|currencyCode |String   |币种  |
-|userBizId |String   |商户订单号  |
-|confirmations |String   |确认次数  |
-|txid |String   |交易hash  |
-|address |String   |地址  |
-|labelAddress |String   |标签地址  |
-|amount |String   |数量  |
-|fee |String   |手续费  |
-|feeCurrency |String   |手续费币种  |
-|status |String   |状态， 0, "处理中" 1, "成功" 2, "失败" |
-
-
-### 代付通知
+#### 代付通知
 
 **请求参数**
 
@@ -353,42 +347,154 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |amount |String   |数量  |
 |fee |String   |手续费  |
 |feeCurrency |String   |手续费币种  |
+|minerFee    |String   |矿工费（商户传矿工费时才有值）  |
 |status |String   |状态， 0, "处理中" 1, "成功" 2, "失败" |
 
 -  响应说明
 接收到平台通知之后，响应纯文本`success`表示成功，`error`表示失败
 
 
+### 7-6代付-可以指定矿工费
 
-### 账户余额查询
-> POST `/v1/mch/getBalance`
+> POST `/v1/agentPay/proxyPay2 `
+
+> sdk方法 ApiClient.agencyWithdrawWithMinerFee
 
 **请求参数**
 
 |参数名|必选|类型|说明|
 |:----    |:---|:----- |-----   |
-|currencyCode |否  |string |币种 请参考 [支持币种](#2-支持币种)  |
-|accountType |否  |string | 账户类型 ,默认为空 1:"代付",2: "代收",3: "存币",4: "提币" |
+|userBizId |是  |string |商户订单号，最大长度64位   |
+|subject |否  |string | 订单描述，长度最大128    |
+|currencyCode     |是  |string | 币种  请参考 [支持币种](#2-支持币种)   |
+|address     |是  |string | 代付地址    |
+|labelAddress     |否  |string | 标签地址,如XRP和EOS，这两种币的提币申请该字段可选，其它类型币种不填    |
+|amount     |是  |string | 数量     |
+|minerFee   |是  |string | 矿工费   |
+|notifyUrl     |否  |string | 通知地址（请正确填写，否则无法接收通知）    |
+
+**返回示例**
+
+```
+{
+    "code": 200,
+    "data": {
+        "address": "0xC1b9276626e78447ce728Fd030145d8d21E3619E",
+        "amount": "0.0018",
+        "businessNo": 1047741661072334848,
+        "currencyCode": "IONC",
+        "fee": "0.00002",
+        "labelAddress": "",
+        "status": 1,
+        "userBizId": "MCHTEST1594123781344",
+        "userId": 1,
+        "minerFee": "0.0001"
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
+}
+```
+
+**业务参数说明**
+
+|参数名|类型|说明|
+|:-----  |:-----|-----                           |
+|businessNo |String   |平台订单号  |
+|currencyCode |String   |币种 请参考 [支持币种](#2-支持币种)  |
+|userBizId |String   |商户订单号  |
+|address |String   |地址  |
+|labelAddress |String   |标签地址  |
+|amount |String   |数量  |
+|fee |String   |手续费  |
+|minerFee |String   |矿工费  |
+|status |String   |状态， 1:申请成功，2:申请失败 |
+
+
+### 7-7代付订单查询
+> POST `/v1/agentPay/query`
+
+> sdk方法 ApiClient.queryAgencyWithdrawOrder
+
+**请求参数** 
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|userBizId |是  |string |商户订单号   |
+
+**返回示例**
+
+```
+{
+    "code": 200,
+    "data": {
+        "address": "rU5eGrf4sZhUmtH3JoYQNUNZqcds59qGsi",
+        "amount": "0.001",
+        "businessNo": 1044436267205009408,
+        "confirmations": 19941,
+        "currencyCode": "XRP",
+        "fee": "0.00002",
+        "feeCurrency": "XRP",
+        "labelAddress": "353757",
+        "status": 1,
+        "txid": "AB5AA76B4B98C6ACFC67AFC9CD5523D22D2CA5E6EFB29A1481DD35D96D79B0BE",
+        "minerFee": "0.0001",
+        "userBizId": "MCHTEST1593335715664"
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
+}
+```
+
+**业务参数说明**
+
+|参数名|类型|说明|
+|:-----  |:-----|-----                           |
+|businessNo |String   |平台订单号  |
+|currencyCode |String   |币种  |
+|userBizId |String   |商户订单号  |
+|confirmations |String   |确认次数  |
+|txid |String   |交易hash  |
+|address |String   |地址  |
+|labelAddress |String   |标签地址  |
+|amount |String   |数量  |
+|fee |String   |手续费  |
+|feeCurrency |String   |手续费币种  |
+|minerFee  |String   |矿工费（商户传矿工费时才有值）|
+|status |String   |状态， 0, "处理中" 1, "成功" 2, "失败" |
+
+
+### 7-8获取账户余额列表
+> POST `/v1/mch/getBalance`
+
+> sdk方法 ApiClient.getBalances
+
+**请求参数**
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|- |-  |- |-  |
 
 
 **返回示例**
 
 ```
 {
-	"code": 200,
-	"data": {
-		"rows": [
-			{
-				"accountType": 1,
-				"availableBalance": "99.99256",
-				"currencyCode": "XRP",
-				"frozenBalance": "0.00224"
-			}
-		]
-	},
-	"msg": "HTTP_OK",
-	"subCode": "0",
-	"subMsg": "success"
+    "code": 200,
+    "data": {
+        "rows": [
+            {
+                "accountType": 1,
+                "availableBalance": "99.99256",
+                "currencyCode": "XRP",
+                "frozenBalance": "0.00224"
+            }
+        ]
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
 }
 
 ```
@@ -403,10 +509,10 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |frozenBalance |string   |冻结余额 |
 
 
-
-
-### 代币搜索
+### 7-9代币搜索
 > POST `/v1/currency/search`
+
+> sdk方法 ApiClient.currencySearch
 
 **请求参数**
 
@@ -420,28 +526,34 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 
 ```
 {
-	"code": 200,
-	"data": [
-		{
-			"name":"Tether USD",
-			"symbol":"USDT",
-			"code":"USDT_ERC20",
-			"linkType":"ethereum",
-			"icon":"base64;",
-			"contractAddress":"0xdAC17F958D2ee523a2206206994597C13D831ec7"
-		},
-		{
-			"name":"Tether Omni",
-			"symbol":"USDT",
-			"code":"USDT_OMNI",
-			"linkType":"bitcoin",
-			"icon":"base64;",
-			"contractAddress":""
-		}
-	],
-	"msg": "HTTP_OK",
-	"subCode": "0",
-	"subMsg": "success"
+    "code": 200,
+    "data": [
+        {
+            "name":"Tether USD",
+            "symbol":"USDT",
+            "code":"USDT_ERC20",
+            "linkType":"ethereum",
+            "icon":"base64;",
+            "contractAddress":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
+            "supportLabelAddress": 0,
+            "chainCode": "ETH",
+            "maxDecimals": 6
+        },
+        {
+            "name":"Tether Omni",
+            "symbol":"USDT",
+            "code":"USDT_OMNI",
+            "linkType":"bitcoin",
+            "icon":"base64;",
+            "contractAddress":"",
+            "supportLabelAddress": 0,
+            "chainCode": "BTC",
+            "maxDecimals": 6
+        }
+    ],
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
 }
 
 ```
@@ -456,40 +568,324 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |linkType |string   |链类型 |
 |icon |string   |币种图标 |
 |contractAddress |string   |合约地址 |
+|supportLabelAddress |int   | 是否支持标签地址：0-不支持，1-支持  |
+|chainCode |string   | 主链币种代码  |
+|maxDecimals |int   | 币种单位最大的精度  |
+
+### 7-10添加代币
+> POST `/v1/currency/addToken`
+
+> sdk方法 ApiClient.currencyAddToken
+
+**请求参数**
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|linkType |是  |string | 链类型|
+|contractAddress |是  |string | 合约地址 |
+
+
+**返回示例**
+
+```
+{
+    "code": "200",
+    "data": {
+        "name":"Tether USD",
+        "symbol":"USDT",
+        "code":"USDT_ERC20",
+        "linkType":"ethereum",
+        "icon":"http://xxx.xx.com/a.jpg",
+        "contractAddress":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        "supportLabelAddress": 0,
+        "chainCode": "ETH",
+        "maxDecimals": 6
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
+}
+
+```
+
+**业务参数说明**
+
+|参数名|类型|说明|
+|:-----  |:-----|-----    |
+|name |string   |币种名称  |
+|symbol |string   |币种标识（不唯一）  |
+|code |string   |币种代码（唯一）  |
+|linkType |string   |链类型  |
+|icon |string   |图标  |
+|contractAddress |string   | 合约地址  |
+|supportLabelAddress |int   | 是否支持标签地址：0-不支持，1-支持  |
+|chainCode |string   | 主链币种代码  |
+|maxDecimals |int   | 币种单位最大的精度  |
 
 
 
-### 通知计划
-为避免接收方服务器异常状态，平台制定以下通知计划。
-间隔时间：`1s, 5s, 30s, 5m, 10m`
-平台总共进行5次通知，5次全部失败请联系对应运营人员或客服
+### 7-11获取币种费用信息
+
+> POST `/v1/currency/bizFee`
+
+> sdk方法 ApiClient.getCurrencyFee
+
+**请求参数**
+
+| 参数名       | 必选 | 类型   | 说明                                       |
+| :----------- | :--- | :----- | ------------------------------------------ |
+| currencyCode | 是   | string | 币种代码 ， 请参考 [支持币种](#2-支持币种) |
+
+**返回示例**
+
+```
+{
+    "code": "200",
+    "msg": "操作成功",
+    "data": {
+        "feeCurrencyCode": "ETH",
+        "bizFee": "0.001",
+        "minMinerFee": "0.0005",
+        "maxMinerFee": "0.01"
+    }
+}
+```
+
+ **返回参数说明** 
+
+| 参数名          | 类型   | 说明         |
+| --------------- | :----- | ------------ |
+| feeCurrencyCode | String | 费用币种代码 |
+| bizFee          | String | 提币手续费   |
+| minMinerFee     | String | 最小矿工费(上链交易时矿工费最小值)   |
+| maxMinerFee     | String | 最大矿工费(上链交易时矿工费最大值)   |
 
 
-### 业务状态码
 
-|Code|Desc|
-|:----    |:-------    |
-|0    |success ，其他为失败   |
-|4003    |请求参数不合法    |
-|35000| 商户订单号不能为空|
-|35001| 代付订单不存在|
-|35002| 平台尚未开通该币种支持|
-|35003| 代付金额须大于零|
-|35004| 代付地址簿不存在该地址,请先注册|
-|35005| 商户订单号重复|
-|35006| 地址格式不合法|
-|35007| 添加地址簿失败|
-|35008| 请输入正确的订单号|
-|35009| 数量范围 [1-100]|
-|35010| 请输入正确的金额|
-|42002| 请求分配地址失败|
-|42003| 该币种不支持单独获取地址，请获取主链地址|
-|43000| 该商户AppId不存在|
-|43001| 该商户不存在该账户|
-|43002| 该商户appId没有配置回调地址|
-|43003| 该商户钱包账户尚未开通该币种|
-|43004| 该商户钱包余额账户尚未开通|
-|43006| 该地址簿不存在|
+### 7-12查询主链币开通币种列表
 
-- 备注：该编码为subCode和对于的message
+>  POST `/v1/currency/queryChainList `
 
+> sdk方法 ApiClient.queryCurrencyChainList
+
+**参数：**
+
+| 参数名 | 必选 | 类型 | 说明 |
+| :----- | :--- | :--- | ---- |
+| -      | -    | -    | -    |
+
+
+ **返回示例**
+
+```
+{
+    "code": "200",
+    "msg": "操作成功",
+    "data": [
+        {
+            "name":"Tether USD",
+            "symbol":"USDT",
+            "code":"USDT_ERC20",
+            "linkType":"ethereum",
+            "icon":"base64;",
+            "contractAddress":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
+            "supportLabelAddress": 0,
+            "chainCode": "ETH",
+            "maxDecimals": 6
+        }
+    ]
+}
+```
+
+ **返回参数说明**
+
+| 参数名              | 类型   | 说明               |
+| :------------------ | :----- | ------------------ |
+| name                | string | 币种名称           |
+| symbol              | string | 币种标识（不唯一） |
+| code                | string | 币种代码（唯一）   |
+| linkType            | string | 链类型             |
+| icon                | string | 图标               |
+| contractAddress     | string | 合约地址           |
+| supportLabelAddress | int    | 是否支持标签地址   |
+| chainCode           | string | 主链币种代码       |
+| maxDecimals         | int    | 币种单位最大的精度 |
+
+
+
+### 7-13查询单个币种信息
+
+>  POST `/v1/currency/getByCode `
+
+> sdk方法 ApiClient.getCurrencyByCode
+
+**请求参数：**
+
+| 参数名       | 必选 | 类型   | 说明                                       |
+| :----------- | :--- | :----- | ------------------------------------------ |
+| currencyCode | 是   | string | 币种代码 ， 请参考 [支持币种](#2-支持币种) |
+
+
+
+ **返回示例**
+
+```
+{
+    "code": "200",
+    "msg": "操作成功",
+    "data": [{
+        "name":"Tether USD",
+        "symbol":"USDT",
+        "code":"USDT_ERC20",
+        "linkType":"ethereum",
+        "icon":"base64;",
+        "contractAddress":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        "supportLabelAddress": 0,
+        "chainCode": "ETH",
+        "maxDecimals": 6
+        }
+    ]
+}
+```
+
+ **返回参数说明**
+
+| 参数名              | 类型   | 说明               |
+| :------------------ | :----- | ------------------ |
+| name                | string | 币种名称           |
+| symbol              | string | 币种标识（不唯一） |
+| code                | string | 币种代码（唯一）   |
+| linkType            | string | 链类型             |
+| icon                | string | 图标               |
+| contractAddress     | string | 合约地址           |
+| supportLabelAddress | int    | 是否支持标签地址   |
+| chainCode           | string | 主链币种代码       |
+| maxDecimals         | int    | 币种单位最大的精度 |
+
+
+
+### 7-14查询账户余额列表-指定币种
+
+**请求URL：** 
+> POST ` /v1/mch/getBalance `
+
+> sdl方法 ApiClient.getBalancesForCurrencyCode
+
+**参数：** 
+
+| 参数名       | 必选 | 类型   | 说明                                                         |
+| :----------- | :--- | :----- | ------------------------------------------------------------ |
+| currencyCode | 是   | string | 币种 请参考 [支持币种](#2-支持币种)  |
+
+
+ **返回示例**
+
+``` 
+{
+    "code": 200,
+    "data": {
+        "rows": [
+            {
+                "accountType": 1,
+                "availableBalance": "99.99256",
+                "currencyCode": "XRP",
+                "frozenBalance": "0.00224"
+            }
+        ]
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
+}
+
+```
+
+ **返回参数说明** 
+
+| 参数名           | 类型   | 说明                                                         |
+| :--------------- | :----- | ------------------------------------------------------------ |
+| availableBalance | string | 可用余额       |
+| currencyCode     | string | 币种 请参考 [支持币种](#2-支持币种)  |
+| frozenBalance    | string | 冻结余额   |
+| accountType      | long   | 账户类型 1:"代付",2: "代收",3: "存币",4: "提币"              |
+
+
+
+### 7-15查询账户余额-指定币种和账户类型
+**请求URL：** 
+
+> POST ` /v1/mch/getBalance `
+
+> sdl方法 ApiClient.getBalancesForCurrencyCodeAndAccountType
+
+**参数：** 
+
+| 参数名       | 必选 | 类型   | 说明                                                         |
+| :----------- | :--- | :----- | ------------------------------------------------------------ |
+| currencyCode | 是   | string |币种 请参考 [支持币种](#2-支持币种)  |
+|accountType |是  |string | 账户类型 ,默认为空 1:"代付",2: "代收",3: "存币",4: "提币" |
+
+ **返回示例**
+
+``` 
+{
+    "code": 200,
+    "data": {
+        "accountType": 1,
+        "availableBalance": "99.99256",
+        "currencyCode": "XRP",
+        "frozenBalance": "0.00224"
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
+}
+
+```
+
+ **返回参数说明** 
+
+| 参数名           | 类型   | 说明                                                         |
+| :--------------- | :----- | ------------------------------------------------------------ |
+| availableBalance | string | 可用余额                                                     |
+| currencyCode     | string | 币种 请参考 [支持币种](#2-支持币种)  |
+| frozenBalance    | string | 冻结余额                                                     |
+| accountType      | long   | 账户类型 1:"代付",2: "代收",3: "存币",4: "提币"              |
+
+
+### 7-16查询账户总资产-指定币种
+
+>  POST `/v1/mch/getTotalBalance` 
+
+> sdk方法 ApiClient.getTotalBalancesForCurrencyCode
+
+**参数：** 
+
+| 参数名       | 必选 | 类型   | 说明                                                         |
+| :----------- | :--- | :----- | ------------------------------------------------------------ |
+| currencyCode | 是   | string | 币种 请参考 [支持币种](#2-支持币种)  |
+
+
+ **返回示例**
+
+``` 
+{
+    "code": 200,
+    "data": {
+        "availableBalance": "99.99256",
+        "currencyCode": "XRP",
+        "frozenBalance": "0.00224"
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
+}
+```
+
+**返回参数说明** 
+
+| 参数名           | 类型   | 说明                                                         |
+| :--------------- | :----- | ------------------------------------------------------------ |
+|currencyCode   |string |币种 请参考 [支持币种](#2-支持币种)  |
+| availableBalance | string | 可用余额                                                     |
+| frozenBalance    | string | 冻结余额                                   |
