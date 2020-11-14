@@ -145,7 +145,8 @@ public interface ApiClient {
 	 * @Author panYong
 	 * @Description 查询旷工算力，minerAddress非必传
 	 * @Date Created on 2020/11/14 13:09
-	 * @param minerAddress 币种
+	 * @param currencyCode 币种
+	 * @param minerAddress 旷工地址
 	 */
 	ApiResponse<ApiMinerPower> getMinerPower(String currencyCode,String minerAddress);
 
