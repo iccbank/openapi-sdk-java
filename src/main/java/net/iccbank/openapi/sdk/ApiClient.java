@@ -3,13 +3,7 @@ package net.iccbank.openapi.sdk;
 import java.math.BigDecimal;
 import java.util.List;
 
-import net.iccbank.openapi.sdk.model.ApiAddress;
-import net.iccbank.openapi.sdk.model.ApiAgencyWithdrawData;
-import net.iccbank.openapi.sdk.model.ApiAgencyWithdrawQueryData;
-import net.iccbank.openapi.sdk.model.ApiCurrencyData;
-import net.iccbank.openapi.sdk.model.ApiCurrencyFeeData;
-import net.iccbank.openapi.sdk.model.ApiMchBalance;
-import net.iccbank.openapi.sdk.model.ApiResponse;
+import net.iccbank.openapi.sdk.model.*;
 
 public interface ApiClient {
 	
@@ -146,4 +140,13 @@ public interface ApiClient {
 	 * @param currencyCode 币种
 	 */
 	ApiResponse<ApiMchBalance.BalanceNode> getTotalBalancesForCurrencyCode(String currencyCode);
+
+	/**
+	 * @Author panYong
+	 * @Description 查询旷工算力，minerAddress非必传
+	 * @Date Created on 2020/11/14 13:09
+	 * @param minerAddress 币种
+	 */
+	ApiResponse<ApiMinerPower> getMinerPower(String currencyCode,String minerAddress);
+
 }

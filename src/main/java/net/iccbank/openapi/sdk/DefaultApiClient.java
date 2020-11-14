@@ -549,4 +549,18 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiMchBalance.BalanceNode>>(){});
 	}
 
+	@Override
+	public ApiResponse<ApiMinerPower> getMinerPower(String currencyCode,String minerAddress) {
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+
+		if (currencyCode == null || currencyCode.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+		}
+		paramsMap.put("currencyCode", currencyCode);
+		paramsMap.put("minerAddress", minerAddress);
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_MINER_POWER);
+		String resBody = callToString(url, paramsMap);
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiMinerPower>>(){});
+	}
+
 }

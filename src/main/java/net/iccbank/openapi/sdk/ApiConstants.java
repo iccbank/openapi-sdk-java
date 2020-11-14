@@ -69,6 +69,8 @@ public class ApiConstants {
 
 	public static final String GET_TOTAL_BALANCE = VERSION + "/mch/getTotalBalance";
 
+	public static final String GET_MINER_POWER = VERSION + "/minerPower/getMinerPower";
+
 	public static final String concatUrl(String urlPrefix, String urlSuffix) {
 		return urlPrefix + urlSuffix;
 	}
