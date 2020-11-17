@@ -56,7 +56,7 @@ public class ApiConstants {
 
 	public static final String GET_CONVERSION_LIST = VERSION + "/conversion/getConversionList";
 
-	public static final String GET_CONVERSION_RATE = VERSION + "/conversionRate/getConversionRate";
+	public static final String GET_CONVERSION_RATE = VERSION + "/conversion/getConversionRate";
 
 
 	public static final String CONVERSION_CURRENCY_LIST = VERSION + "/conversion/getConversionCurrencies";
@@ -68,6 +68,8 @@ public class ApiConstants {
 	public static final String CREATE_FLOAT_RATE_CONVERSION = VERSION + "/conversion/createFloatRateConversion";
 
 	public static final String GET_TOTAL_BALANCE = VERSION + "/mch/getTotalBalance";
+
+	public static final String GET_MINER_POWER = VERSION + "/minerPower/getMinerPower";
 
 	public static final String concatUrl(String urlPrefix, String urlSuffix) {
 		return urlPrefix + urlSuffix;

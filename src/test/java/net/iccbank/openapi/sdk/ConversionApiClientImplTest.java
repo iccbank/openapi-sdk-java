@@ -53,7 +53,7 @@ public class ConversionApiClientImplTest {
     @Test
     public void getConversionOrderList() {
         GetConversionListReq req = new GetConversionListReq();
-        req.setPageIndex(3);
+        req.setPageIndex(1);
         req.setPageSize(20);
         ApiResponse<PageBO<ConversionOrderDetail>> result = client.getConversionOrderList(req);
         System.out.println(JsonUtils.toJsonString(result));
@@ -62,7 +62,7 @@ public class ConversionApiClientImplTest {
     @Test
     public void getConversionRate() {
         ConversionRateReq req =new ConversionRateReq();
-//        req.setCode("BTC/ETH");
+        req.setCode("BTC/ETH");
         req.setFixedRate(true);
         req.setAmountFrom(BigDecimal.ONE);
         ApiResponse<ConversionRate> result = client.getConversionRate(req);

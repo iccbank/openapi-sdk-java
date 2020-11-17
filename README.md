@@ -9,7 +9,7 @@
 - 1.3 - [代付地址注册](#7-3代付地址注册)
 - 1.4 - [创建代收地址](#7-4创建代收地址)
 - 1.5 - [代付](#7-5代付)
-- 1.6 - [代付-可以指定矿工费](#7-6代付-可以指定矿工费)
+- 1.6 - [代付-可以指定矿工费和手续费](#7-6代付-可以指定矿工费和手续费)
 - 1.7 - [代付订单查询](#7-7代付订单查询)
 - 1.8 - [获取账户余额列表](#7-8获取账户余额列表)
 - 1.9 - [代币搜索](#7-9代币搜索)
@@ -20,6 +20,7 @@
 - 1.14 - [查询账户余额列表-指定币种](#7-14查询账户余额列表-指定币种)
 - 1.15 - [查询账户余额-指定币种和账户类型](#7-15查询账户余额-指定币种和账户类型)
 - 1.16 - [查询账户总资产-指定币种](#7-16查询账户总资产-指定币种)
+- 1.17 - [查询旷工算力](#7-17查询旷工算力)
 
 **兑换相关接口**
 
@@ -354,7 +355,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 接收到平台通知之后，响应纯文本`success`表示成功，`error`表示失败
 
 
-### 7-6代付-可以指定矿工费
+### 7-6代付-可以指定矿工费和手续费
 
 > POST `/v1/agentPay/proxyPay2 `
 
@@ -371,6 +372,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |labelAddress     |否  |string | 标签地址,如XRP和EOS，这两种币的提币申请该字段可选，其它类型币种不填    |
 |amount     |是  |string | 数量     |
 |minerFee   |是  |string | 矿工费   |
+|fee   |是  |string | 手续费   |
 |notifyUrl     |否  |string | 通知地址（请正确填写，否则无法接收通知）    |
 
 **返回示例**
@@ -889,3 +891,42 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |currencyCode   |string |币种 请参考 [支持币种](#2-支持币种)  |
 | availableBalance | string | 可用余额                                                     |
 | frozenBalance    | string | 冻结余额                                   |
+
+
+### 7-17查询旷工算力
+
+>  POST `/v1/minerPower/getMinerPower` 
+
+> sdk方法 ApiClient.getMinerPower
+
+**参数：** 
+
+| 参数名       | 必选 | 类型   | 说明                                                         |
+| :----------- | :--- | :----- | ------------------------------------------------------------ |
+| currencyCode | 是   | string | 币种 请参考 [支持币种](#2-支持币种)  |
+|minerAddress |否  |string | 旷工地址，查询指定旷工算力    |
+
+ **返回示例**
+
+``` 
+{
+    "code": 200,
+    "data": {
+            "hasMinPower": false,
+             "minerPower":0,
+             "totalPower": 990602183546241024
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
+}
+```
+
+**返回参数说明** 
+
+| 参数名           | 类型   | 说明                                                         |
+| :--------------- | :----- | ------------------------------------------------------------ |
+|hasMinPower |boolean   |当前旷工是否有算力  |
+|minerPower |BigInteger   | 当前旷工算力，返回值单位是字节B，转PiB需要除以1024^5  |
+|totalPower |BigInteger   | 全网总算力，返回值单位值是字节B，转PiB需要除以1024^5  |
+

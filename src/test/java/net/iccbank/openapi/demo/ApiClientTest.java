@@ -98,4 +98,11 @@ public class ApiClientTest {
 		ApiResponse<ApiMchBalance.BalanceNode> res =  client.getTotalBalancesForCurrencyCode("DASH");
 		System.out.println(JsonUtils.toJsonString(res));
 	}
+
+	@Test
+	public void getMinerPower(){
+		ApiResponse<ApiMinerPower> res =  client.getMinerPower("FIL",null);
+		System.out.println(JsonUtils.toJsonString(res));
+	}
+
 }
