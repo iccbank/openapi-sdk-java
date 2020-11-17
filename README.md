@@ -21,6 +21,9 @@
 - 1.15 - [查询账户余额-指定币种和账户类型](#7-15查询账户余额-指定币种和账户类型)
 - 1.16 - [查询账户总资产-指定币种](#7-16查询账户总资产-指定币种)
 - 1.17 - [查询旷工算力](#7-17查询旷工算力)
+- 1.18 - [增加充值扫描地址](#7-18增加充值扫描地址)
+- 1.19 - [获取UTXO列表](#7-19获取UTXO列表)
+- 1.20 - [查询地址未花费余额](#7-20查询地址未花费余额)
 
 **兑换相关接口**
 
@@ -930,3 +933,134 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |minerPower |BigInteger   | 当前旷工算力，返回值单位是字节B，转PiB需要除以1024^5  |
 |totalPower |BigInteger   | 全网总算力，返回值单位值是字节B，转PiB需要除以1024^5  |
 
+### 7-18增加充值扫描地址
+> POST `/v1/proxyScanning/addressReg`
+
+> sdk方法 ApiClient.reporting
+
+**请求参数**
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|addressList |是  |list | 地址数组列表|
+|linkType |是  |int | 主链类型|
+|source |是  |int | 来源 1-新创建 2-导入地址 |
+
+**请求示例**
+```json
+{
+    "addressList":[
+        "xxxxxx","xzxxxxxxxxxxxxxxxxx"
+    ]
+    ,"linkType":"Bitcoin"
+    ,"source":1
+}
+```
+
+
+**返回示例**
+
+```
+{
+    "code":200,
+    "msg":"ok",
+    "subCode":"0",
+    "subMsg":"success"
+}
+
+```
+
+**业务参数说明**
+
+|参数名|类型|说明|
+|:-----  |:-----|-----|
+|name |string   | 名称 |
+
+
+
+### 7-19获取UTXO列表
+> POST `/v1/unspent/list`
+
+> sdk方法 ApiClient.fetchUnspentUTXO
+
+**请求参数**
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|currencyCode |是  |string | 币种|
+|address |是  |string | 地址|
+|amount |是  |string | 需要获取未花费的金额 |
+
+
+**返回示例**
+
+```
+{
+    "code": 200,
+    "data": [
+    {
+        "vout": 0,   // 此笔UTXO在交易里的位置(序号从0开始)
+        "txid": "2d69379385f5bf88170d482206167c4fa3aa577d7e1868cd4b5fd34b2e63baa0", // 交易hash
+        "address":"xxxxxxxxxxxxxxxxxxx",
+        "scriptPubKey": "76a9148adb995199ef0d0f5e90e8514030e135b944cbaa88ac", // 公钥脚本
+        "confirmations": 1147643, // 此交易的确认数
+        "value": "554.0"   // UTXO里包含的金额
+    }],
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
+}
+
+```
+
+**业务参数说明**
+
+|参数名|类型|说明|
+|:-----  |:-----|-----|
+|vout |string   |此笔UTXO在交易里的位置(序号从0开始)  |
+|txid |string   |交易hash  |
+|address |string   | 地址  |
+|scriptPubKey |string   | 公钥脚本  |
+|confirmations | int   | 此交易的确认数  |
+|value |string   | UTXO里包含的金额  |
+
+
+
+### 7-20查询地址未花费余额
+> POST `/v1/unspent/getBalanceByAddress`
+
+> sdk方法 ApiClient.getUnspentBalanceByAddress
+
+**请求参数**
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|currencyCode |是  |string | 币种|
+|address |是  |string | 地址|
+
+
+**返回示例**
+
+```
+{
+    "code": 200,
+    "data": 
+    {
+        "currencyCode": "BTC",
+        "address":"xxxxxxxxxxxxxxxxxxx",
+        "amount": "554.0"
+    },
+    "msg": "HTTP_OK",
+    "subCode": "0",
+    "subMsg": "success"
+}
+
+```
+
+**业务参数说明**
+
+|参数名|类型|说明|
+|:-----  |:-----|-----|
+|currencyCode |string   |币种  |
+|address |string   | 地址  |
+|amount |string   | 余额  |

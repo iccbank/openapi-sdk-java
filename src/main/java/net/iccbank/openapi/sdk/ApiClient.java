@@ -140,6 +140,40 @@ public interface ApiClient {
 	ApiResponse<ApiMchBalance.BalanceNode> getBalancesForCurrencyCodeAndAccountType(String currencyCode, Long accountType);
 
 	/**
+	 * @Author kevin
+	 * @Description 未花费UTXO列表
+	 * @Date Created on 2020/8/31 15:47
+	 * @param currencyCode 币种
+	 * @param address 地址
+	 * @param amount 需要获取的金额
+	 * @return
+	 * @since 1.1.0
+	 */
+	ApiResponse<List<ApiUnspentUtxo>> fetchUnspentUTXO(String currencyCode, String address, BigDecimal amount);
+
+	/**
+	 * @Author kevin
+	 * @Description 添加代扫描地址
+	 * @Date Created on 2020/8/31 15:51
+	 * @param address
+	 * @return
+	 * @since 1.1.0
+	 */
+	ApiResponse reporting(ApiProxyScanningAddress address);
+
+	/**
+	 * @Author kevin
+	 * @Description 查询地址未花费余额, 针对btc系列
+	 * @Date Created on 2020/9/3 9:55
+	 * @param currencyCode
+	 * @param address
+	 * @return
+	 * @since 1.1.0
+	 */
+	ApiResponse<ApiUnspentBalance> getUnspentBalanceByAddress(String currencyCode, String address);
+
+
+	/**
 	 * @Author huailong.wang
 	 * @Description 查询账户（指定币种）总资产
 	 * @Date Created on 2020/10/26 11:41

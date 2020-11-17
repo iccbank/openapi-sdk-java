@@ -44,6 +44,12 @@ public class ApiConstants {
 	
 	public static final String CURRENCY_ADD_TOKEN = VERSION + "/currency/addToken";
 
+	public static final String PROXY_SCANNING_ADDRESS_REG = VERSION + "/proxyScanning/addressReg";
+
+	public static final String UNSPENT_LIST = VERSION + "/unspent/list";
+
+	public static final String UNSPENT_GET_BALANCE_BY_ADDRESS = VERSION + "/unspent/getBalanceByAddress";
+
 	public static final String CURRENCY_FEE = VERSION + "/currency/bizFee";
 
 	public static final String QUERY_CURRENCY_CHAIN_LIST = VERSION + "/currency/queryChainList";
