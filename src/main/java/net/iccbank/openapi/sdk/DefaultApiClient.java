@@ -196,7 +196,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	
 	@Override
 	public ApiResponse<ApiAgencyWithdrawData> agencyWithdrawWithMinerFee(String userBizId, String subject,
-			String currencyCode, String address, String labelAddress, BigDecimal amount, BigDecimal minerFee,
+			String currencyCode, String address, String labelAddress, BigDecimal amount, BigDecimal minerFee, BigDecimal fee,
 			String notifyUrl) {
 		if (userBizId == null || userBizId.trim().equals("")) {
 			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [userBizId] required");
@@ -213,6 +213,12 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		if (amount == null) {
 			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] required");
 		}
+		if (minerFee == null) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [minerFee] required");
+		}
+		if (fee == null) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [fee] required");
+		}
 
 		if (amount.compareTo(BigDecimal.ZERO) <= 0) {
 			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] invalid");
@@ -221,7 +227,11 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		if (minerFee.compareTo(BigDecimal.ZERO) <= 0) {
 			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [minerFee] invalid");
 		}
-		
+
+		if (fee.compareTo(BigDecimal.ZERO) <= 0) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [fee] invalid");
+		}
+
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 		paramsMap.put("userBizId", userBizId);
 		if (subject != null) {
@@ -237,6 +247,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		}
 		paramsMap.put("amount", amount.stripTrailingZeros().toPlainString());
 		paramsMap.put("minerFee", minerFee.stripTrailingZeros().toPlainString());
+		paramsMap.put("fee", fee.stripTrailingZeros().toPlainString());
 
 		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.AGENCY_WITHDRAW2_URL);
 		String resBody = callToString(url, paramsMap);
@@ -542,6 +553,110 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_TOTAL_BALANCE);
 		String resBody = callToString(url, paramsMap);
 		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiMchBalance.BalanceNode>>(){});
+	}
+
+	@Override
+	public ApiResponse<ApiMinerPower> getMinerPower(String currencyCode,String minerAddress) {
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+
+		if (currencyCode == null || currencyCode.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+		}
+		paramsMap.put("currencyCode", currencyCode);
+		paramsMap.put("minerAddress", minerAddress);
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_MINER_POWER);
+		String resBody = callToString(url, paramsMap);
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiMinerPower>>(){});
+	}
+
+	/**
+	 * @Author kevin
+	 * @Description 未花费UTXO列表
+	 * @Date Created on 2020/8/31 15:47
+	 * @param currencyCode 币种
+	 * @param address 地址
+	 * @param amount 需要获取的金额
+	 * @return List<ApiUnspentUtxo>
+	 * @since 1.1.0
+	 */
+	@Override
+	public ApiResponse<List<ApiUnspentUtxo>> fetchUnspentUTXO(String currencyCode, String address, BigDecimal amount) {
+		if (currencyCode == null || currencyCode.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+		}
+		if (address == null || address.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [address] required");
+		}
+		if (amount == null) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] required");
+		}
+		if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] invalid");
+		}
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+		paramsMap.put("currencyCode", currencyCode);
+		paramsMap.put("address", address);
+		paramsMap.put("amount", amount);
+
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.UNSPENT_LIST);
+		String resBody = callToString(url, paramsMap);
+
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<List<ApiUnspentUtxo>>>(){});
+	}
+
+	/**
+	 * @Author kevin
+	 * @Description 添加代扫描地址
+	 * @Date Created on 2020/8/31 15:51
+	 * @param address
+	 * @return
+	 * @since 1.1.0
+	 */
+	@Override
+	public ApiResponse reporting(ApiProxyScanningAddress address) {
+		if (address == null) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [address] required");
+		}
+		if (address.getLinkType() == null) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [linkType] required");
+		}
+
+		if (!(address.getSource() == ApiProxyScanningAddress.SOURCE_IS_NEW || address.getSource() == ApiProxyScanningAddress.SOURCE_IS_LOAD)) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [Source] invalid");
+		}
+
+		List<String> addressLists = address.getAddressLists();
+		if (addressLists == null || addressLists.isEmpty()) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [addressLists] invalid");
+		}
+
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+		paramsMap.put("linkType", address.getLinkType());
+		paramsMap.put("addressLists", addressLists);
+		paramsMap.put("source", address.getSource());
+
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.PROXY_SCANNING_ADDRESS_REG);
+		ApiResponse resBody = call(url, paramsMap);
+		return resBody;
+	}
+
+	@Override
+	public ApiResponse<ApiUnspentBalance> getUnspentBalanceByAddress(String currencyCode, String address) {
+		if (currencyCode == null || currencyCode.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+		}
+		if (address == null || address.trim().equals("")) {
+			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [address] required");
+		}
+
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+		paramsMap.put("currencyCode", currencyCode);
+		paramsMap.put("address", address);
+
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.UNSPENT_GET_BALANCE_BY_ADDRESS);
+		String resBody = callToString(url, paramsMap);
+
+		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiUnspentBalance>>(){});
 	}
 
 }
