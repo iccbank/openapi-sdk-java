@@ -140,6 +140,23 @@ public interface ApiClient {
 	ApiResponse<ApiMchBalance.BalanceNode> getBalancesForCurrencyCodeAndAccountType(String currencyCode, Long accountType);
 
 	/**
+	 * @Author huailong.wang
+	 * @Description 查询账户（指定币种）总资产
+	 * @Date Created on 2020/10/26 11:41
+	 * @param currencyCode 币种
+	 */
+	ApiResponse<ApiMchBalance.BalanceNode> getTotalBalancesForCurrencyCode(String currencyCode);
+
+	/**
+	 * @Author panYong
+	 * @Description 查询旷工算力，minerAddress非必传
+	 * @Date Created on 2020/11/14 13:09
+	 * @param currencyCode 币种
+	 * @param minerAddress 旷工地址
+	 */
+	ApiResponse<ApiMinerPower> getMinerPower(String currencyCode,String minerAddress);
+
+	/**
 	 * @Author kevin
 	 * @Description 未花费UTXO列表
 	 * @Date Created on 2020/8/31 15:47
@@ -171,23 +188,5 @@ public interface ApiClient {
 	 * @since 1.1.0
 	 */
 	ApiResponse<ApiUnspentBalance> getUnspentBalanceByAddress(String currencyCode, String address);
-
-
-	/**
-	 * @Author huailong.wang
-	 * @Description 查询账户（指定币种）总资产
-	 * @Date Created on 2020/10/26 11:41
-	 * @param currencyCode 币种
-	 */
-	ApiResponse<ApiMchBalance.BalanceNode> getTotalBalancesForCurrencyCode(String currencyCode);
-
-	/**
-	 * @Author panYong
-	 * @Description 查询旷工算力，minerAddress非必传
-	 * @Date Created on 2020/11/14 13:09
-	 * @param currencyCode 币种
-	 * @param minerAddress 旷工地址
-	 */
-	ApiResponse<ApiMinerPower> getMinerPower(String currencyCode,String minerAddress);
 
 }
