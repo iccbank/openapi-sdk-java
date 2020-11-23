@@ -252,7 +252,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
 
     @Override
     public ApiResponse<Object> removeLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal liquidity,
-                                               BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine, BigDecimal gasPrice) {
+                                               BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Boolean approveMax, Long deadLine, BigDecimal gasPrice) {
         checkStringParam(thirdId, "thirdId");
         checkStringParam(methodName, "methodName");
         checkStringParam(tokenA, "tokenA");
@@ -265,6 +265,9 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         if (deadLine == null) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadLine] is null or invalid");
         }
+        if (approveMax == null) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [approveMax] is null or invalid");
+        }
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("thirdId", thirdId);
@@ -275,6 +278,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         paramsMap.put("amountAMin", amountAMin);
         paramsMap.put("amountBMin", amountBMin);
         paramsMap.put("addressTo", addressTo);
+        paramsMap.put("approveMax", approveMax);
         paramsMap.put("deadLine", deadLine);
         paramsMap.put("gasPrice", gasPrice);
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_REMOVE_LIQUIDITY);

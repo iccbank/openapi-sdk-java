@@ -42,7 +42,7 @@ public interface SwapApiClient {
      * @param gasPrice       gas费用
      */
     ApiResponse<Object> removeLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal liquidity,
-                                        BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine, BigDecimal gasPrice);
+                                        BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Boolean approveMax, Long deadLine, BigDecimal gasPrice);
 
     /**
      * @param thirdId
