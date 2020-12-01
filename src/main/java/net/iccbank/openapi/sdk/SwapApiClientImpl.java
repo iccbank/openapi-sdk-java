@@ -5,10 +5,7 @@ import net.iccbank.openapi.sdk.enums.SwapMethodNameEnum;
 import net.iccbank.openapi.sdk.exception.ICCBankException;
 import net.iccbank.openapi.sdk.model.ApiEncryptedBody;
 import net.iccbank.openapi.sdk.model.ApiResponse;
-import net.iccbank.openapi.sdk.model.swap.ApiAddLiquidityRes;
-import net.iccbank.openapi.sdk.model.swap.ApiRemoveLiquidityRes;
-import net.iccbank.openapi.sdk.model.swap.ApiSwapDetailRes;
-import net.iccbank.openapi.sdk.model.swap.ApiSwapRes;
+import net.iccbank.openapi.sdk.model.swap.*;
 import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
 import net.iccbank.openapi.sdk.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -390,4 +387,87 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_QUERY_DETAIL);
         return call(url, paramsMap);
     }
+
+    @Override
+    public  ApiResponse<TxFeeRes> queryTxFeeAddLiquidity(String methodName, String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired, BigDecimal amountAMin, BigDecimal amountBMin, String addressOut, Long deadline) {
+        checkStringParam("methodName",methodName);
+        checkStringParam("tokenA",tokenA);
+        checkAmountParam(amountADesired,"amountADesired");
+        checkAmountParam(amountBDesired,"amountBDesired");
+        checkAmountParam(amountAMin,"amountAMin");
+        checkAmountParam(amountBMin,"amountBMin");
+        checkStringParam("addressOut",addressOut);
+        if(deadline == null){
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadline] is null or invalid");
+        }
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        paramsMap.put("methodName", methodName);
+        paramsMap.put("tokenA", tokenA);
+        paramsMap.put("tokenB", tokenB);
+        paramsMap.put("amountADesired", amountADesired);
+        paramsMap.put("amountBDesired", amountBDesired);
+        paramsMap.put("amountAMin", amountAMin);
+        paramsMap.put("amountBMin", amountBMin);
+        paramsMap.put("addressOut", addressOut);
+        paramsMap.put("deadline", deadline);
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.QUERY_TX_FEE_ADD_LIQUIDITY);
+        return  call(url, paramsMap);
+    }
+
+    @Override
+    public ApiResponse<TxFeeRes> queryTxFeeRemoveLiquidity(String methodName, String tokenA, String tokenB, BigDecimal liquidity, BigDecimal amountAMin, BigDecimal amountBMin, String addressOut, Boolean approveMax, Long deadline) {
+        checkStringParam("methodName",methodName);
+        checkStringParam("tokenA",tokenA);
+        checkAmountParam(liquidity,"liquidity");
+        checkAmountParam(amountAMin,"amountAMin");
+        checkAmountParam(amountBMin,"amountBMin");
+        checkStringParam("addressOut",addressOut);
+        if(approveMax == null){
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [approveMax] is null or invalid");
+        }
+        if(deadline == null){
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadline] is null or invalid");
+        }
+
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        paramsMap.put("methodName", methodName);
+        paramsMap.put("tokenA", tokenA);
+        paramsMap.put("tokenB", tokenB);
+        paramsMap.put("liquidity", liquidity);
+        paramsMap.put("amountAMin", amountAMin);
+        paramsMap.put("amountBMin", amountBMin);
+        paramsMap.put("addressOut", addressOut);
+        paramsMap.put("approveMax", approveMax);
+        paramsMap.put("deadline", deadline);
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.QUERY_TX_FEE_REMOVE_LIQUIDITY);
+        return  call(url, paramsMap);
+    }
+
+    @Override
+    public ApiResponse<TxFeeRes> queryTxFeeSwapTransaction(String methodName,String tokenIn, String tokenOut, String address,  String swapContractPath, BigDecimal amountIn, BigDecimal amountOut, Long deadline) {
+        checkStringParam("tokenIn",tokenIn);
+        checkStringParam("tokenOut",tokenOut);
+        checkStringParam("address",address);
+        checkStringParam("methodName",methodName);
+        checkStringParam("swapContractPath",swapContractPath);
+        checkAmountParam(amountIn,"amountIn");
+        checkAmountParam(amountOut,"amountOut");
+        if(deadline == null){
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadline] is null or invalid");
+        }
+
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        paramsMap.put("tokenIn", tokenIn);
+        paramsMap.put("tokenOut", tokenOut);
+        paramsMap.put("address", address);
+        paramsMap.put("methodName", methodName);
+        paramsMap.put("swapContractPath", swapContractPath);
+        paramsMap.put("amountIn", amountIn);
+        paramsMap.put("amountOut", amountOut);
+        paramsMap.put("deadline", deadline);
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.QUERY_TX_FEE_SWAP_TRANSACTION);
+        return  call(url, paramsMap);
+    }
+
+
 }

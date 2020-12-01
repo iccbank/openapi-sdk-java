@@ -1,10 +1,7 @@
 package net.iccbank.openapi.sdk;
 
 import net.iccbank.openapi.sdk.model.ApiResponse;
-import net.iccbank.openapi.sdk.model.swap.ApiAddLiquidityRes;
-import net.iccbank.openapi.sdk.model.swap.ApiRemoveLiquidityRes;
-import net.iccbank.openapi.sdk.model.swap.ApiSwapDetailRes;
-import net.iccbank.openapi.sdk.model.swap.ApiSwapRes;
+import net.iccbank.openapi.sdk.model.swap.*;
 
 import java.math.BigDecimal;
 
@@ -90,5 +87,52 @@ public interface SwapApiClient {
      * @return
      */
     ApiResponse<ApiSwapDetailRes> querySwapDetail(String thirdId);
+
+
+    /**
+     * 查询矿工费-添加流动性
+     * @param methodName 合约方法名
+     * @param tokenA   tokenA不能为空
+     * @param tokenB tokenB为eth时 可为null
+     * @param amountADesired tokenA预期金额
+     * @param amountBDesired tokenB预期金额
+     * @param amountAMin tokenA最小金额
+     * @param amountBMin tokenB最小金额
+     * @param addressOut 用户地址
+     * @param deadline 截止时间(时间戳)
+     * @return
+     */
+    ApiResponse<TxFeeRes> queryTxFeeAddLiquidity(String methodName,String tokenA,String tokenB,BigDecimal amountADesired,BigDecimal amountBDesired,BigDecimal amountAMin,BigDecimal amountBMin,String addressOut,Long deadline);
+
+
+    /**
+     * 查询矿工费-移动流动性
+     * @param methodName 合约方法名
+     * @param tokenA  tokenA不能为空
+     * @param tokenB tokenB为eth时 可为null
+     * @param liquidity 流动性数量
+     * @param amountAMin tokenA最小金额
+     * @param amountBMin tokenB最小金额
+     * @param addressOut 用户地址
+     * @param approveMax 是否全部授权
+     * @param deadline 截止时间(时间戳)
+     * @return
+     */
+    ApiResponse<TxFeeRes> queryTxFeeRemoveLiquidity(String methodName,String tokenA,String tokenB,BigDecimal liquidity,BigDecimal amountAMin,BigDecimal amountBMin,String addressOut,Boolean approveMax,Long deadline);
+
+
+    /**
+     *  查询矿工费-发起兑换
+     * @param tokenIn 扣除资金代币Token ETH为空
+     * @param tokenOut 兑换资金代币Token ETH为空
+     * @param address 充值地址
+     * @param methodName 合约方法名
+     * @param swapContractPath 币对合约地址集合，多个地址逗号分隔
+     * @param amountIn 扣除资金代币数量
+     * @param amountOut 预期兑换资金代币数量
+     * @param deadline 截止时间(时间戳)
+     * @return
+     */
+    ApiResponse<TxFeeRes> queryTxFeeSwapTransaction(String methodName,String tokenIn,String tokenOut,String address,String swapContractPath,BigDecimal amountIn,BigDecimal amountOut,Long deadline);
 
 }

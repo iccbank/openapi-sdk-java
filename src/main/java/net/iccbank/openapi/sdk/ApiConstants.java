@@ -51,22 +51,26 @@ public class ApiConstants {
 	public static final String GET_CURRENCY_BY_CODE = VERSION + "/currency/getByCode";
 
 
-	public static final String SWAP_ADD_LIQUIDITY = VERSION + "/addLiquidity";
+	public static final String SWAP_ADD_LIQUIDITY = VERSION + "/swap/addLiquidity";
 
-	public static final String SWAP_REMOVE_LIQUIDITY = VERSION + "/removeLiquidity";
+	public static final String SWAP_REMOVE_LIQUIDITY = VERSION + "/swap/removeLiquidity";
 
-	public static final String SWAP_CREATE_TRANSACTION = VERSION + "/createSwapTransaction";
+	public static final String SWAP_CREATE_TRANSACTION = VERSION + "/swap/createSwapTransaction";
 
-	public static final String SWAP_QUERY_ADD_LIQUIDITY = VERSION + "/queryAddLiquidity";
+	public static final String SWAP_QUERY_ADD_LIQUIDITY = VERSION + "/swap/queryAddLiquidity";
 
-	public static final String SWAP_QUERY_REMOVE_LIQUIDITY = VERSION + "/queryRemoveLiquidity";
+	public static final String SWAP_QUERY_REMOVE_LIQUIDITY = VERSION + "/swap/queryRemoveLiquidity";
 
-	public static final String SWAP_QUERY_STATUS = VERSION + "/querySwapStatus";
+	public static final String SWAP_QUERY_STATUS = VERSION + "/swap/querySwapStatus";
 
-	public static final String SWAP_QUERY_DETAIL = VERSION + "/querySwapDetail";
+	public static final String SWAP_QUERY_DETAIL = VERSION + "/swap/querySwapDetail";
 
 
 	public static final String GET_TOTAL_BALANCE = VERSION + "/mch/getTotalBalance";
+
+	public static final String QUERY_TX_FEE_ADD_LIQUIDITY = VERSION + "/swap/queryTxFeeAddLiquidity";
+	public static final String QUERY_TX_FEE_REMOVE_LIQUIDITY = VERSION + "/swap/queryTxFeeRemoveLiquidity";
+	public static final String QUERY_TX_FEE_SWAP_TRANSACTION = VERSION + "/swap/queryTxFeeSwapTransaction";
 
 	public static final String concatUrl(String urlPrefix, String urlSuffix) {
 		return urlPrefix + urlSuffix;
