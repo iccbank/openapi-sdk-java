@@ -374,7 +374,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("thirdId", thirdId);
-        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_REMOVE_LIQUIDITY);
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_QUERY_REMOVE_LIQUIDITY);
         return call(url, paramsMap);
 	}
 
