@@ -17,11 +17,13 @@ public class ApiRemoveLiquidityRes implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String thirdId;
-    private String tokenC;
-    private String tokenCSymbol;
-    private BigDecimal amountTokenA;
-    private BigDecimal amountTokenB;
-    private BigDecimal amountTokenC;
-    private String addressTo;
-    private BigDecimal minerFee;
+    private String tokenA;
+    private String tokenB;
+    private BigDecimal liquidity;
+    private BigDecimal amountAActual;
+    private BigDecimal amountBActual;
+    private BigDecimal refundMinerFee;
+    private String addressOut;
+    private Integer status;
+    private BigDecimal serviceFee;
 }

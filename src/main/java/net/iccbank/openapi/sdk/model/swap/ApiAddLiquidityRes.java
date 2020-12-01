@@ -17,11 +17,14 @@ public class ApiAddLiquidityRes implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String thirdId;
-    private String tokenC;
-    private String tokenCSymbol;
-    private BigDecimal amountTokenA;
-    private BigDecimal amountTokenB;
-    private BigDecimal amountTokenC;
-    private String addressTo;
-    private BigDecimal minerFee;
+    private String tokenA;
+    private String tokenB;
+    private BigDecimal amountAActual;
+    private BigDecimal amountBActual;
+    private String addressOut;
+    private Integer status;
+    private BigDecimal refundAmountA;
+    private BigDecimal refundAmountB;
+    private BigDecimal refundMinerFee;
+    private BigDecimal serviceFee;
 }

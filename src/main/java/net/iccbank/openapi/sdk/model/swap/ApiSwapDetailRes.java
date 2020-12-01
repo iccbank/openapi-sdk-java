@@ -16,10 +16,6 @@ import java.util.Date;
 public class ApiSwapDetailRes implements Serializable {
 
 
-    private Long id;
-
-    private Long userId;
-
     private String appId;
 
     private String thirdId;
@@ -38,19 +34,11 @@ public class ApiSwapDetailRes implements Serializable {
 
     private BigDecimal amountIn;
 
-    private BigDecimal amountInMax;
-
     private BigDecimal amountInActual;
 
     private BigDecimal amountOut;
 
-    private BigDecimal amountOutMin;
-
-    private BigDecimal amountOutMax;
-
     private String addressOut;
-
-    private Long deadline;
 
     private BigDecimal minerInFee;
 
@@ -60,12 +48,9 @@ public class ApiSwapDetailRes implements Serializable {
 
     private String swapTxid;
 
-    private Integer supply;
-
     private Integer status;
 
     private Date createdOn;
 
-    private String swapContractPath;
-
+    private BigDecimal serviceFee;
 }
