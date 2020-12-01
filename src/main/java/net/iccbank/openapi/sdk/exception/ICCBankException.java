@@ -37,6 +37,11 @@ public class ICCBankException extends RuntimeException{
         return iccBankException;
     }
 
+    public static ICCBankException buildException(String subCode, String subMsg, Throwable e){
+        ICCBankException iccBankException = new ICCBankException(subCode, subMsg, e);
+        return iccBankException;
+    }
+
     public String getSubCode() {
         return subCode;
     }

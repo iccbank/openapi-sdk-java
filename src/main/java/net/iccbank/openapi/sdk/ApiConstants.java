@@ -44,11 +44,34 @@ public class ApiConstants {
 	
 	public static final String CURRENCY_ADD_TOKEN = VERSION + "/currency/addToken";
 
+	public static final String PROXY_SCANNING_ADDRESS_REG = VERSION + "/proxyScanning/addressReg";
+
+	public static final String UNSPENT_LIST = VERSION + "/unspent/list";
+
+	public static final String UNSPENT_GET_BALANCE_BY_ADDRESS = VERSION + "/unspent/getBalanceByAddress";
+
 	public static final String CURRENCY_FEE = VERSION + "/currency/bizFee";
 
 	public static final String QUERY_CURRENCY_CHAIN_LIST = VERSION + "/currency/queryChainList";
 
 	public static final String GET_CURRENCY_BY_CODE = VERSION + "/currency/getByCode";
+
+	public static final String GET_CONVERSION_STATUS = VERSION + "/conversion/getConversionStatus";
+
+	public static final String GET_CONVERSION_DETAIL = VERSION + "/conversion/getConversionDetail";
+
+	public static final String GET_CONVERSION_LIST = VERSION + "/conversion/getConversionList";
+
+	public static final String GET_CONVERSION_RATE = VERSION + "/conversion/getConversionRate";
+
+
+	public static final String CONVERSION_CURRENCY_LIST = VERSION + "/conversion/getConversionCurrencies";
+
+	public static final String CURRENCY_MINE_FEE_LIST = VERSION + "/conversion/getCurrencyMineFeeList";
+
+	public static final String CREATE_FIX_RATE_CONVERSION = VERSION + "/conversion/createFixRateConversion";
+
+	public static final String CREATE_FLOAT_RATE_CONVERSION = VERSION + "/conversion/createFloatRateConversion";
 
 
 	public static final String SWAP_ADD_LIQUIDITY = VERSION + "/swap/addLiquidity";
@@ -71,6 +94,8 @@ public class ApiConstants {
 	public static final String QUERY_TX_FEE_ADD_LIQUIDITY = VERSION + "/swap/queryTxFeeAddLiquidity";
 	public static final String QUERY_TX_FEE_REMOVE_LIQUIDITY = VERSION + "/swap/queryTxFeeRemoveLiquidity";
 	public static final String QUERY_TX_FEE_SWAP_TRANSACTION = VERSION + "/swap/queryTxFeeSwapTransaction";
+
+	public static final String GET_MINER_POWER = VERSION + "/minerPower/getMinerPower";
 
 	public static final String concatUrl(String urlPrefix, String urlSuffix) {
 		return urlPrefix + urlSuffix;

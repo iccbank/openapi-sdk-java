@@ -216,7 +216,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
 
     @Override
     public ApiResponse<Object> addLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired,
-                                            BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine) {
+                                            BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine, BigDecimal gasPrice) {
         checkStringParam(thirdId, "thirdId");
         checkStringParam(methodName, "methodName");
         checkStringParam(tokenA, "tokenA");
@@ -226,6 +226,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         checkAmountParam(amountBDesired, "amountBDesired");
         checkAmountParam(amountAMin, "amountAMin");
         checkAmountParam(amountBMin, "amountBMin");
+        checkAmountParam(gasPrice, "gasPrice");
         if (deadLine == null) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadLine] is null or invalid");
         }
@@ -241,13 +242,14 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         paramsMap.put("amountBMin", amountBMin);
         paramsMap.put("addressTo", addressTo);
         paramsMap.put("deadLine", deadLine);
+        paramsMap.put("gasPrice", gasPrice);
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_ADD_LIQUIDITY);
         return call(url, paramsMap);
     }
 
     @Override
     public ApiResponse<Object> removeLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal liquidity,
-                                               BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine) {
+                                               BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Boolean approveMax, Long deadLine, BigDecimal gasPrice) {
         checkStringParam(thirdId, "thirdId");
         checkStringParam(methodName, "methodName");
         checkStringParam(tokenA, "tokenA");
@@ -256,8 +258,12 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         checkAmountParam(liquidity, "liquidity");
         checkAmountParam(amountAMin, "amountAMin");
         checkAmountParam(amountBMin, "amountBMin");
+        checkAmountParam(gasPrice, "gasPrice");
         if (deadLine == null) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadLine] is null or invalid");
+        }
+        if (approveMax == null) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [approveMax] is null or invalid");
         }
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -269,15 +275,18 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         paramsMap.put("amountAMin", amountAMin);
         paramsMap.put("amountBMin", amountBMin);
         paramsMap.put("addressTo", addressTo);
+        paramsMap.put("approveMax", approveMax);
         paramsMap.put("deadLine", deadLine);
+        paramsMap.put("gasPrice", gasPrice);
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_REMOVE_LIQUIDITY);
         return call(url, paramsMap);
     }
 
     @Override
-    public ApiResponse<Object> swap(String thirdId, String tokenIn, String tokenOut, String addressIn, String minerInFee,  String methodName, String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut,  String addressOut, Long deadline) {
+    public ApiResponse<Object> swap(String thirdId, String tokenIn, String tokenOut, String addressIn, String minerInFee,  String methodName, String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut,  String addressOut, Long deadline, BigDecimal gasPrice) {
 
         checkSwapParams(thirdId, tokenIn, tokenOut, addressIn,minerInFee, methodName, swapContractPath, addressOut, deadline,amountIn,amountOut);
+        checkAmountParam(gasPrice, "gasPrice");
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("thirdId", thirdId);
@@ -291,6 +300,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         paramsMap.put("amountOut", amountOut);
         paramsMap.put("addressOut", addressOut);
         paramsMap.put("deadline", deadline);
+        paramsMap.put("gasPrice", gasPrice);
 
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_CREATE_TRANSACTION);
         return call(url, paramsMap);

@@ -20,9 +20,10 @@ public interface SwapApiClient {
      * @param amountBMin     B最小数量
      * @param addressTo      用户token地址
      * @param deadLine       处理截止时间戳（秒）
+     * @param gasPrice       gas费用
      */
     ApiResponse<Object> addLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired,
-                                     BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine);
+                                     BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine, BigDecimal gasPrice);
 
     /**
      * 取出流动性
@@ -35,9 +36,10 @@ public interface SwapApiClient {
      * @param amountBMin B最小数量
      * @param addressTo  用户token地址
      * @param deadLine   处理截止时间戳（秒）
+     * @param gasPrice       gas费用
      */
     ApiResponse<Object> removeLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal liquidity,
-                                        BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine);
+                                        BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Boolean approveMax, Long deadLine, BigDecimal gasPrice);
 
     /**
      * @param thirdId
@@ -50,10 +52,11 @@ public interface SwapApiClient {
      * @param amountOut        预期兑换资金代币数量
      * @param addressOut        转出地址
      * @param deadline         截止时间(时间戳)
+     * @param gasPrice         gas费用
      * @return
      */
     ApiResponse<Object> swap(String thirdId,String tokenIn, String tokenOut, String addressIn, String minerInFee,String methodName,
-                             String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut, String addressOut, Long deadline);
+                             String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut, String addressOut, Long deadline, BigDecimal gasPrice);
 
 
     /**
