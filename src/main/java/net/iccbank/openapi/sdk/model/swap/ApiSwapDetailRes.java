@@ -16,21 +16,13 @@ import java.util.Date;
 public class ApiSwapDetailRes implements Serializable {
 
 
-    private String appId;
-
     private String thirdId;
 
     private String tokenIn;
 
     private String tokenOut;
 
-    private String addressIn;
-
-    private String currencyIn;
-
-    private String currencyOut;
-
-    private String swapMethodName;
+    private String address;
 
     private BigDecimal amountIn;
 
@@ -38,13 +30,9 @@ public class ApiSwapDetailRes implements Serializable {
 
     private BigDecimal amountOut;
 
-    private String addressOut;
+    private BigDecimal amountOutActual;
 
     private BigDecimal minerInFee;
-
-    private Date swapTriggerDate;
-
-    private Date swapClosureDate;
 
     private String swapTxid;
 
