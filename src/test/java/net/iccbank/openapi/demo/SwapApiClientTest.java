@@ -60,6 +60,7 @@ public class SwapApiClientTest {
 		Long deadline = 1606981505000L;
 		ApiResponse<TxFeeRes> response = client.queryTxFeeAddLiquidity(methodName,tokenA,tokenB,amountADesired,amountBDesired,amountAMin,amountBMin,addressOut,deadline);
 		System.out.println(JsonUtils.toJsonString(response));
+		System.out.println(response.getData().getGasFee());
 //		{"code":200,"data":{"gasFee":0.0075,"gasLimit":7500000,"gasPrice":3.0E-9},"msg":"HTTP_OK","subCode":"0","subMsg":"success","success":true}
 	}
 

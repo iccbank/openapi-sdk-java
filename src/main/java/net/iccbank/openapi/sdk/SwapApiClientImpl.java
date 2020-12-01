@@ -215,7 +215,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
     }
 
     @Override
-    public ApiResponse<Object> addLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired,
+    public ApiResponse addLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired,
                                             BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine, BigDecimal gasPrice) {
         checkStringParam(thirdId, "thirdId");
         checkStringParam(methodName, "methodName");
@@ -248,7 +248,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
     }
 
     @Override
-    public ApiResponse<Object> removeLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal liquidity,
+    public ApiResponse removeLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal liquidity,
                                                BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Boolean approveMax, Long deadLine, BigDecimal gasPrice) {
         checkStringParam(thirdId, "thirdId");
         checkStringParam(methodName, "methodName");
@@ -283,7 +283,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
     }
 
     @Override
-    public ApiResponse<Object> swap(String thirdId, String tokenIn, String tokenOut, String addressIn, String minerInFee,  String methodName, String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut,  String addressOut, Long deadline, BigDecimal gasPrice) {
+    public ApiResponse swap(String thirdId, String tokenIn, String tokenOut, String addressIn, String minerInFee,  String methodName, String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut,  String addressOut, Long deadline, BigDecimal gasPrice) {
 
         checkSwapParams(thirdId, tokenIn, tokenOut, addressIn,minerInFee, methodName, swapContractPath, addressOut, deadline,amountIn,amountOut);
         checkAmountParam(gasPrice, "gasPrice");
@@ -365,7 +365,8 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("thirdId", thirdId);
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_QUERY_ADD_LIQUIDITY);
-        return call(url, paramsMap);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiAddLiquidityRes>>(){});
     }
 
 	@Override
@@ -375,7 +376,8 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("thirdId", thirdId);
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_QUERY_REMOVE_LIQUIDITY);
-        return call(url, paramsMap);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiRemoveLiquidityRes>>(){});
 	}
 
     @Override
@@ -385,7 +387,8 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("thirdId", thirdId);
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_QUERY_STATUS);
-        return call(url, paramsMap);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiSwapRes>>(){});
     }
 
     @Override
@@ -395,7 +398,8 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("thirdId", thirdId);
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_QUERY_DETAIL);
-        return call(url, paramsMap);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiSwapDetailRes>>(){});
     }
 
     @Override
@@ -421,7 +425,8 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         paramsMap.put("addressOut", addressOut);
         paramsMap.put("deadline", deadline);
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.QUERY_TX_FEE_ADD_LIQUIDITY);
-        return  call(url, paramsMap);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<TxFeeRes>>(){});
     }
 
     @Override
@@ -450,7 +455,8 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         paramsMap.put("approveMax", approveMax);
         paramsMap.put("deadline", deadline);
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.QUERY_TX_FEE_REMOVE_LIQUIDITY);
-        return  call(url, paramsMap);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<TxFeeRes>>(){});
     }
 
     @Override
@@ -476,7 +482,8 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         paramsMap.put("amountOut", amountOut);
         paramsMap.put("deadline", deadline);
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.QUERY_TX_FEE_SWAP_TRANSACTION);
-        return  call(url, paramsMap);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<TxFeeRes>>(){});
     }
 
 
