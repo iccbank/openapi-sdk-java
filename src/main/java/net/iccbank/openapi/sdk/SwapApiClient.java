@@ -47,19 +47,18 @@ public interface SwapApiClient {
      * @param thirdId
      * @param tokenIn          扣除资金代币Token ETH为空
      * @param tokenOut         兑换资金代币Token ETH为空
-     * @param addressIn        支付地址
+     * @param address           转出地址
      * @param methodName       合约方法名
      * @param swapContractPath 币对合约地址
      * @param amountIn         扣除资金代币数量
      * @param amountOut        预期兑换资金代币数量
-     * @param addressOut       转出地址
      * @param deadline         截止时间(时间戳)
      * @param gasPrice         gas费用
      * @param serviceFee       服务费
      * @return
      */
-    ApiResponse swap(String thirdId,String tokenIn, String tokenOut, String addressIn, BigDecimal minerInFee,String methodName,
-                             String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut, String addressOut, Long deadline, BigDecimal gasPrice, BigDecimal serviceFee);
+    ApiResponse swap(String thirdId,String tokenIn, String tokenOut, String address, BigDecimal minerInFee,String methodName,
+                             String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut,  Long deadline, BigDecimal gasPrice, BigDecimal serviceFee);
 
 
     /**
