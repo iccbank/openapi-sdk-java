@@ -21,9 +21,10 @@ public interface SwapApiClient {
      * @param addressTo      用户token地址
      * @param deadLine       处理截止时间戳（秒）
      * @param gasPrice       gas费用
+     * @param serviceFee     服务费
      */
     ApiResponse addLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired,
-                                     BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine, BigDecimal gasPrice);
+                                     BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine, BigDecimal gasPrice, BigDecimal serviceFee);
 
     /**
      * 取出流动性
@@ -36,10 +37,11 @@ public interface SwapApiClient {
      * @param amountBMin B最小数量
      * @param addressTo  用户token地址
      * @param deadLine   处理截止时间戳（秒）
-     * @param gasPrice       gas费用
+     * @param gasPrice   gas费用
+     * @param serviceFee 服务费
      */
     ApiResponse removeLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal liquidity,
-                                        BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Boolean approveMax, Long deadLine, BigDecimal gasPrice);
+                                        BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Boolean approveMax, Long deadLine, BigDecimal gasPrice, BigDecimal serviceFee);
 
     /**
      * @param thirdId
@@ -50,13 +52,14 @@ public interface SwapApiClient {
      * @param swapContractPath 币对合约地址
      * @param amountIn         扣除资金代币数量
      * @param amountOut        预期兑换资金代币数量
-     * @param addressOut        转出地址
+     * @param addressOut       转出地址
      * @param deadline         截止时间(时间戳)
      * @param gasPrice         gas费用
+     * @param serviceFee       服务费
      * @return
      */
     ApiResponse swap(String thirdId,String tokenIn, String tokenOut, String addressIn, String minerInFee,String methodName,
-                             String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut, String addressOut, Long deadline, BigDecimal gasPrice);
+                             String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut, String addressOut, Long deadline, BigDecimal gasPrice, BigDecimal serviceFee);
 
 
     /**

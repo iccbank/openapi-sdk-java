@@ -17,4 +17,9 @@ public class TxFeeRes implements Serializable {
     private BigInteger gasLimit;   //估算的gaslimit
     private BigDecimal gasPrice;   //gas价格，单位ETH
     private BigDecimal gasFee;     //交易手续费， 单位ETH
+
+    /**
+     * 服务费
+     */
+    private BigDecimal serviceFee;
 }
