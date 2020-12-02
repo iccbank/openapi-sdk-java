@@ -289,13 +289,9 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
     }
 
     @Override
-    public ApiResponse swap(String thirdId, String tokenIn, String tokenOut, String addressIn, String minerInFee,  String methodName, String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut,  String addressOut, Long deadline, BigDecimal gasPrice, BigDecimal serviceFee) {
+    public ApiResponse swap(String thirdId, String tokenIn, String tokenOut, String addressIn, BigDecimal minerInFee,  String methodName, String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut,  String addressOut, Long deadline, BigDecimal gasPrice, BigDecimal serviceFee) {
 
-        checkSwapParams(thirdId, tokenIn, tokenOut, addressIn,minerInFee, methodName, swapContractPath, addressOut, deadline,amountIn,amountOut);
-        checkAmountParam(gasPrice, "gasPrice");
-        if (serviceFee == null || serviceFee.compareTo(BigDecimal.ZERO) < 0) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [serviceFee] is null or invalid");
-        }
+        checkSwapParams(thirdId, tokenIn, tokenOut, addressIn,minerInFee, methodName, swapContractPath, addressOut, deadline,amountIn,amountOut,gasPrice,serviceFee);
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("thirdId", thirdId);
@@ -315,7 +311,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         return call(url, paramsMap);
     }
 
-    private void checkSwapParams( String thirdId, String tokenIn, String tokenOut, String addressIn, String minerInFee,String methodName, String[] swapContractPath, String addressOut, Long deadline, BigDecimal amountIn, BigDecimal amountOut) {
+    private void checkSwapParams( String thirdId, String tokenIn, String tokenOut, String addressIn, BigDecimal minerInFee,String methodName, String[] swapContractPath, String addressOut, Long deadline, BigDecimal amountIn, BigDecimal amountOut, BigDecimal gasPrice, BigDecimal serviceFee) {
         if (thirdId == null || thirdId.trim().equals("")) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [thirdId]  required");
         }
@@ -325,8 +321,11 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         if (addressIn == null || addressIn.trim().equals("")) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [addressIn]  required");
         }
-        if (minerInFee == null || minerInFee.trim().equals("")) {
+        if (minerInFee == null) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [methodName]  required");
+        }
+        if (minerInFee.compareTo(BigDecimal.ZERO) < 0){
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [" + minerInFee + "] is invalid");
         }
         if (methodName == null || methodName.trim().equals("")) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [methodName]  required");
@@ -350,6 +349,12 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         }
         if (amountOut == null || amountOut.compareTo(BigDecimal.ZERO) <= 0) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [" + amountOut + "] is null or invalid");
+        }
+        if (gasPrice == null || gasPrice.compareTo(BigDecimal.ZERO) < 0) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [gasPrice] is null or invalid");
+        }
+        if (serviceFee == null || serviceFee.compareTo(BigDecimal.ZERO) < 0) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [serviceFee] is null or invalid");
         }
 
     }

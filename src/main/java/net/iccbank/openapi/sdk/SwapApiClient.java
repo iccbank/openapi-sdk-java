@@ -58,7 +58,7 @@ public interface SwapApiClient {
      * @param serviceFee       服务费
      * @return
      */
-    ApiResponse swap(String thirdId,String tokenIn, String tokenOut, String addressIn, String minerInFee,String methodName,
+    ApiResponse swap(String thirdId,String tokenIn, String tokenOut, String addressIn, BigDecimal minerInFee,String methodName,
                              String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut, String addressOut, Long deadline, BigDecimal gasPrice, BigDecimal serviceFee);
 
 
