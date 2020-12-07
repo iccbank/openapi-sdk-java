@@ -32,6 +32,9 @@ public class ApiSwapDetailRes implements Serializable {
 
     private BigDecimal amountOutActual;
 
+    private BigDecimal refundAmount;
+    private BigDecimal refundMinerFee;
+
     private BigDecimal minerInFee;
 
     private String swapTxid;
