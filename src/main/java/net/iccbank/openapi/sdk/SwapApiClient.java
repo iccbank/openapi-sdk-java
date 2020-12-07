@@ -47,7 +47,7 @@ public interface SwapApiClient {
      * @param thirdId
      * @param tokenIn          扣除资金代币Token ETH为空
      * @param tokenOut         兑换资金代币Token ETH为空
-     * @param address           转出地址
+     * @param address          用户token地址
      * @param methodName       合约方法名
      * @param swapContractPath 币对合约地址
      * @param amountIn         扣除资金代币数量
