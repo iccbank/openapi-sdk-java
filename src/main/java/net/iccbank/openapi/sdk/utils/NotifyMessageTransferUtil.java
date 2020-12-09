@@ -18,8 +18,8 @@ public class NotifyMessageTransferUtil<T> {
      * @param decryptMessage 未解密的原始通知消息
      * @return
      */
-    public T getNotifyMessage(String token,String decryptMessage,Class<T> clazz){
-        return getNotifyMessage(token,decryptMessage,ApiConstants.PLATFORM_NOTIFY_PUBLIC_KEY,clazz);
+    public T transferNotifyMessage(String token,String decryptMessage,Class<T> clazz){
+        return transferNotifyMessage(token,decryptMessage,ApiConstants.PLATFORM_NOTIFY_PUBLIC_KEY,clazz);
     }
 
 
@@ -29,7 +29,7 @@ public class NotifyMessageTransferUtil<T> {
      * @param publickKey 验签公钥
      * @return
      */
-    public  T getNotifyMessage(String token,String decryptMessage,String publickKey,Class<T> clazz){
+    public  T transferNotifyMessage(String token,String decryptMessage,String publickKey,Class<T> clazz){
         //解密
         String resBody =  decrypt(token,decryptMessage);
         //验签

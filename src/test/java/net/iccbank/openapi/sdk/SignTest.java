@@ -21,7 +21,7 @@ public class SignTest {
 //        System.out.println(vR);
 
         NotifyMessageTransferUtil<BizSwapAddLiquidityNotifyBO> notifyMessageUtils = new NotifyMessageTransferUtil<>();
-        BizSwapAddLiquidityNotifyBO msg = notifyMessageUtils.getNotifyMessage(token,result,BizSwapAddLiquidityNotifyBO.class);
+        BizSwapAddLiquidityNotifyBO msg = notifyMessageUtils.transferNotifyMessage(token,result,BizSwapAddLiquidityNotifyBO.class);
         System.out.println(msg);
     }
 
