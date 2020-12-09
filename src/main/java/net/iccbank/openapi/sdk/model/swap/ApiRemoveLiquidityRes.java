@@ -24,6 +24,7 @@ public class ApiRemoveLiquidityRes implements Serializable {
     private BigDecimal amountBActual;
     private BigDecimal refundMinerFee;
     private String addressOut;
+    private String txid;
     private Integer status;
     private BigDecimal serviceFee;
 }

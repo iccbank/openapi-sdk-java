@@ -22,6 +22,7 @@ public class ApiAddLiquidityRes implements Serializable {
     private BigDecimal amountAActual;
     private BigDecimal amountBActual;
     private String addressOut;
+    private String txid;
     private Integer status;
     private BigDecimal refundAmountA;
     private BigDecimal refundAmountB;
