@@ -219,7 +219,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
                                             BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadline, BigDecimal gasPrice, BigDecimal serviceFee, BigDecimal minerInFee) {
         checkStringParam(thirdId, "thirdId");
         checkStringParam(methodName, "methodName");
-        checkStringParam(tokenA, "tokenA");
+        //checkStringParam(tokenA, "tokenA");
         checkStringParam(addressTo, "addressTo");
 
         checkAmountParam(amountADesired, "amountADesired");
@@ -256,7 +256,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
                                                BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Boolean approveMax, Long deadline, BigDecimal gasPrice, BigDecimal serviceFee, BigDecimal minerInFee) {
         checkStringParam(thirdId, "thirdId");
         checkStringParam(methodName, "methodName");
-        checkStringParam(tokenA, "tokenA");
+        //checkStringParam(tokenA, "tokenA");
         checkStringParam(addressTo, "addressTo");
 
         checkAmountParam(liquidity, "liquidity");
@@ -271,6 +271,9 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         }
         if (serviceFee == null || serviceFee.compareTo(BigDecimal.ZERO) < 0) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [serviceFee] is null or invalid");
+        }
+        if (StringUtils.isBlank(tokenA) && StringUtils.isBlank(tokenB)) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [tokenA] OR [tokenB] required");
         }
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
