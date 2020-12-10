@@ -46,10 +46,11 @@ public interface SwapApiClient {
                                         BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Boolean approveMax, Long deadline, BigDecimal gasPrice, BigDecimal serviceFee, BigDecimal minerInFee);
 
     /**
-     * @param thirdId
+     * @param thirdId          业务id
      * @param tokenIn          扣除资金代币Token ETH为空
      * @param tokenOut         兑换资金代币Token ETH为空
      * @param address          用户token地址
+     * @param minerInFee       矿工费
      * @param methodName       合约方法名
      * @param swapContractPath 币对合约地址
      * @param amountIn         扣除资金代币数量
@@ -60,7 +61,7 @@ public interface SwapApiClient {
      * @return
      */
     ApiResponse swap(String thirdId,String tokenIn, String tokenOut, String address, BigDecimal minerInFee,String methodName,
-                             String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut,  Long deadline, BigDecimal gasPrice, BigDecimal serviceFee);
+                             String swapContractPath, BigDecimal amountIn, BigDecimal amountOut,  Long deadline, BigDecimal gasPrice, BigDecimal serviceFee);
 
 
     /**

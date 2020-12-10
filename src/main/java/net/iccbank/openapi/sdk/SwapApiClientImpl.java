@@ -291,7 +291,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
     }
 
     @Override
-    public ApiResponse swap(String thirdId, String tokenIn, String tokenOut, String address, BigDecimal minerInFee,  String methodName, String[] swapContractPath, BigDecimal amountIn, BigDecimal amountOut,  Long deadline, BigDecimal gasPrice, BigDecimal serviceFee) {
+    public ApiResponse swap(String thirdId, String tokenIn, String tokenOut, String address, BigDecimal minerInFee,  String methodName, String swapContractPath, BigDecimal amountIn, BigDecimal amountOut,  Long deadline, BigDecimal gasPrice, BigDecimal serviceFee) {
 
         checkSwapParams(thirdId, tokenIn, tokenOut, address,minerInFee, methodName, swapContractPath, deadline,amountIn,amountOut,gasPrice,serviceFee);
 
@@ -312,7 +312,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         return call(url, paramsMap);
     }
 
-    private void checkSwapParams( String thirdId, String tokenIn, String tokenOut, String address, BigDecimal minerInFee,String methodName, String[] swapContractPath, Long deadline, BigDecimal amountIn, BigDecimal amountOut, BigDecimal gasPrice, BigDecimal serviceFee) {
+    private void checkSwapParams( String thirdId, String tokenIn, String tokenOut, String address, BigDecimal minerInFee,String methodName, String swapContractPath, Long deadline, BigDecimal amountIn, BigDecimal amountOut, BigDecimal gasPrice, BigDecimal serviceFee) {
         if (thirdId == null || thirdId.trim().equals("")) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [thirdId]  required");
         }
@@ -331,13 +331,8 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         if (methodName == null || methodName.trim().equals("")) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [methodName]  required");
         }
-        if (swapContractPath == null || swapContractPath.length <= 0) {
+        if (swapContractPath == null || swapContractPath.trim().equals("")) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [swapContractPath]  required");
-        }
-        for (String path : swapContractPath) {
-            if (path == null || path.trim().equals("")) {
-                throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "invalid parameter [swapContractPath]");
-            }
         }
         if (deadline == null) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [deadline]  required");

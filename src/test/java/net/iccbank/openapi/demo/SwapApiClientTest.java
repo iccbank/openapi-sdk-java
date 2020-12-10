@@ -35,7 +35,7 @@ public class SwapApiClientTest {
 		BigDecimal amountBDesired = BigDecimal.valueOf(600);
 		BigDecimal amountAMin = BigDecimal.valueOf(90);
 		BigDecimal amountBMin = BigDecimal.valueOf(592);
-		String addressOut = "0xEd363f32136FB745E2AA975dfaa3E0f779BE84dD";
+		String addressOut = "0xd98da0BA4247E616E8d402AAC4c58dcEc1D1d0Be";
 		Long deadline = 1606981505000L;
 		BigDecimal gasPrice = new BigDecimal("0.000000004547515013");
 		BigDecimal minerInFee = new BigDecimal("0.000000004547515013");
@@ -52,7 +52,7 @@ public class SwapApiClientTest {
 		BigDecimal amountBDesired = BigDecimal.valueOf(600);
 		BigDecimal amountAMin = BigDecimal.valueOf(90);
 		BigDecimal amountBMin = BigDecimal.valueOf(592);
-		String addressOut = "0xEd363f32136FB745E2AA975dfaa3E0f779BE84dD";
+		String addressOut = "0xd98da0BA4247E616E8d402AAC4c58dcEc1D1d0Be";
 		Long deadline = 1606981505000L;
 		BigDecimal gasPrice = new BigDecimal("0.000000004547515013");
 		BigDecimal minerInFee = new BigDecimal("0.000000004547515013");
@@ -63,7 +63,18 @@ public class SwapApiClientTest {
 
 	@Test
 	public void testSwap() {
-		//
+		String methodName = "swapExactTokensForTokens";
+		String tokenIn = "0x6c31a6ca2ce248ee4456d2972f5744bf4a2a2b4b";
+		String tokenOut	 = "0x93efb82cf2a9b30608c1ce2cd28de70a198724a9";
+		String address	 = "0xd98da0BA4247E616E8d402AAC4c58dcEc1D1d0Be";
+		String swapContractPath	 = "0x5f3ca1D59F54A853eF639b2ec9EEAfE06DE00197,0x5f3ca1D59F54A853eF639b2ec9EEAfE06DE00197";
+		BigDecimal amountIn = BigDecimal.valueOf(90);
+		BigDecimal amountOut = BigDecimal.valueOf(90);
+		Long deadline = 1606981505000L;
+		BigDecimal gasPrice = new BigDecimal("0.000000004547515013");
+		BigDecimal minerInFee = new BigDecimal("0.000000004547515013");
+		ApiResponse res = client.swap("px555", tokenIn, tokenOut, address, minerInFee, methodName, swapContractPath, amountIn, amountOut, deadline, gasPrice, BigDecimal.ZERO);
+		System.out.println(JsonUtils.toJsonString(res));
 	}
 
 	@Test
@@ -90,7 +101,7 @@ public class SwapApiClientTest {
 		BigDecimal amountBDesired = BigDecimal.valueOf(600);
 		BigDecimal amountAMin = BigDecimal.valueOf(90);
 		BigDecimal amountBMin = BigDecimal.valueOf(592);
-		String addressOut = "0x5f3ca1D59F54A853eF639b2ec9EEAfE06DE00197";
+		String addressOut = "0xd98da0BA4247E616E8d402AAC4c58dcEc1D1d0Be";
 		Long deadline = 1606981505000L;
 		ApiResponse<TxFeeRes> response = client.queryTxFeeAddLiquidity(methodName,tokenA,tokenB,amountADesired,amountBDesired,amountAMin,amountBMin,addressOut,deadline);
 		System.out.println(JsonUtils.toJsonString(response));
@@ -107,7 +118,7 @@ public class SwapApiClientTest {
 		BigDecimal liquidity = BigDecimal.valueOf(1);
 		BigDecimal amountAMin = BigDecimal.valueOf(90);
 		BigDecimal amountBMin = BigDecimal.valueOf(592);
-		String addressOut = "0x2e90B398fDB56e2f82ce16B9a46263db66240279";
+		String addressOut = "0xd98da0BA4247E616E8d402AAC4c58dcEc1D1d0Be";
 		Boolean approveMax = true;
 		Long deadline = 1606981505000L;
 		ApiResponse<TxFeeRes> response =	client.queryTxFeeRemoveLiquidity(methodName,tokenA,tokenB,liquidity,amountAMin,amountBMin,addressOut,approveMax,deadline);
