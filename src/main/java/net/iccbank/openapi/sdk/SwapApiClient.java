@@ -19,12 +19,13 @@ public interface SwapApiClient {
      * @param amountAMin     A最小数量
      * @param amountBMin     B最小数量
      * @param addressTo      用户token地址
-     * @param deadLine       处理截止时间戳（秒）
+     * @param deadline       处理截止时间戳（秒）
      * @param gasPrice       gas费用
      * @param serviceFee     服务费
+     * @param minerInFee     矿工费
      */
     ApiResponse addLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired,
-                                     BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine, BigDecimal gasPrice, BigDecimal serviceFee);
+                                     BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadline, BigDecimal gasPrice, BigDecimal serviceFee, BigDecimal minerInFee);
 
     /**
      * 取出流动性
@@ -36,12 +37,13 @@ public interface SwapApiClient {
      * @param amountAMin A最小数量
      * @param amountBMin B最小数量
      * @param addressTo  用户token地址
-     * @param deadLine   处理截止时间戳（秒）
+     * @param deadline   处理截止时间戳（秒）
      * @param gasPrice   gas费用
      * @param serviceFee 服务费
+     * @param minerInFee 矿工费
      */
     ApiResponse removeLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal liquidity,
-                                        BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Boolean approveMax, Long deadLine, BigDecimal gasPrice, BigDecimal serviceFee);
+                                        BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Boolean approveMax, Long deadline, BigDecimal gasPrice, BigDecimal serviceFee, BigDecimal minerInFee);
 
     /**
      * @param thirdId

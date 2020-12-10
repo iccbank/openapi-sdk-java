@@ -38,7 +38,7 @@ public class ApiClientTest {
 
 	@Test
 	public void createAgencyRechargeAddress(){
-		ApiResponse<List<ApiAddress>> res = client.createAgencyRechargeAddress("FIL", 1, "Batch"+System.currentTimeMillis());
+		ApiResponse<List<ApiAddress>> res = client.createAgencyRechargeAddress("ETH", 1, "Batch"+System.currentTimeMillis());
 		System.out.println(JsonUtils.toJsonString(res));
 	}
 
@@ -88,11 +88,11 @@ public class ApiClientTest {
 	
 	@Test
 	public void addToken() {
-		ApiResponse<ApiCurrencyData> res = client.currencyAddToken("ethereum", "0xb0c2e9a1e5d379a2e22a570e5b9773da5c30bd27");
+		ApiResponse<ApiCurrencyData> res = client.currencyAddToken("ethereum", "0x6c31a6ca2ce248ee4456d2972f5744bf4a2a2b4b");
 		System.out.println(JsonUtils.toJsonString(res));
 		
-		ApiResponse<ApiCurrencyData> res2 = client.currencyAddToken("tron", "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t");
-		System.out.println(JsonUtils.toJsonString(res2));
+//		ApiResponse<ApiCurrencyData> res2 = client.currencyAddToken("tron", "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t");
+//		System.out.println(JsonUtils.toJsonString(res2));
 	}
 
 	@Test

@@ -216,7 +216,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
 
     @Override
     public ApiResponse addLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired,
-                                            BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadLine, BigDecimal gasPrice, BigDecimal serviceFee) {
+                                            BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Long deadline, BigDecimal gasPrice, BigDecimal serviceFee, BigDecimal minerInFee) {
         checkStringParam(thirdId, "thirdId");
         checkStringParam(methodName, "methodName");
         checkStringParam(tokenA, "tokenA");
@@ -227,8 +227,8 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         checkAmountParam(amountAMin, "amountAMin");
         checkAmountParam(amountBMin, "amountBMin");
         checkAmountParam(gasPrice, "gasPrice");
-        if (deadLine == null) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadLine] is null or invalid");
+        if (deadline == null) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadline] is null or invalid");
         }
         if (serviceFee == null || serviceFee.compareTo(BigDecimal.ZERO) < 0) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [serviceFee] is null or invalid");
@@ -243,16 +243,17 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         paramsMap.put("amountBDesired", amountBDesired);
         paramsMap.put("amountAMin", amountAMin);
         paramsMap.put("amountBMin", amountBMin);
-        paramsMap.put("addressTo", addressTo);
-        paramsMap.put("deadLine", deadLine);
+        paramsMap.put("addressOut", addressTo);
+        paramsMap.put("deadline", deadline);
         paramsMap.put("gasPrice", gasPrice);
+        paramsMap.put("minerInFee", minerInFee);
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_ADD_LIQUIDITY);
         return call(url, paramsMap);
     }
 
     @Override
     public ApiResponse removeLiquidity(String thirdId, String methodName, String tokenA, String tokenB, BigDecimal liquidity,
-                                               BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Boolean approveMax, Long deadLine, BigDecimal gasPrice, BigDecimal serviceFee) {
+                                               BigDecimal amountAMin, BigDecimal amountBMin, String addressTo, Boolean approveMax, Long deadline, BigDecimal gasPrice, BigDecimal serviceFee, BigDecimal minerInFee) {
         checkStringParam(thirdId, "thirdId");
         checkStringParam(methodName, "methodName");
         checkStringParam(tokenA, "tokenA");
@@ -262,8 +263,8 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         checkAmountParam(amountAMin, "amountAMin");
         checkAmountParam(amountBMin, "amountBMin");
         checkAmountParam(gasPrice, "gasPrice");
-        if (deadLine == null) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadLine] is null or invalid");
+        if (deadline == null) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadline] is null or invalid");
         }
         if (approveMax == null) {
             throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [approveMax] is null or invalid");
@@ -280,10 +281,11 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         paramsMap.put("liquidity", liquidity);
         paramsMap.put("amountAMin", amountAMin);
         paramsMap.put("amountBMin", amountBMin);
-        paramsMap.put("addressTo", addressTo);
+        paramsMap.put("addressOut", addressTo);
         paramsMap.put("approveMax", approveMax);
-        paramsMap.put("deadLine", deadLine);
+        paramsMap.put("deadline", deadline);
         paramsMap.put("gasPrice", gasPrice);
+        paramsMap.put("minerInFee", minerInFee);
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.SWAP_REMOVE_LIQUIDITY);
         return call(url, paramsMap);
     }
