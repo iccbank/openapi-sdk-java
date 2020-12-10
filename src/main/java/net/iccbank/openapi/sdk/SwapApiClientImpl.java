@@ -415,7 +415,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
     @Override
     public  ApiResponse<TxFeeRes> queryTxFeeAddLiquidity(String methodName, String tokenA, String tokenB, BigDecimal amountADesired, BigDecimal amountBDesired, BigDecimal amountAMin, BigDecimal amountBMin, String addressOut, Long deadline) {
         checkStringParam("methodName",methodName);
-        checkStringParam("tokenA",tokenA);
+        //checkStringParam("tokenA",tokenA);
         checkAmountParam(amountADesired,"amountADesired");
         checkAmountParam(amountBDesired,"amountBDesired");
         checkAmountParam(amountAMin,"amountAMin");
@@ -442,7 +442,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
     @Override
     public ApiResponse<TxFeeRes> queryTxFeeRemoveLiquidity(String methodName, String tokenA, String tokenB, BigDecimal liquidity, BigDecimal amountAMin, BigDecimal amountBMin, String addressOut, Boolean approveMax, Long deadline) {
         checkStringParam("methodName",methodName);
-        checkStringParam("tokenA",tokenA);
+        //checkStringParam("tokenA",tokenA);
         checkAmountParam(liquidity,"liquidity");
         checkAmountParam(amountAMin,"amountAMin");
         checkAmountParam(amountBMin,"amountBMin");
