@@ -28,4 +28,5 @@ public class ApiAddLiquidityRes implements Serializable {
     private BigDecimal refundAmountB;
     private BigDecimal refundMinerFee;
     private BigDecimal serviceFee;
+    private String remark;
 }

@@ -44,4 +44,5 @@ public class ApiSwapDetailRes implements Serializable {
     private Date createdOn;
 
     private BigDecimal serviceFee;
+    private String remark;
 }
