@@ -17,7 +17,7 @@ public class ConversionRateReq implements Serializable {
     /** 币对code */
     private String code;
     /** 是否是固定利率 */
-    private boolean fixedRate;
+    private Boolean fixedRate;
     /** from币种输入金融 */
     private BigDecimal amountFrom;
     /** to币种输入金额 */

@@ -11,6 +11,7 @@ public class ICCBankException extends RuntimeException{
     public static final String RUNTIME_ERROR = "RuntimeError";
     public static final String INPUT_ERROR = "InputError";
     public static final String EXEC_ERROR = "ExecuteError";
+    public static final String BIZ_ERROR = "BizError";
 
     private String subCode;
 

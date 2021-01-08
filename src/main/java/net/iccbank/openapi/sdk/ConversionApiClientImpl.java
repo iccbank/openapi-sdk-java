@@ -269,8 +269,8 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
         paramsMap.put("payoutLabelAddress", payoutLabelAddress);
         paramsMap.put("refundAddress", refundAddress);
         paramsMap.put("refundLabelAddress", refundLabelAddress);
-        paramsMap.put("amountExpectedFrom", amountExpectedFrom);
-        paramsMap.put("amountExpectedTo", amountExpectedTo);
+        paramsMap.put("amountExpectedFrom", amountExpectedFrom != null ? amountExpectedFrom.toPlainString() : null);
+        paramsMap.put("amountExpectedTo", amountExpectedTo != null ? amountExpectedTo.toPlainString() : null);
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CREATE_FIX_RATE_CONVERSION);
         String resBody = callToString(url, paramsMap);
         return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<CreateFixRateConversion>>() {});
@@ -297,7 +297,7 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
         paramsMap.put("code", code);
         paramsMap.put("payoutAddress", payoutAddress);
         paramsMap.put("payoutLabelAddress", payoutLabelAddress);
-        paramsMap.put("amountExpectedFrom", amountExpectedFrom);
+        paramsMap.put("amountExpectedFrom", amountExpectedFrom.toPlainString());
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CREATE_FLOAT_RATE_CONVERSION);
         String resBody = callToString(url, paramsMap);
         return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<CreateFloatRateConversion>>() {});
@@ -308,9 +308,9 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
 
         TreeMap<String, Object> paramsMap = new TreeMap<>();
         paramsMap.put("code", param.getCode());
-        paramsMap.put("amountFrom", param.getAmountFrom());
-        paramsMap.put("amountTo", param.getAmountTo());
-        paramsMap.put("fixedRate", param.isFixedRate());
+        paramsMap.put("amountFrom", param.getAmountFrom() != null ? param.getAmountFrom().toPlainString() : null);
+        paramsMap.put("amountTo", param.getAmountTo() != null ? param.getAmountTo().toPlainString() : null);
+        paramsMap.put("fixedRate", param.getFixedRate().toString());
 
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.GET_CONVERSION_RATE);
         String resBody = callToString(url, paramsMap);
