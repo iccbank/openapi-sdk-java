@@ -97,6 +97,17 @@ public class ApiConstants {
 
 	public static final String GET_MINER_POWER = VERSION + "/minerPower/getMinerPower";
 
+	/** 跨链资产相关 */
+	public static final String CROSS_CHAIN_QUERY_SUBSCRIPTION_ORDER = VERSION + "/crosschain/querySubscriptionOrder";
+
+	public static final String CROSS_CHAIN_QUERY_REDEMPTION_ORDER = VERSION + "/crosschain/queryRedemptionOrder";
+
+	public static final String CROSS_CHAIN_CREATE_SUBSCRIPTION_ORDER = VERSION + "/crosschain/createSubscriptionOrder";
+
+	public static final String CROSS_CHAIN_CREATE_REDEMPTION_ORDER = VERSION + "/crosschain/createRedemptionOrder";
+
+	public static final String CROSS_CHAIN_ESTIMATE_MINER_FEE_REDEMPTION_ORDER = VERSION + "/crosschain/estimateMinerFeeRedemptionOrder";
+
 	public static final String concatUrl(String urlPrefix, String urlSuffix) {
 		return urlPrefix + urlSuffix;
 	}
