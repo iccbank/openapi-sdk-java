@@ -25,7 +25,7 @@ public class ApiClientTest {
 
 	@Test
 	public void addressCheck(){
-		ApiResponse<Object> res = client.addressCheck("ETH", "0x31bf7b9f55f155f4ae512e30ac65c590dfad0ca6");
+		ApiResponse<Object> res = client.addressCheck("ETH", "0xcb0d75695d31ea519ebaceaa0cebb2393055def6");
 
 		System.out.println(JsonUtils.toJsonString(res));
 	}
