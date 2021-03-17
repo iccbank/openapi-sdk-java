@@ -1,6 +1,8 @@
 package net.iccbank.openapi.sdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+
+import net.iccbank.openapi.sdk.enums.ErrorCodeEnum;
 import net.iccbank.openapi.sdk.enums.SwapMethodNameEnum;
 import net.iccbank.openapi.sdk.exception.ICCBankException;
 import net.iccbank.openapi.sdk.model.ApiEncryptedBody;
@@ -81,7 +83,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
             ApiEncryptedBody reqBody = new ApiEncryptedBody(ApiConstants.ALGORITHM_DESEDE, encryptedData);
             return JsonUtils.toJsonString(reqBody);
         } catch (Exception e) {
-            throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Encrypt Signature] error: " + e.getMessage());
+            throw ICCBankException.buildException(ErrorCodeEnum.ENCRYPT_ERROR, "[Encrypt Signature] error: " + e.getMessage());
         }
     }
 
@@ -97,7 +99,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
 
                 resPlainData = AlgorithmUtils.decryptWith3DES(resBody.getEncryptedData(), token);
             } catch (Exception e) {
-                throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Decrypt Signature] error: " + e.getMessage());
+                throw ICCBankException.buildException(ErrorCodeEnum.DECRYPT_ERROR, "[Decrypt Signature] error: " + e.getMessage());
             }
 
         } else {
@@ -127,7 +129,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
             //请求响应
             encryptedResBody = callPost(url, initHeaders(), encryptedReqBody);
         } catch (IOException e) {
-            throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Invoking] Unexpected error: " + e.getMessage());
+            throw ICCBankException.buildException(ErrorCodeEnum.REMOTE_REQUEST_ERROR, "[Invoking] Unexpected error: " + e.getMessage());
         }
 
         // AES解密，返回值不需要验证签名
@@ -152,7 +154,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
             paramsMap.put(ApiConstants.PARAMETER_SIGN, sign);
             return JsonUtils.toJsonString(paramsMap);
         } catch (Exception e) {
-            throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Build Signature] error: " + e.getMessage());
+            throw ICCBankException.buildException(ErrorCodeEnum.SIGN_ERROR, "[Build Signature] error: " + e.getMessage());
         }
     }
 
@@ -228,10 +230,10 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         checkAmountParam(amountBMin, "amountBMin");
         checkAmountParam(gasPrice, "gasPrice");
         if (deadline == null) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadline] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [deadline] is null or invalid");
         }
         if (serviceFee == null || serviceFee.compareTo(BigDecimal.ZERO) < 0) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [serviceFee] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [serviceFee] is null or invalid");
         }
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -264,16 +266,16 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         checkAmountParam(amountBMin, "amountBMin");
         checkAmountParam(gasPrice, "gasPrice");
         if (deadline == null) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadline] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [deadline] is null or invalid");
         }
         if (approveMax == null) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [approveMax] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [approveMax] is null or invalid");
         }
         if (serviceFee == null || serviceFee.compareTo(BigDecimal.ZERO) < 0) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [serviceFee] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [serviceFee] is null or invalid");
         }
         if (StringUtils.isBlank(tokenA) && StringUtils.isBlank(tokenB)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [tokenA] OR [tokenB] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [tokenA] OR [tokenB] required");
         }
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -317,40 +319,40 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
 
     private void checkSwapParams( String thirdId, String tokenIn, String tokenOut, String address, BigDecimal minerInFee,String methodName, String swapContractPath, Long deadline, BigDecimal amountIn, BigDecimal amountOut, BigDecimal gasPrice, BigDecimal serviceFee) {
         if (thirdId == null || thirdId.trim().equals("")) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [thirdId]  required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [thirdId]  required");
         }
         if ((tokenIn == null || tokenIn.trim().equals("")) && (tokenOut == null || tokenOut.trim().equals(""))) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [tokenIn] OR [tokenOut] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [tokenIn] OR [tokenOut] required");
         }
         if (address == null || address.trim().equals("")) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [addressIn]  required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [addressIn]  required");
         }
         if (minerInFee == null) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [methodName]  required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [methodName]  required");
         }
         if (minerInFee.compareTo(BigDecimal.ZERO) < 0){
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [" + minerInFee + "] is invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [" + minerInFee + "] is invalid");
         }
         if (methodName == null || methodName.trim().equals("")) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [methodName]  required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [methodName]  required");
         }
         if (swapContractPath == null || swapContractPath.trim().equals("")) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [swapContractPath]  required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [swapContractPath]  required");
         }
         if (deadline == null) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [deadline]  required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [deadline]  required");
         }
         if (amountIn == null || amountIn.compareTo(BigDecimal.ZERO) <= 0) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [" + amountIn + "] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [" + amountIn + "] is null or invalid");
         }
         if (amountOut == null || amountOut.compareTo(BigDecimal.ZERO) <= 0) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [" + amountOut + "] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [" + amountOut + "] is null or invalid");
         }
         if (gasPrice == null || gasPrice.compareTo(BigDecimal.ZERO) < 0) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [gasPrice] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [gasPrice] is null or invalid");
         }
         if (serviceFee == null || serviceFee.compareTo(BigDecimal.ZERO) < 0) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [serviceFee] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [serviceFee] is null or invalid");
         }
 
     }
@@ -358,13 +360,13 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
 
     private void checkStringParam(String str, String amountTypeName) {
         if (StringUtils.isBlank(str)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [" + amountTypeName + "] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [" + amountTypeName + "] is null or invalid");
         }
     }
 
     private void checkAmountParam(BigDecimal amount, String amountTypeName) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [" + amountTypeName + "] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [" + amountTypeName + "] is null or invalid");
         }
     }
 
@@ -422,7 +424,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         checkAmountParam(amountBMin,"amountBMin");
         checkStringParam("addressOut",addressOut);
         if(deadline == null){
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadline] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [deadline] is null or invalid");
         }
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("methodName", methodName);
@@ -448,10 +450,10 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         checkAmountParam(amountBMin,"amountBMin");
         checkStringParam("addressOut",addressOut);
         if(approveMax == null){
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [approveMax] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [approveMax] is null or invalid");
         }
         if(deadline == null){
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadline] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [deadline] is null or invalid");
         }
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -479,7 +481,7 @@ public class SwapApiClientImpl extends HttpClient implements SwapApiClient, Encr
         checkAmountParam(amountIn,"amountIn");
         checkAmountParam(amountOut,"amountOut");
         if(deadline == null){
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [deadline] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [deadline] is null or invalid");
         }
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();

@@ -1,6 +1,7 @@
 package net.iccbank.openapi.sdk.utils;
 
 import net.iccbank.openapi.sdk.ApiConstants;
+import net.iccbank.openapi.sdk.enums.ErrorCodeEnum;
 import net.iccbank.openapi.sdk.exception.ICCBankException;
 import net.iccbank.openapi.sdk.model.ApiEncryptedBody;
 
@@ -35,7 +36,7 @@ public class NotifyMessageTransferUtil<T> {
         //验签
         Boolean verifySignResult = SignUtils.verify(resBody,publickKey);
         if(!verifySignResult){
-            throw ICCBankException.buildException(ICCBankException.BIZ_ERROR, "[verify Signature] error: 验签失败");
+            throw ICCBankException.buildException(ErrorCodeEnum.VERIFY_SIGN_ERROR, "[verify Signature] error: 验签失败");
         }
         //转换成实体类
         return JsonUtils.parseObject(resBody, clazz);
@@ -53,7 +54,7 @@ public class NotifyMessageTransferUtil<T> {
 
                 resPlainData = AlgorithmUtils.decryptWith3DES(resBody.getEncryptedData(), token);
             } catch (Exception e) {
-                throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Decrypt Signature] error: " + e.getMessage());
+                throw ICCBankException.buildException(ErrorCodeEnum.DECRYPT_ERROR, "[Decrypt Signature] error: " + e.getMessage());
             }
 
         } else {

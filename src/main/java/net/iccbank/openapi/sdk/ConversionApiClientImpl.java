@@ -1,6 +1,8 @@
 package net.iccbank.openapi.sdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+
+import net.iccbank.openapi.sdk.enums.ErrorCodeEnum;
 import net.iccbank.openapi.sdk.exception.ICCBankException;
 import net.iccbank.openapi.sdk.model.ApiEncryptedBody;
 import net.iccbank.openapi.sdk.model.ApiResponse;
@@ -91,7 +93,7 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
             //请求响应
             encryptedResBody = callPost(url, initHeaders(), encryptedReqBody);
         } catch (IOException e) {
-            throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Invoking] Unexpected error: " + e.getMessage());
+            throw ICCBankException.buildException(ErrorCodeEnum.REMOTE_REQUEST_ERROR, "[Invoking] Unexpected error: " + e.getMessage());
         }
 
         // AES解密，返回值不需要验证签名
@@ -116,7 +118,7 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
             paramsMap.put(ApiConstants.PARAMETER_SIGN, sign);
             return JsonUtils.toJsonString(paramsMap);
         } catch (Exception e) {
-            throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Build Signature] error: " + e.getMessage());
+            throw ICCBankException.buildException(ErrorCodeEnum.SIGN_ERROR, "[Build Signature] error: " + e.getMessage());
         }
     }
 
@@ -184,7 +186,7 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
             ApiEncryptedBody reqBody = new ApiEncryptedBody(ApiConstants.ALGORITHM_DESEDE, encryptedData);
             return JsonUtils.toJsonString(reqBody);
         } catch (Exception e) {
-            throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Encrypt Signature] error: " + e.getMessage());
+            throw ICCBankException.buildException(ErrorCodeEnum.ENCRYPT_ERROR, "[Encrypt Signature] error: " + e.getMessage());
         }
     }
 
@@ -200,7 +202,7 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
 
                 resPlainData = AlgorithmUtils.decryptWith3DES(resBody.getEncryptedData(), token);
             } catch (Exception e) {
-                throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Decrypt Signature] error: " + e.getMessage());
+                throw ICCBankException.buildException(ErrorCodeEnum.DECRYPT_ERROR, "[Decrypt Signature] error: " + e.getMessage());
             }
 
         } else {
@@ -232,32 +234,32 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
                                                                         String payoutAddress, String payoutLabelAddress, String refundAddress, String refundLabelAddress,
                                                                         BigDecimal amountExpectedFrom, BigDecimal amountExpectedTo) {
         if (StringUtils.isBlank(source)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [source] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [source] required");
         }
         if (rateId == null) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [rateId] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [rateId] required");
         }
         if (StringUtils.isBlank(code)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [code] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [code] required");
         }
         if (StringUtils.isBlank(payoutAddress)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [payoutAddress] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [payoutAddress] required");
         }
         if (StringUtils.isBlank(refundAddress)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [refundAddress] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [refundAddress] required");
         }
 
         if (amountExpectedFrom == null && amountExpectedTo == null) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"amountFrom,amountTo cannot be empty at the same time");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"amountFrom,amountTo cannot be empty at the same time");
         }
         if (amountExpectedFrom != null && amountExpectedTo != null) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"amountFrom,amountTo only one can be selected");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"amountFrom,amountTo only one can be selected");
         }
         if (amountExpectedFrom != null && amountExpectedFrom.compareTo(BigDecimal.ZERO) <= 0) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [refundAddress] must greater than 0");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [refundAddress] must greater than 0");
         }
         if (amountExpectedTo != null && amountExpectedTo.compareTo(BigDecimal.ZERO) <= 0) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [refundAddress] must greater than 0");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [refundAddress] must greater than 0");
         }
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -280,16 +282,16 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
     public ApiResponse<CreateFloatRateConversion> createFloatRateConversion(String source, String orderId, String code,
                                                                             String payoutAddress, String payoutLabelAddress, BigDecimal amountExpectedFrom) {
         if (StringUtils.isBlank(source)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [source] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [source] required");
         }
         if (StringUtils.isBlank(code)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [code] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [code] required");
         }
         if (StringUtils.isBlank(payoutAddress)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [payoutAddress] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [payoutAddress] required");
         }
         if (amountExpectedFrom == null || amountExpectedFrom.compareTo(BigDecimal.ZERO) <= 0) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [payoutAddress] required or must greater than 0");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [payoutAddress] required or must greater than 0");
         }
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("source", source);
@@ -321,7 +323,7 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
     @Override
     public ApiResponse<ConversionOrderDetail> getConversionOrderDetail(String orderId) {
         if (orderId == null || orderId.trim().equals("")) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [orderId] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [orderId] required");
         }
 
         TreeMap<String, Object> paramsMap = new TreeMap<>();
@@ -335,7 +337,7 @@ public class ConversionApiClientImpl extends HttpClient implements ConversionApi
     @Override
     public ApiResponse<ConversionOrderStatus> getConversionOrderStatus(String orderId) {
         if (orderId == null || orderId.trim().equals("")) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [orderId] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [orderId] required");
         }
 
         TreeMap<String, Object> paramsMap = new TreeMap<>();

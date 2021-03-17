@@ -1,6 +1,8 @@
 package net.iccbank.openapi.sdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+
+import net.iccbank.openapi.sdk.enums.ErrorCodeEnum;
 import net.iccbank.openapi.sdk.enums.SearchTypeEnum;
 import net.iccbank.openapi.sdk.exception.ICCBankException;
 import net.iccbank.openapi.sdk.model.*;
@@ -79,11 +81,11 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	@Override
 	public ApiResponse<Object> addressCheck(String currencyCode, String address, String labelAddress) {
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [currencyCode] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [currencyCode] required");
 		}
 		
 		if (address == null || address.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [address] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [address] required");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -105,11 +107,11 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	@Override
 	public ApiResponse<Object> agentPayAddAddress(String currencyCode, String address, String labelAddress){
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [currencyCode] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [currencyCode] required");
 		}
 		
 		if (address == null || address.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [address] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [address] required");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -135,11 +137,11 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	@Override
 	public ApiResponse<List<ApiAddress>> createAgencyRechargeAddress(String currencyCode, int count, String batchNumber) {
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [currencyCode] required");
 		}
 		
 		if (count <= 0 || count > 100) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [count] out of range [1-100]");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [count] out of range [1-100]");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -155,23 +157,23 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	public ApiResponse<ApiAgencyWithdrawData> agencyWithdraw(String userBizId, String subject, String currencyCode,
 															 String address, String labelAddress, BigDecimal amount, String notifyUrl) {
 		if (userBizId == null || userBizId.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [userBizId] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [userBizId] required");
 		}
 		
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [currencyCode] required");
 		}
 		
 		if (address == null || address.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [address] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [address] required");
 		}
 		
 		if (amount == null) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [amount] required");
 		}
 
 		if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] invalid");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [amount] invalid");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -199,37 +201,37 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 			String currencyCode, String address, String labelAddress, BigDecimal amount, BigDecimal minerFee, BigDecimal fee,
 			String notifyUrl) {
 		if (userBizId == null || userBizId.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [userBizId] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [userBizId] required");
 		}
 		
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [currencyCode] required");
 		}
 		
 		if (address == null || address.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [address] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [address] required");
 		}
 		
 		if (amount == null) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [amount] required");
 		}
 		if (minerFee == null) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [minerFee] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [minerFee] required");
 		}
 		if (fee == null) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [fee] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [fee] required");
 		}
 
 		if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] invalid");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [amount] invalid");
 		}
 
 		if (minerFee.compareTo(BigDecimal.ZERO) < 0) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [minerFee] invalid");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [minerFee] invalid");
 		}
 
 		if (fee.compareTo(BigDecimal.ZERO) < 0) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [fee] invalid");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [fee] invalid");
 		}
 
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -257,7 +259,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	@Override
 	public ApiResponse<ApiAgencyWithdrawQueryData> queryAgencyWithdrawOrder(String userBizId) {
 		if (userBizId == null || userBizId.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [userBizId] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [userBizId] required");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -281,11 +283,11 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	public ApiResponse<List<ApiCurrencyData>> currencySearch(int searchType, String keywords) {
 		SearchTypeEnum searchTypeEnum = SearchTypeEnum.valueOfByType(searchType);
 		if (searchTypeEnum == null) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "searchType '" + searchType + "' unSupport");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "searchType '" + searchType + "' unSupport");
 		}
 		
 		if (keywords == null || keywords.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [keywords] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [keywords] required");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -300,11 +302,11 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	@Override
 	public ApiResponse<ApiCurrencyData> currencyAddToken(String linkType, String contractAddress) {
 		if (linkType == null || linkType.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [linkType] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [linkType] required");
 		}
 
 		if (contractAddress == null || contractAddress.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [contractAddress] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [contractAddress] required");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -319,7 +321,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	@Override
 	public ApiResponse<ApiCurrencyFeeData> getCurrencyFee(String currencyCode) {
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [currencyCode] required");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -342,7 +344,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	@Override
 	public ApiResponse<ApiCurrencyData> getCurrencyByCode(String currencyCode) {
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [currencyCode] required");
 		}
 		
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -358,7 +360,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [currencyCode] required");
 		}
 		paramsMap.put("currencyCode", currencyCode);
 
@@ -371,10 +373,10 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	public ApiResponse<ApiMchBalance.BalanceNode> getBalancesForCurrencyCodeAndAccountType(String currencyCode, Long accountType) {
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [currencyCode] required");
 		}
 		if (accountType == null) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [accountType] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [accountType] required");
 		}
 		paramsMap.put("currencyCode", currencyCode);
 		paramsMap.put("accountType", accountType);
@@ -409,7 +411,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 			ApiEncryptedBody reqBody = new ApiEncryptedBody(ApiConstants.ALGORITHM_DESEDE, encryptedData);
 			return JsonUtils.toJsonString(reqBody);
 		} catch (Exception e) {
-			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Encrypt Signature] error: " + e.getMessage());
+			throw ICCBankException.buildException(ErrorCodeEnum.ENCRYPT_ERROR, "[Encrypt Signature] error: " + e.getMessage());
 		}
 	}
 	
@@ -425,7 +427,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 
 				resPlainData = AlgorithmUtils.decryptWith3DES(resBody.getEncryptedData(), token);
 			} catch (Exception e) {
-				throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Decrypt Signature] error: " + e.getMessage());
+				throw ICCBankException.buildException(ErrorCodeEnum.DECRYPT_ERROR, "[Decrypt Signature] error: " + e.getMessage());
 			}
 
 		}else {
@@ -454,7 +456,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 			//请求响应
 			encryptedResBody = callPost(url, initHeaders(), encryptedReqBody);
 		} catch (IOException e) {
-			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Invoking] Unexpected error: " + e.getMessage());
+			throw ICCBankException.buildException(ErrorCodeEnum.REMOTE_REQUEST_ERROR, "[Invoking] Unexpected error: " + e.getMessage());
 		}
 
 		// AES解密，返回值不需要验证签名
@@ -479,7 +481,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 			paramsMap.put(ApiConstants.PARAMETER_SIGN, sign);
 			return JsonUtils.toJsonString(paramsMap);
 		} catch (Exception e) {
-			throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Build Signature] error: " + e.getMessage());
+			throw ICCBankException.buildException(ErrorCodeEnum.SIGN_ERROR, "[Build Signature] error: " + e.getMessage());
 		}
 	}
 
@@ -546,7 +548,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [currencyCode] required");
 		}
 		paramsMap.put("currencyCode", currencyCode);
 
@@ -560,7 +562,7 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [currencyCode] required");
 		}
 		paramsMap.put("currencyCode", currencyCode);
 		paramsMap.put("minerAddress", minerAddress);
@@ -582,16 +584,16 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	@Override
 	public ApiResponse<List<ApiUnspentUtxo>> fetchUnspentUTXO(String currencyCode, String address, BigDecimal amount) {
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [currencyCode] required");
 		}
 		if (address == null || address.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [address] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [address] required");
 		}
 		if (amount == null) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [amount] required");
 		}
 		if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [amount] invalid");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [amount] invalid");
 		}
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
 		paramsMap.put("currencyCode", currencyCode);
@@ -615,19 +617,19 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	@Override
 	public ApiResponse reporting(ApiProxyScanningAddress address) {
 		if (address == null) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [address] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [address] required");
 		}
 		if (address.getLinkType() == null) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [linkType] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [linkType] required");
 		}
 
 		if (!(address.getSource() == ApiProxyScanningAddress.SOURCE_IS_NEW || address.getSource() == ApiProxyScanningAddress.SOURCE_IS_LOAD)) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [Source] invalid");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [Source] invalid");
 		}
 
 		List<String> addressLists = address.getAddressLists();
 		if (addressLists == null || addressLists.isEmpty()) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [addressLists] invalid");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [addressLists] invalid");
 		}
 
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -643,10 +645,10 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 	@Override
 	public ApiResponse<ApiUnspentBalance> getUnspentBalanceByAddress(String currencyCode, String address) {
 		if (currencyCode == null || currencyCode.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [currencyCode] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [currencyCode] required");
 		}
 		if (address == null || address.trim().equals("")) {
-			throw ICCBankException.buildException(ICCBankException.INPUT_ERROR,"parameter [address] required");
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [address] required");
 		}
 
 		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
