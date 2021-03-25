@@ -35,11 +35,9 @@ public interface CrossChainApiClient {
      * 创建赎回订单-预估矿工费
      * @param currencyCode      主链币种code
      * @param tokenCurrencyCode 代币币种code
-     * @param address           赎回地址
-     * @param labelAddress      赎回地址标签
      * @param amount            赎回数量
      */
-    ApiResponse<CrossChainEstimateMinerFeeRedemptionOrder> estimateMinerFeeRedemptionOrder(String currencyCode, String tokenCurrencyCode, String address, String labelAddress, BigDecimal amount);
+    ApiResponse<CrossChainEstimateMinerFeeRedemptionOrder> estimateMinerFeeRedemptionOrder(String currencyCode, String tokenCurrencyCode, BigDecimal amount);
 
     /**
      * 申购订单查询

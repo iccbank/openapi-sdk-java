@@ -22,10 +22,10 @@ public class CrossChainApiClientTest {
 
     @Test
     public void testCreateSubscriptionOrder() {
-        String thirdId = "123456";
-        String currencyCode = "BTC";
-        String tokenCurrencyCode = "VBTC";
-        String address = "0x111c8492818Dc11D14b50502f2c6e8a05BE8eD30";
+        String thirdId = String.valueOf(System.currentTimeMillis());
+        String currencyCode = "ETC";
+        String tokenCurrencyCode = "VETC";
+        String address = "0x6074d5517d20C580A86f0260dA7b9a91Ad38f7e6";
         String labelAddress = null;
         BigDecimal amount = BigDecimal.valueOf(0.05);
         ApiResponse<CreateCrossChainSubscriptionOrder> res = client.createSubscriptionOrder(thirdId, currencyCode, tokenCurrencyCode, address, labelAddress, amount);
@@ -34,9 +34,9 @@ public class CrossChainApiClientTest {
 
     @Test
     public void testCreateRedemptionOrder() {
-        String thirdId = "123456";
-        String currencyCode = "BTC";
-        String tokenCurrencyCode = "VBTC";
+        String thirdId = String.valueOf(System.currentTimeMillis());
+        String currencyCode = "ETC";
+        String tokenCurrencyCode = "VETC";
         String address = "0x111c8492818Dc11D14b50502f2c6e8a05BE8eD30";
         String labelAddress = null;
         BigDecimal amount = BigDecimal.valueOf(0.05);
@@ -46,13 +46,12 @@ public class CrossChainApiClientTest {
 
     @Test
     public void testEstimateMinerFeeRedemptionOrder() {
-        String thirdOrderId = "123456";
-        String currencyCode = "BTC";
-        String tokenCurrencyCode = "VBTC";
-        String address = "0x111c8492818Dc11D14b50502f2c6e8a05BE8eD30";
-        String labelAddress = null;
-        BigDecimal amount = BigDecimal.valueOf(0.05);
-        ApiResponse<CrossChainEstimateMinerFeeRedemptionOrder> res = client.estimateMinerFeeRedemptionOrder(currencyCode, tokenCurrencyCode, address, labelAddress, amount);
+        String currencyCode = "ETC";
+        String tokenCurrencyCode = "VETC";
+//        String address = "0x111c8492818Dc11D14b50502f2c6e8a05BE8eD30";
+//        String labelAddress = null;
+        BigDecimal amount = BigDecimal.valueOf(5);
+        ApiResponse<CrossChainEstimateMinerFeeRedemptionOrder> res = client.estimateMinerFeeRedemptionOrder(currencyCode, tokenCurrencyCode, amount);
         System.out.println(JsonUtils.toJsonString(res));
     }
 

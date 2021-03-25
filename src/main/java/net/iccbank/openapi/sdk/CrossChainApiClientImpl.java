@@ -261,13 +261,20 @@ public class CrossChainApiClientImpl extends HttpClient implements CrossChainApi
     }
 
     @Override
-    public ApiResponse<CrossChainEstimateMinerFeeRedemptionOrder> estimateMinerFeeRedemptionOrder(String currencyCode, String tokenCurrencyCode, String address, String labelAddress, BigDecimal amount) {
-        checkCommonParam(currencyCode, tokenCurrencyCode, address, labelAddress, amount);
+    public ApiResponse<CrossChainEstimateMinerFeeRedemptionOrder> estimateMinerFeeRedemptionOrder(String currencyCode, String tokenCurrencyCode, BigDecimal amount) {
+        if (StringUtils.isBlank(currencyCode)) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [currencyCode] is null or invalid");
+        }
+        if (StringUtils.isBlank(tokenCurrencyCode)) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [tokenCurrencyCode] is null or invalid");
+        }
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [currencyCode] is null or invalid");
+        }
+
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("currencyCode", currencyCode);
         paramsMap.put("tokenCurrencyCode", tokenCurrencyCode);
-        paramsMap.put("address", address);
-        paramsMap.put("labelAddress", labelAddress);
         paramsMap.put("amount", amount);
         String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.CROSS_CHAIN_ESTIMATE_MINER_FEE_REDEMPTION_ORDER);
         String resBody = callToString(url, paramsMap);
