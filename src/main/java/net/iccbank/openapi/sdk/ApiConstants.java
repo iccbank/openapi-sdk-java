@@ -29,7 +29,11 @@ public class ApiConstants {
 	public static final String ADDRESS_CHECK_URL = VERSION + "/address/check";
 	
 	public static final String AGENT_PAY_ADD_ADDRESS_URL = VERSION + "/agentPay/addAddress";
-	
+
+	public static final String AGENT_RECHARGE_RECORDS_URL = VERSION + "/agentRecharge/records";
+
+	public static final String AGENT_PAY_RECORDS_URL = VERSION + "/agentPay/records";
+
 	public static final String ADDRESS_AGENCY_CREATE_URL = VERSION + "/address/agency/create";
 
 	public static final String AGENCY_WITHDRAW_URL = VERSION + "/agentPay/proxyPay";

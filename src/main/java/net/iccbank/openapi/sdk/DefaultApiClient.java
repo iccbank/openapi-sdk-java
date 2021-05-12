@@ -6,6 +6,11 @@ import net.iccbank.openapi.sdk.enums.ErrorCodeEnum;
 import net.iccbank.openapi.sdk.enums.SearchTypeEnum;
 import net.iccbank.openapi.sdk.exception.ICCBankException;
 import net.iccbank.openapi.sdk.model.*;
+import net.iccbank.openapi.sdk.model.conversion.AgencyPayRecordsReq;
+import net.iccbank.openapi.sdk.model.conversion.AgencyPayRecordsRes;
+import net.iccbank.openapi.sdk.model.conversion.AgencyRechargeRecordsReq;
+import net.iccbank.openapi.sdk.model.conversion.AgencyRechargeRecordsRes;
+import net.iccbank.openapi.sdk.model.page.PageBO;
 import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
 import net.iccbank.openapi.sdk.utils.JsonUtils;
 
@@ -661,4 +666,53 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 		return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<ApiUnspentBalance>>(){});
 	}
 
+    /**
+     * 代付记录
+     */
+    @Override
+    public ApiResponse<PageBO<AgencyPayRecordsRes>> getAgentPayRecords(AgencyPayRecordsReq params) {
+        if (params.getStartTime() == null) {
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [startTime] required");
+        }
+
+        if (params.getEndTime() == null) {
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [endTime] required");
+        }
+
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        paramsMap.put("startTime", params.getStartTime());
+        paramsMap.put("endTime", params.getEndTime());
+        paramsMap.put("pageNo", params.getPageNo());
+        paramsMap.put("pageSize", params.getPageSize());
+
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.AGENT_PAY_RECORDS_URL);
+        String resBody = callToString(url, paramsMap);
+
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<PageBO<AgencyPayRecordsRes>>>(){});
+    }
+
+    /**
+     * 代收记录
+     */
+    @Override
+    public ApiResponse<PageBO<AgencyRechargeRecordsRes>> getAgentRechargeRecords(AgencyRechargeRecordsReq params) {
+        if (params.getStartTime() == null) {
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [startTime] required");
+        }
+
+        if (params.getEndTime() == null) {
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [endTime] required");
+        }
+
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        paramsMap.put("startTime", params.getStartTime());
+        paramsMap.put("endTime", params.getEndTime());
+        paramsMap.put("pageNo", params.getPageNo());
+        paramsMap.put("pageSize", params.getPageSize());
+
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.AGENT_RECHARGE_RECORDS_URL);
+        String resBody = callToString(url, paramsMap);
+
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<PageBO<AgencyRechargeRecordsRes>>>(){});
+    }
 }

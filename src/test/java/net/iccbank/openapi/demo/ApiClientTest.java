@@ -1,10 +1,17 @@
 package net.iccbank.openapi.demo;
 
+import java.util.Calendar;
+import java.util.Date;
 import net.iccbank.openapi.demo.constants.Constants;
 import net.iccbank.openapi.sdk.ApiClient;
 import net.iccbank.openapi.sdk.DefaultApiClient;
 import net.iccbank.openapi.sdk.enums.SearchTypeEnum;
 import net.iccbank.openapi.sdk.model.*;
+import net.iccbank.openapi.sdk.model.conversion.AgencyPayRecordsReq;
+import net.iccbank.openapi.sdk.model.conversion.AgencyPayRecordsRes;
+import net.iccbank.openapi.sdk.model.conversion.AgencyRechargeRecordsReq;
+import net.iccbank.openapi.sdk.model.conversion.AgencyRechargeRecordsRes;
+import net.iccbank.openapi.sdk.model.page.PageBO;
 import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
 import net.iccbank.openapi.sdk.utils.JsonUtils;
 import org.junit.Before;
@@ -143,4 +150,43 @@ public class ApiClientTest {
 		System.out.println(JsonUtils.toJsonString(res));
 	}
 
+	@Test
+	public void getAgentPayRecords() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, -300);
+		Date startTime = calendar.getTime();
+
+		Calendar calendar1 = Calendar.getInstance();
+		calendar1.add(Calendar.DATE, -1);
+		Date endTime = calendar1.getTime();
+
+		AgencyPayRecordsReq params = AgencyPayRecordsReq.builder()
+				.startTime(startTime.getTime())
+				.endTime(endTime.getTime())
+				.pageSize(4)
+				.pageNo(4)
+				.build();
+
+		ApiResponse<PageBO<AgencyPayRecordsRes>> res = client.getAgentPayRecords(params);
+		System.out.println(JsonUtils.toJsonString(res));
+	}
+
+	@Test
+	public void getAgentRechargeRecords() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, -300);
+		Date startTime = calendar.getTime();
+
+		Calendar calendar1 = Calendar.getInstance();
+		calendar1.add(Calendar.DATE, -1);
+		Date endTime = calendar1.getTime();
+
+		AgencyRechargeRecordsReq params = AgencyRechargeRecordsReq.builder()
+				.startTime(startTime.getTime())
+				.endTime(endTime.getTime())
+				.build();
+
+		ApiResponse<PageBO<AgencyRechargeRecordsRes>> res = client.getAgentRechargeRecords(params);
+		System.out.println(JsonUtils.toJsonString(res));
+	}
 }
