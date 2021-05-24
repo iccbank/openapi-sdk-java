@@ -1208,7 +1208,7 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |completedOn |string   | 完成时间  |
 |createdOn |string   | 创建时间  |
 
-### 7-23 根据txid查询代付记录
+### 7-23根据txid查询代付记录
 > POST `/v1/agentPay/getRecordsByTxids`
 
 > sdk方法 ApiClient.getAgentPayRecordsByTxids
