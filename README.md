@@ -26,6 +26,7 @@
 - 1.20 - [查询地址未花费余额](#7-20查询地址未花费余额)
 - 1.21 - [查询代付记录](#7-21查询代付记录)
 - 1.22 - [查询代收记录](#7-22查询代收记录)
+- 1.23 - [根据txid查询代付记录](#7-23根据txid查询代付记录)
 
 **兑换相关接口**
 
@@ -1207,3 +1208,65 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |completedOn |string   | 完成时间  |
 |createdOn |string   | 创建时间  |
 
+### 7-23 根据txid查询代付记录
+> POST `/v1/agentPay/getRecordsByTxids`
+
+> sdk方法 ApiClient.getAgentPayRecordsByTxids
+
+**请求参数**
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|txids |是  |List<String> | txids|
+
+**返回示例**
+
+```
+{
+    "code":200,
+    "data":[
+       {
+           "actualMinerFee":0.000022558993107,
+           "address":"0x31bf7b9f55f155f4ae512e30ac65c590dfad0ca6",
+           "amount":0.0024,
+           "auditStatus":2,
+           "completedOn":"2021-03-22 13:50:05",
+           "createdOn":"2021-03-17 18:24:11",
+           "currencyCode":"ETH",
+           "fee":0.005,
+           "feeCurrency":"ETH",
+           "id":"1139399228250284032",
+           "merchantBizId":"kevin1615976650505",
+           "minerFee":0,
+           "minerFeeCurrency":"ETH",
+           "txid":"0xbc6dcba38c7dcb0e8910f76ee578221619d318c8ab8c2c975c6fb6e3fa68b7e6",
+           "walletStatus":1
+       }
+    ],
+    "msg":"HTTP_OK",
+    "subCode":"0",
+    "subMsg":"success",
+    "success":true
+}
+```
+
+**业务参数说明**
+
+|参数名|类型|说明|
+|:-----  |:-----|-----|
+|id |Long   |记录ID  |
+|merchantBizId |string   | 商户业务ID（第三方传入）  |
+|subject |string   | 商户订单描述  |
+|currencyCode |string   |币种  |
+|address |string   | 地址  |
+|labelAddress |string   | 标签地址  |
+|amount |BigDecimal   |金额  |
+|fee |BigDecimal   | 手续费  |
+|feeCurrency |string   | 手续费币种  |
+|actualMinerFee |BigDecimal   | 最终矿工 手续费  |
+|minerFeeCurrency |string   |矿工 手续费币种  |
+|minerFee |BigDecimal   | 矿工 手续费  |
+|walletStatus |string   | 状态  |
+|auditStatus |string   |审核状态  |
+|completedOn |string   | 完成时间  |
+|createdOn |string   | 创建时间  |

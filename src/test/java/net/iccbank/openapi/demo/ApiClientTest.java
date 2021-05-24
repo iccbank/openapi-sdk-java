@@ -189,4 +189,15 @@ public class ApiClientTest {
 		ApiResponse<PageBO<AgencyRechargeRecordsRes>> res = client.getAgentRechargeRecords(params);
 		System.out.println(JsonUtils.toJsonString(res));
 	}
+
+	@Test
+	public void getAgentPayRecordsByTxids() {
+		ArrayList<String> txids = new ArrayList<String>() {{
+			add("ssssss");
+			add("171NjmXJDonwRJsixdVULDLiordHmEMFB");
+		}};
+
+		ApiResponse<List<AgencyPayRecordsRes>> res = client.getAgentPayRecordsByTxids(txids);
+		System.out.println(JsonUtils.toJsonString(res));
+	}
 }

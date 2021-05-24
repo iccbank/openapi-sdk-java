@@ -207,4 +207,11 @@ public interface ApiClient {
 	 * @return
 	 */
 	ApiResponse<PageBO<AgencyRechargeRecordsRes>> getAgentRechargeRecords(AgencyRechargeRecordsReq params);
+
+	/**
+	 * 根据txid查询代付记录
+	 * @param txids
+	 * @return
+	 */
+	ApiResponse<List<AgencyPayRecordsRes>> getAgentPayRecordsByTxids(List<String> txids);
 }

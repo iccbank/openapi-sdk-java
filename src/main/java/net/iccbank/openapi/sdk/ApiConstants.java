@@ -34,6 +34,8 @@ public class ApiConstants {
 
 	public static final String AGENT_PAY_RECORDS_URL = VERSION + "/agentPay/records";
 
+	public static final String AGENT_PAY_RECORDS_BY_TXIDS_URL = VERSION + "/agentPay/getRecordsByTxids";
+
 	public static final String ADDRESS_AGENCY_CREATE_URL = VERSION + "/address/agency/create";
 
 	public static final String AGENCY_WITHDRAW_URL = VERSION + "/agentPay/proxyPay";

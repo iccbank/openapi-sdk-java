@@ -715,4 +715,21 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
 
         return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<PageBO<AgencyRechargeRecordsRes>>>(){});
     }
+
+    /**
+     * 根据txid查询代付记录
+     */
+    @Override
+    public ApiResponse<List<AgencyPayRecordsRes>> getAgentPayRecordsByTxids(List<String> txids) {
+        if (txids == null || txids.isEmpty()) {
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [txids] required");
+        }
+
+        TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+        paramsMap.put("txids", txids);
+
+        String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.AGENT_PAY_RECORDS_BY_TXIDS_URL);
+        String resBody = callToString(url, paramsMap);
+        return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<List<AgencyPayRecordsRes>>>() {});
+    }
 }
