@@ -1,6 +1,7 @@
 package net.iccbank.openapi.sdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import net.iccbank.openapi.sdk.enums.ErrorCodeEnum;
 import net.iccbank.openapi.sdk.exception.ICCBankException;
 import net.iccbank.openapi.sdk.model.ApiEncryptedBody;
 import net.iccbank.openapi.sdk.model.ApiResponse;
@@ -86,7 +87,7 @@ public class CrossChainApiClientImpl extends HttpClient implements CrossChainApi
             //请求响应
             encryptedResBody = callPost(url, initHeaders(), encryptedReqBody);
         } catch (IOException e) {
-            throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Invoking] Unexpected error: " + e.getMessage());
+            throw ICCBankException.buildException(ErrorCodeEnum.REMOTE_REQUEST_ERROR, "[Invoking] Unexpected error: " + e.getMessage());
         }
 
         // AES解密，返回值不需要验证签名
@@ -111,7 +112,7 @@ public class CrossChainApiClientImpl extends HttpClient implements CrossChainApi
             paramsMap.put(ApiConstants.PARAMETER_SIGN, sign);
             return JsonUtils.toJsonString(paramsMap);
         } catch (Exception e) {
-            throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Build Signature] error: " + e.getMessage());
+            throw ICCBankException.buildException(ErrorCodeEnum.REMOTE_REQUEST_ERROR, "[Build Signature] error: " + e.getMessage());
         }
     }
 
@@ -179,7 +180,7 @@ public class CrossChainApiClientImpl extends HttpClient implements CrossChainApi
             ApiEncryptedBody reqBody = new ApiEncryptedBody(ApiConstants.ALGORITHM_DESEDE, encryptedData);
             return JsonUtils.toJsonString(reqBody);
         } catch (Exception e) {
-            throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Encrypt Signature] error: " + e.getMessage());
+            throw ICCBankException.buildException(ErrorCodeEnum.REMOTE_REQUEST_ERROR, "[Encrypt Signature] error: " + e.getMessage());
         }
     }
 
@@ -195,7 +196,7 @@ public class CrossChainApiClientImpl extends HttpClient implements CrossChainApi
 
                 resPlainData = AlgorithmUtils.decryptWith3DES(resBody.getEncryptedData(), token);
             } catch (Exception e) {
-                throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Decrypt Signature] error: " + e.getMessage());
+                throw ICCBankException.buildException(ErrorCodeEnum.REMOTE_REQUEST_ERROR, "[Decrypt Signature] error: " + e.getMessage());
             }
 
         } else {
@@ -211,23 +212,23 @@ public class CrossChainApiClientImpl extends HttpClient implements CrossChainApi
      */
     private void checkCommonParam(String currencyCode, String tokenCurrencyCode, String address, String labelAddress, BigDecimal amount) {
         if (StringUtils.isBlank(currencyCode)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [currencyCode] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [currencyCode] is null or invalid");
         }
         if (StringUtils.isBlank(tokenCurrencyCode)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [tokenCurrencyCode] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [tokenCurrencyCode] is null or invalid");
         }
         if (StringUtils.isBlank(address)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [address] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [address] is null or invalid");
         }
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [currencyCode] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [currencyCode] is null or invalid");
         }
     }
 
     @Override
     public ApiResponse<CreateCrossChainSubscriptionOrder> createSubscriptionOrder(String thirdId, String currencyCode, String tokenCurrencyCode, String address, String labelAddress, BigDecimal amount) {
         if (StringUtils.isBlank(thirdId)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [thirdId] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [thirdId] required");
         }
         checkCommonParam(currencyCode, tokenCurrencyCode, address, labelAddress, amount);
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -245,7 +246,7 @@ public class CrossChainApiClientImpl extends HttpClient implements CrossChainApi
     @Override
     public ApiResponse<CreateCrossChainRedemptionOrder> createRedemptionOrder(String thirdId, String currencyCode, String tokenCurrencyCode, String address, String labelAddress, BigDecimal amount) {
         if (StringUtils.isBlank(thirdId)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [thirdId] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [thirdId] required");
         }
         checkCommonParam(currencyCode, tokenCurrencyCode, address, labelAddress, amount);
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -263,13 +264,13 @@ public class CrossChainApiClientImpl extends HttpClient implements CrossChainApi
     @Override
     public ApiResponse<CrossChainEstimateMinerFeeRedemptionOrder> estimateMinerFeeRedemptionOrder(String currencyCode, String tokenCurrencyCode, BigDecimal amount) {
         if (StringUtils.isBlank(currencyCode)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [currencyCode] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [currencyCode] is null or invalid");
         }
         if (StringUtils.isBlank(tokenCurrencyCode)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [tokenCurrencyCode] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [tokenCurrencyCode] is null or invalid");
         }
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, " parameter [currencyCode] is null or invalid");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, " parameter [currencyCode] is null or invalid");
         }
 
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
@@ -284,7 +285,7 @@ public class CrossChainApiClientImpl extends HttpClient implements CrossChainApi
     @Override
     public ApiResponse<QueryCrossChainSubscriptionOrder> querySubscriptionOrder(String orderId) {
         if (StringUtils.isBlank(orderId)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [orderId] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [orderId] required");
         }
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("orderId", orderId);
@@ -296,7 +297,7 @@ public class CrossChainApiClientImpl extends HttpClient implements CrossChainApi
     @Override
     public ApiResponse<QueryCrossChainRedemptionOrder> queryRedemptionOrder(String orderId) {
         if (StringUtils.isBlank(orderId)) {
-            throw ICCBankException.buildException(ICCBankException.INPUT_ERROR, "parameter [orderId] required");
+            throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR, "parameter [orderId] required");
         }
         TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("orderId", orderId);
