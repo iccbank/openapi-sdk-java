@@ -1,5 +1,7 @@
 package net.iccbank.openapi.sdk.exception;
 
+import net.iccbank.openapi.sdk.enums.ErrorCodeEnum;
+
 /**
  * @Author kevin
  * @Description 统一异常处理
@@ -8,11 +10,11 @@ package net.iccbank.openapi.sdk.exception;
  */
 public class ICCBankException extends RuntimeException{
 
-    public static final String RUNTIME_ERROR = "RuntimeError";
-    public static final String INPUT_ERROR = "InputError";
-    public static final String EXEC_ERROR = "ExecuteError";
-    public static final String BIZ_ERROR = "BizError";
-
+	/*public static final String RUNTIME_ERROR = "RuntimeError";
+	public static final String INPUT_ERROR = "InputError";
+	public static final String EXEC_ERROR = "ExecuteError";
+	public static final String BIZ_ERROR = "BizError";*/
+	
     private String subCode;
 
     private String subMsg;
@@ -40,6 +42,11 @@ public class ICCBankException extends RuntimeException{
 
     public static ICCBankException buildException(String subCode, String subMsg, Throwable e){
         ICCBankException iccBankException = new ICCBankException(subCode, subMsg, e);
+        return iccBankException;
+    }
+    
+    public static ICCBankException buildException(ErrorCodeEnum errorCode, String subMsg){
+        ICCBankException iccBankException = new ICCBankException(errorCode.getSubCode(), errorCode.getSubMsg() + ":"+ subMsg);
         return iccBankException;
     }
 

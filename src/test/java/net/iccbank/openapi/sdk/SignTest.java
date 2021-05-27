@@ -1,6 +1,7 @@
 package net.iccbank.openapi.sdk;
 
 import net.iccbank.openapi.demo.bo.BizSwapAddLiquidityNotifyBO;
+import net.iccbank.openapi.sdk.enums.ErrorCodeEnum;
 import net.iccbank.openapi.sdk.exception.ICCBankException;
 import net.iccbank.openapi.sdk.model.ApiEncryptedBody;
 import net.iccbank.openapi.sdk.utils.AlgorithmUtils;
@@ -36,7 +37,7 @@ public class SignTest {
 
                 resPlainData = AlgorithmUtils.decryptWith3DES(resBody.getEncryptedData(), token);
             } catch (Exception e) {
-                throw ICCBankException.buildException(ICCBankException.RUNTIME_ERROR, "[Decrypt Signature] error: " + e.getMessage());
+                throw ICCBankException.buildException(ErrorCodeEnum.DECRYPT_ERROR, "[Decrypt Signature] error: " + e.getMessage());
             }
 
         } else {

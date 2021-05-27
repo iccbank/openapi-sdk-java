@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import net.iccbank.openapi.sdk.model.*;
+import net.iccbank.openapi.sdk.model.conversion.AgencyPayRecordsReq;
+import net.iccbank.openapi.sdk.model.conversion.AgencyPayRecordsRes;
+import net.iccbank.openapi.sdk.model.conversion.AgencyRechargeRecordsReq;
+import net.iccbank.openapi.sdk.model.conversion.AgencyRechargeRecordsRes;
+import net.iccbank.openapi.sdk.model.page.PageBO;
 
 public interface ApiClient {
 	
@@ -189,4 +194,24 @@ public interface ApiClient {
 	 */
 	ApiResponse<ApiUnspentBalance> getUnspentBalanceByAddress(String currencyCode, String address);
 
+	/**
+	 * 代付记录
+	 * @param params
+	 * @return
+	 */
+	ApiResponse<PageBO<AgencyPayRecordsRes>> getAgentPayRecords(AgencyPayRecordsReq params);
+
+	/**
+	 * 代收记录
+	 * @param params
+	 * @return
+	 */
+	ApiResponse<PageBO<AgencyRechargeRecordsRes>> getAgentRechargeRecords(AgencyRechargeRecordsReq params);
+
+	/**
+	 * 根据txid查询代付记录
+	 * @param txids
+	 * @return
+	 */
+	ApiResponse<List<AgencyPayRecordsRes>> getAgentPayRecordsByTxids(List<String> txids);
 }
