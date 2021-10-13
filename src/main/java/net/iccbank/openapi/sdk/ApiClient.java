@@ -214,4 +214,15 @@ public interface ApiClient {
 	 * @return
 	 */
 	ApiResponse<List<AgencyPayRecordsRes>> getAgentPayRecordsByTxids(List<String> txids);
+
+	/**
+	* @date 2021/10/12 17:58
+	* @author kevin
+	* @description 验证地址是否激活验证
+	* @param currencyCode 币种
+	* @param address 地址
+	* @param amount 金额
+	* @since 1.9.5
+	*/
+	ApiResponse<ApiActiveAddressVerifyRes> isActive(String currencyCode, String address, BigDecimal amount);
 }

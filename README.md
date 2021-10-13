@@ -27,6 +27,7 @@
 - 1.21 - [查询代付记录](#7-21查询代付记录)
 - 1.22 - [查询代收记录](#7-22查询代收记录)
 - 1.23 - [根据txid查询代付记录](#7-23根据txid查询代付记录)
+- 1.24 - [验证地址是否激活](#7-24验证地址是否激活)
 
 **兑换相关接口**
 
@@ -1270,3 +1271,38 @@ c/Mo2GyQ0SO8x9AR/6GraWSuCZziXvavpGBtYU5hmEA+Y/s+mGhbhmSvr5AYWLW6ErcJ22+1kz3TFtma
 |auditStatus |string   |审核状态  |
 |completedOn |string   | 完成时间  |
 |createdOn |string   | 创建时间  |
+
+
+### 7-24验证地址是否激活
+> POST `/v1/address/verifyActive`
+
+> sdk方法 ApiClient.isActive
+
+**请求参数**
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|currencyCode |是  |String | 币种|
+|address |是  |String | 地址|
+|amount |是  |BigDecimal | 金额|
+
+**返回示例**
+
+```
+{
+	"code": 200,
+	"data": {
+		"verify": true
+	},
+	"msg": "HTTP_OK",
+	"subCode": "0",
+	"subMsg": "success",
+	"success": true
+}
+```
+
+**业务参数说明**
+
+|参数名|类型|说明|
+|:-----  |:-----|-----|
+|verify |boolean   |是否激活  |

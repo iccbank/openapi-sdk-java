@@ -27,7 +27,9 @@ public class ApiConstants {
 	public static final String VERSION = "v1";
 	
 	public static final String ADDRESS_CHECK_URL = VERSION + "/address/check";
-	
+
+	public static final String ADDRESS_VERIFY_ACTIVE = VERSION + "/address/verifyActive";
+
 	public static final String AGENT_PAY_ADD_ADDRESS_URL = VERSION + "/agentPay/addAddress";
 
 	public static final String AGENT_RECHARGE_RECORDS_URL = VERSION + "/agentRecharge/records";

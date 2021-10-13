@@ -732,4 +732,38 @@ public class DefaultApiClient extends HttpClient implements ApiClient, Encryptab
         String resBody = callToString(url, paramsMap);
         return JsonUtils.parseObject(resBody, new TypeReference<ApiResponse<List<AgencyPayRecordsRes>>>() {});
     }
+
+	/**
+	 * @date 2021/10/12 17:58
+	 * @author kevin
+	 * @description 验证地址是否激活验证
+	 * @param currencyCode 币种
+	 * @param address 地址
+	 * @param amount 金额
+	 * @since 1.9.5
+	 */
+	@Override
+	public ApiResponse<ApiActiveAddressVerifyRes> isActive(String currencyCode, String address, BigDecimal amount) {
+		if (currencyCode == null || currencyCode.trim().equals("")) {
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [currencyCode] required");
+		}
+		if (address == null || address.trim().equals("")) {
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [address] required");
+		}
+		if (amount == null) {
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [amount] required");
+		}
+
+		if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+			throw ICCBankException.buildException(ErrorCodeEnum.PARAMETER_ERROR,"parameter [amount] invalid");
+		}
+
+		TreeMap<String, Object> paramsMap = new TreeMap<String, Object>();
+		paramsMap.put("currencyCode", currencyCode);
+		paramsMap.put("address", address);
+		paramsMap.put("amount", amount);
+		String url = ApiConstants.concatUrl(urlPrefix, ApiConstants.ADDRESS_VERIFY_ACTIVE);
+		ApiResponse<ApiActiveAddressVerifyRes> res = call(url, paramsMap);
+		return res;
+	}
 }

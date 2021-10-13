@@ -32,14 +32,14 @@ public class ApiClientTest {
 
 	@Test
 	public void addressCheck(){
-		ApiResponse<Object> res = client.addressCheck("ETH", "0xcb0d75695d31ea519ebaceaa0cebb2393055def6");
+		ApiResponse<Object> res = client.addressCheck("XRP", "rnKiczmiQkZFiDES8THYyLA2pQohC5C6EF");
 
 		System.out.println(JsonUtils.toJsonString(res));
 	}
 
 	@Test
 	public void agentPayAddAddress(){
-		ApiResponse<Object> res = client.agentPayAddAddress("ETH", "0x31bf7b9f55f155f4ae512e30ac65c590dfad0ca6", null);
+		ApiResponse<Object> res = client.agentPayAddAddress("XRP", "rnKiczmiQkZFiDES8THYyLA2pQohC5C6EF", "123456");
 		System.out.println(JsonUtils.toJsonString(res));
 	}
 
@@ -53,10 +53,10 @@ public class ApiClientTest {
 	public void agencyWithdraw(){
 		String mchOrderNo = "kevin"+System.currentTimeMillis();
 		String subject = "test";
-		String currencyCode = "ETH";
-		String address = "0x31bf7b9f55f155f4ae512e30ac65c590dfad0ca6";//代收
-		BigDecimal amount = new BigDecimal("0.0024");
-		String labelAddress = null;
+		String currencyCode = "XRP";
+		String address = "rnKiczmiQkZFiDES8THYyLA2pQohC5C6EF";//代收
+		BigDecimal amount = new BigDecimal("19.0024");
+		String labelAddress = "123456";
 		String notifyUrl = null;
 
 		ApiResponse<ApiAgencyWithdrawData> res = client.agencyWithdraw(mchOrderNo, subject, currencyCode, address, labelAddress, amount, notifyUrl);
@@ -198,6 +198,15 @@ public class ApiClientTest {
 		}};
 
 		ApiResponse<List<AgencyPayRecordsRes>> res = client.getAgentPayRecordsByTxids(txids);
+		System.out.println(JsonUtils.toJsonString(res));
+	}
+
+
+	@Test
+	public void isActive() {
+
+		ApiResponse<ApiActiveAddressVerifyRes> res =
+				client.isActive("XRP", "rnKiczmiQkZFiDES8THYyLA2pQohC5C6EF", new BigDecimal("10"));
 		System.out.println(JsonUtils.toJsonString(res));
 	}
 }
