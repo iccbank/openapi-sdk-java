@@ -18,7 +18,7 @@
 		<okhttp-version>2.7.5</okhttp-version>
 		<lombok.version>1.18.12</lombok.version>
 		<maven-plugin-version>1.0.0</maven-plugin-version>
-		<jackson.version>2.11.0</jackson.version>
+		<jackson.version>2.13.4.1</jackson.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<github.global.server>github</github.global.server>
